@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:fitnessapp/fitness_app/controllers/User/loginController.dart';
+import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/gestures.dart';
@@ -28,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
     'Student',
   ];
 
-  final _emailController = TextEditingController();
   final _loginController = Get.put(loginController());
 
   // Toggles the password show status
@@ -40,14 +40,16 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: white,
-      body: SafeArea(child: getBody()),
+    return ResponsivePadding(
+      child: Scaffold(
+        backgroundColor: white,
+        body: SafeArea(child: getBody()),
+      ),
     );
   }
 
   Widget getBody() {
-    var size = MediaQuery.of(context).size;
+    //var size = MediaQuery.of(context).size;
     TextStyle defaultStyle = TextStyle(color: Colors.black);
     TextStyle linkStyle =
         TextStyle(color: Colors.blue, decoration: TextDecoration.underline);
@@ -107,98 +109,96 @@ class _LoginPageState extends State<LoginPage> {
 
             // login button and social login
             Container(
-                height: (size.height) * 0.5,
+                //height: (size.height) * 0.5,
                 child: Column(
+              children: [
+                InkWell(
+                  onTap: () {
+                    _loginController.checkLogin();
+                  },
+                  child: loginButton(),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        _loginController.checkLogin();
-                      },
-                      child: loginButton(),
+                    Flexible(
+                      child: Divider(
+                        thickness: 0.8,
+                      ),
                     ),
                     SizedBox(
-                      height: 20,
+                      width: 5,
                     ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: Divider(
-                            thickness: 0.8,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text("Or"),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Flexible(
-                          child: Divider(
-                            thickness: 0.8,
-                          ),
-                        ),
-                      ],
-                    ),
+                    Text("Or"),
                     SizedBox(
-                      height: 20,
+                      width: 5,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border:
-                                  Border.all(color: black.withOpacity(0.1))),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              "assets/images/google_icon.svg",
-                              width: 20,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              border:
-                                  Border.all(color: black.withOpacity(0.1))),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              "assets/images/facebook_icon.svg",
-                              width: 20,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        style: defaultStyle,
-                        children: <TextSpan>[
-                          TextSpan(text: "Don't have account yet? "),
-                          TextSpan(
-                              text: 'Register now',
-                              style: linkStyle,
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Get.toNamed(Routes.register);
-                                }),
-                        ],
+                    Flexible(
+                      child: Divider(
+                        thickness: 0.8,
                       ),
                     ),
                   ],
-                ))
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: black.withOpacity(0.1))),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/images/google_icon.svg",
+                          width: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: black.withOpacity(0.1))),
+                      child: Center(
+                        child: SvgPicture.asset(
+                          "assets/images/facebook_icon.svg",
+                          width: 20,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                RichText(
+                  text: TextSpan(
+                    style: defaultStyle,
+                    children: <TextSpan>[
+                      TextSpan(text: "Don't have account yet? "),
+                      TextSpan(
+                          text: 'Register now',
+                          style: linkStyle,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Get.toNamed(Routes.register);
+                            }),
+                    ],
+                  ),
+                ),
+              ],
+            ))
           ],
         ),
       ),

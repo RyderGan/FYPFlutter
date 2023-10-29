@@ -1,4 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/registerController.dart';
+import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return ResponsivePadding(
       child: Scaffold(
         appBar: AppBar(
           title: const Text("Register account"),
@@ -103,9 +104,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   //   height: 10,
                   // ),
                   // dobField(),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   InkWell(
                     onTap: () {
                       _registerController.checkRegister();
@@ -195,7 +196,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   _registerController.email = value!; //! is null check operator
                 },
                 validator: (value) {
-                  return _registerController.validateEmail(value!);
+                  Future.delayed(Duration(seconds: 7), () {
+                    return _registerController.validateEmail(value!);
+                  });
                 },
               ),
             ),

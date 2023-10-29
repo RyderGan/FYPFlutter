@@ -7,7 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class registerController extends GetxController {
-  final GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   late TextEditingController nameController,
       emailController,
       passwordController,
@@ -48,6 +48,9 @@ class registerController extends GetxController {
     if (!GetUtils.isEmail(value)) {
       return "Provide valid email";
     }
+    // if (supabaseService().checkEmailExist(value) == value) {
+    //   return "Email exists";
+    // }
     return null;
   }
 
@@ -59,11 +62,13 @@ class registerController extends GetxController {
     return null;
   }
 
-  void registerAccount(String email, String password) {
+  void registerAccount(String email, String password, String name,
+      String userType, String gender, String dob) {
     // insert into database
-    supabaseService().registerAccount(email, password);
+    supabaseService()
+        .registerAccount(email, password, name, userType, gender, dob);
     //navigate to login page
-    Get.offAndToNamed(Routes.login);
+    Get.offAllNamed(Routes.login);
   }
 
   void checkRegister() {
@@ -74,6 +79,12 @@ class registerController extends GetxController {
     if (!isValid) {
       return;
     }
-    registerAccount(emailController.text, passwordController.text.trim());
+    registerAccount(
+        emailController.text,
+        passwordController.text.trim(),
+        nameController.text,
+        userTypeController.text,
+        genderController.text,
+        dobController.text);
   }
 }

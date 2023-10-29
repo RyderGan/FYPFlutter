@@ -8,9 +8,9 @@ import 'package:fitnessapp/fitness_app/views/User/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/routes.dart';
 
-final String supabaseUrl = 'https://rghbecweyfhlrjureyxr.supabase.co';
+final String supabaseUrl = 'https://hmgphwmcjhygwlxtcqjs.supabase.co';
 final String supabaseKey =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJnaGJlY3dleWZobHJqdXJleXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTc5NjA5MjgsImV4cCI6MjAxMzUzNjkyOH0.BMgHW2hOiUDmJVdkuJ6wRHST04vgEdDHBWd1kJr-O0w';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtZ3Bod21jamh5Z3dseHRjcWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg1NzkxMDEsImV4cCI6MjAxNDE1NTEwMX0.hN_Ij7a9i13PVro_-LTezDpAM3pTsftpHaM87uDAVq4';
 void main() {
   Get.put<SupabaseClient>(SupabaseClient(supabaseUrl, supabaseKey));
   Get.put<GetStorage>(GetStorage());
