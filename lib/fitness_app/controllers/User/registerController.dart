@@ -1,10 +1,12 @@
-import 'package:fitnessapp/fitness_app/services/supabase_service.dart';
+import 'dart:convert';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class registerController extends GetxController {
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
@@ -18,10 +20,10 @@ class registerController extends GetxController {
   var name = '';
   var email = '';
   var password = '';
-  var userType = '';
-  var gender = '';
+  RxString userTypeValue = ''.obs;
+  RxString gender = ''.obs;
   var dob = '';
-  var emailData = List<User>.empty().obs;
+  RxBool emailExist = false.obs;
 
   @override
   void onInit() {
@@ -29,8 +31,6 @@ class registerController extends GetxController {
     nameController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    userTypeController = TextEditingController();
-    genderController = TextEditingController();
     dobController = TextEditingController();
   }
 
@@ -39,8 +39,6 @@ class registerController extends GetxController {
     nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
-    userTypeController.dispose();
-    genderController.dispose();
     dobController.dispose();
   }
 
@@ -48,9 +46,6 @@ class registerController extends GetxController {
     if (!GetUtils.isEmail(value)) {
       return "Provide valid email";
     }
-    // if (supabaseService().checkEmailExist(value) == value) {
-    //   return "Email exists";
-    // }
     return null;
   }
 
@@ -62,29 +57,68 @@ class registerController extends GetxController {
     return null;
   }
 
-  void registerAccount(String email, String password, String name,
-      String userType, String gender, String dob) {
-    // insert into database
-    supabaseService()
-        .registerAccount(email, password, name, userType, gender, dob);
-    //navigate to login page
-    Get.offAllNamed(Routes.login);
-  }
-
-  void checkRegister() {
+  void registerAction() async {
     // ! is null check operator
     final isValid = registerFormKey.currentState!.validate();
-    //var emailExist = supabaseService().checkEmailExist(email);
 
     if (!isValid) {
       return;
+    } else {
+      try {
+        var res = await http.post(
+          Uri.parse(Api.validateEmail),
+          body: {'email': emailController.text.trim()},
+        );
+
+        if (res.statusCode == 200) {
+          var resBody = jsonDecode(res.body);
+          if (resBody['emailFound']) {
+            Fluttertoast.showToast(
+                msg:
+                    "Email is already been taken by someone, try another email.");
+          } else {
+            //register user
+            registerUser();
+          }
+        }
+      } catch (e) {
+        print(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
+      }
     }
-    registerAccount(
-        emailController.text,
-        passwordController.text.trim(),
-        nameController.text,
-        userTypeController.text,
-        genderController.text,
-        dobController.text);
+  }
+
+  void registerUser() async {
+    print(userTypeValue.value);
+    UserModel userModel = UserModel(
+      1,
+      emailController.text.trim(),
+      passwordController.text.trim(),
+      nameController.text.trim(),
+      userTypeValue.value.trim(),
+      gender.toString(),
+      dobController.text.trim(),
+      "",
+    );
+
+    try {
+      var res = await http.post(
+        Uri.parse(Api.signUp),
+        body: userModel.toJson(),
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfSignUp = jsonDecode(res.body);
+        if (resBodyOfSignUp['success']) {
+          Fluttertoast.showToast(msg: "SignUp Successfully.");
+          Get.back();
+        } else {
+          Fluttertoast.showToast(msg: "Error occurred, try it again.");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 }

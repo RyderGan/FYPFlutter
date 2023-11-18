@@ -2,58 +2,38 @@
 //
 //     final userModel = userModelFromJson(jsonString);
 
-import 'dart:convert';
-
-List<UserModel> userModelFromJson(String str) =>
-    List<UserModel>.from(json.decode(str).map((x) => UserModel.fromJson(x)));
-
-String userModelToJson(List<UserModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class UserModel {
+  int id;
   String email;
-  int password;
-  String username;
-  String userNumber;
+  String password;
+  String fullName;
   String userType;
   String gender;
   String dateOfBirth;
   String createdAt;
-  String id;
 
-  UserModel({
-    required this.email,
-    required this.password,
-    required this.username,
-    required this.userNumber,
-    required this.userType,
-    required this.gender,
-    required this.dateOfBirth,
-    required this.createdAt,
-    required this.id,
-  });
+  UserModel(this.id, this.email, this.password, this.fullName, this.userType,
+      this.gender, this.dateOfBirth, this.createdAt);
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        email: json["email"],
-        password: json["password"],
-        username: json["username"],
-        userNumber: json["userNumber"],
-        userType: json["userType"],
-        gender: json["gender"],
-        dateOfBirth: json["dateOfBirth"],
-        createdAt: json["created_at"],
-        id: json["id"],
+        int.parse(json["id"]),
+        json["email"],
+        json["user_password"],
+        json["full_name"],
+        json["user_type"],
+        json["gender"],
+        json["dateOfBirth"],
+        json["created_at"],
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id.toString(),
         "email": email,
-        "password": password,
-        "username": username,
-        "userNumber": userNumber,
-        "userType": userType,
+        "user_password": password,
+        "full_name": fullName,
+        "user_type": userType,
         "gender": gender,
         "dateOfBirth": dateOfBirth,
         "created_at": createdAt,
-        "id": id,
       };
 }

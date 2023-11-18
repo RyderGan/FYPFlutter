@@ -86,4 +86,9 @@ class FitnessAppTheme {
     letterSpacing: 0.2,
     color: lightText, // was lightText
   );
+
+  static const TextStyle btnStyle = TextStyle(
+    fontSize: 20,
+    color: white,
+  );
 }

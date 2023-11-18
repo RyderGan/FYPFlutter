@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 const Color white = Color(0xFFFFFFFF);
-const Color black = Color(0xFF000000);
+const Color black = Color.fromARGB(255, 0, 0, 0);
 
-const Color primary = Color(0xFF92A3FD);
-const Color secondary = Color(0xFF9DCEFF);
-const Color thirdColor = Color(0xFFC58BF2);
-const Color fourthColor = Color(0xFFEEA4CE);
+const Color primary = Color(0xFF7A8DEB);
+const Color secondary = Color(0xFFD876E3);
+const Color thirdColor = Color(0xFFB778E7);
+const Color fourthColor = Color(0xFFE478B5);
 const Color alternate = Color(0xFFE0E3E7);
 const Color error = Color(0xFFFF5963);
+const Color success = Color(0x004BFF63);
 
 const Color bgTextField = Color(0xFFF7F8F8);
 const Color primaryBackground = Color(0xFFF1F4F8);

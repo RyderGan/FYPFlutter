@@ -1,36 +1,32 @@
-import 'package:fitnessapp/fitness_app/services/supabase_service.dart';
-import 'package:fitnessapp/routes.dart';
-import 'package:fitnessapp/sessionManager.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
+
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
-import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
+import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:fitnessapp/routes.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:http/http.dart' as http;
 
 class loginController extends GetxController {
-  final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
-  late TextEditingController emailController,
-      passwordController,
-      userTypeController;
-
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  late TextEditingController emailController, passwordController;
   var email = '';
   var password = '';
-  var userType = '';
+  RxString userType = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    userTypeController = TextEditingController();
   }
 
   @override
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
-    userTypeController.dispose();
   }
 
   String? validateEmail(String value) {
@@ -48,22 +44,42 @@ class loginController extends GetxController {
     return null;
   }
 
-  void loginAccount(String email, String password, String userType) {
-    // insert into database
-    supabaseService().loginAccount(email, password, userType);
-    //navigate to home page
-    Get.offAndToNamed(Routes.root_app);
+  void loginUser() async {
+    try {
+      // insert into database
+      var res = await http.post(Uri.parse(Api.login), body: {
+        "email": emailController.text.trim(),
+        "password": passwordController.text.trim(),
+        "user_type": userType.value.trim(),
+      });
+
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success']) {
+          Fluttertoast.showToast(msg: "You are logged-in.");
+          UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
+          //save user info to local storage using Shared Preferences
+          await RememberUserPrefs.storeUserData(userInfo);
+          //navigate to home page
+          Get.offAllNamed(Routes.loading);
+          //Get.offAllNamed(Routes.root_app);
+        } else {
+          Fluttertoast.showToast(msg: "Incorrect credentials, try again.");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
-  void checkLogin() {
+  void loginProcess() {
     // ! is null check operator
     final isValid = loginFormKey.currentState!.validate();
     if (!isValid) {
       return;
+    } else {
+      loginUser();
     }
-    // ! is null check operator
-    loginFormKey.currentState!.save();
-    loginAccount(
-        emailController.text, passwordController.text, userTypeController.text);
   }
 }

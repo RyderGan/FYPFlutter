@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:fitnessapp/fitness_app/controllers/User/registerController.dart';
+import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,10 +25,10 @@ class _RegisterPageState extends State<RegisterPage> {
   String _password = '';
   String userTypeValue = 'Select user';
   String genderValue = 'Select gender';
-  bool _validate = false;
 
   final _registerController = Get.put(registerController());
 
+  //variables
   var users = [
     'Select user',
     'Staff',
@@ -35,6 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
     'Male',
   ];
 
+  //methods
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -55,76 +62,93 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget getBody() {
-    return Form(
-      key: _registerController.registerFormKey,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      child: Padding(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          children: [
-            Container(
-                padding: EdgeInsets.only(bottom: 20),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: constraints.maxHeight,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: _registerController.registerFormKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    Text(
-                      "Welcome to UM Health Tracker",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Please fill in the form below to register.",
-                      style: TextStyle(fontSize: 14),
+                    Container(
+                        padding: EdgeInsets.only(bottom: 20),
+                        child: Column(
+                          children: [
+                            Text(
+                              "Welcome to UM Health Tracker",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Please fill in the form below to register.",
+                              style: TextStyle(fontSize: 14),
+                            )
+                          ],
+                        )),
+                    Container(
+                      child: Column(
+                        children: [
+                          nameField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          emailField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          passwordField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          userTypeField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          genderField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          dobField(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _registerController.registerAction();
+                              // if (_registerController.emailExist == true)
+                              //   [
+                              //     Get.showSnackbar(
+                              //       GetSnackBar(
+                              //         title: "Login failed",
+                              //         message: 'Email already exist',
+                              //         icon: const Icon(Icons.error),
+                              //         backgroundColor: primary,
+                              //         duration: const Duration(seconds: 3),
+                              //       ),
+                              //     ),
+                              //   ];
+                            },
+                            child: registerButton(),
+                          ),
+                        ],
+                      ),
                     )
                   ],
-                )),
-            Container(
-              child: Column(
-                children: [
-                  // nameField(),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  emailField(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  passwordField(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // userTypeField(),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // genderField(),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  // dobField(),
-                  // SizedBox(
-                  //   height: 10,
-                  // ),
-                  InkWell(
-                    onTap: () {
-                      _registerController.checkRegister();
-                      //after registration, display popup
-                      //   showDialog(
-                      //       context: context,
-                      //       builder: (context) {
-                      //         return registerSuccessDialog(context);
-                      //       });
-                    },
-                    child: registerButton(),
-                  ),
-                ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -196,9 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   _registerController.email = value!; //! is null check operator
                 },
                 validator: (value) {
-                  Future.delayed(Duration(seconds: 7), () {
-                    return _registerController.validateEmail(value!);
-                  });
+                  return _registerController.validateEmail(value!);
                 },
               ),
             ),
@@ -278,10 +300,8 @@ class _RegisterPageState extends State<RegisterPage> {
         onChanged: (String? newValue) {
           setState(() {
             userTypeValue = newValue!;
+            _registerController.userTypeValue.value = userTypeValue;
           });
-        },
-        onSaved: (userTypeValue) {
-          _registerController.userType = userTypeValue as String;
         },
         validator: (userTypeValue) {
           if (userTypeValue == "Select user") {
@@ -316,10 +336,8 @@ class _RegisterPageState extends State<RegisterPage> {
         onChanged: (String? newValue) {
           setState(() {
             genderValue = newValue!;
+            _registerController.gender.value = genderValue;
           });
-        },
-        onSaved: (genderValue) {
-          _registerController.gender = genderValue as String;
         },
         validator: (genderValue) {
           if (genderValue == "Select gender") {
@@ -418,41 +436,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
-  }
-
-  Dialog registerSuccessDialog(BuildContext context) {
-    return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-        elevation: 16,
-        child: Container(
-            height: 200,
-            width: 200,
-            child: Padding(
-                padding: const EdgeInsets.all(30),
-                child: Column(
-                  children: [
-                    Text(
-                      "Registration Success",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Please proceed to login page",
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Get.offNamedUntil(Routes.login, (route) => false);
-                      },
-                      child: loginButton(),
-                    ),
-                  ],
-                ))));
   }
 
   Container loginButton() {
