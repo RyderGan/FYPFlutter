@@ -50,4 +50,16 @@ class Api {
   //delete blood pressure
   static const deleteUserBloodPressure =
       "$hostConnect/user/deleteUserBloodPressure.php";
+  //get user visceral fat
+  static const getUserVisceralFat = "$hostConnect/user/getUserVisceralFat.php";
+  //add new visceral fat
+  static const addNewVisceralFat = "$hostConnect/user/addVisceralFat.php";
+  //get user all visceral fat
+  static const getUserAllVisceralFat =
+      "$hostConnect/user/getUserAllVisceralFat.php";
+  //update visceral fat
+  static const updateVisceralFat = "$hostConnect/user/updateVisceralFat.php";
+  //delete blood pressure
+  static const deleteUserVisceralFat =
+      "$hostConnect/user/deleteUserVisceralFat.php";
 }

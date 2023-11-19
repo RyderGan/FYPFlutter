@@ -1,17 +1,10 @@
-import 'dart:convert';
-
 import 'package:fitnessapp/fitness_app/controllers/User/registerController.dart';
-import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
-import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
-import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -22,7 +15,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool _obscureText = true;
-  String _password = '';
   String userTypeValue = 'Select user';
   String genderValue = 'Select gender';
 
@@ -183,6 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (value!.isEmpty) {
                     return "Please enter username";
                   }
+                  return null;
                 },
               ),
             ),
@@ -307,6 +300,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (userTypeValue == "Select user") {
             return "Please select a user";
           }
+          return null;
         },
       ),
     );
@@ -343,6 +337,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (genderValue == "Select gender") {
             return "Please select a gender";
           }
+          return null;
         },
       ),
     );
@@ -402,6 +397,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   if (formattedDate!.isEmpty) {
                     return "Please enter date of birth";
                   }
+                  return null;
                 },
               ),
             ),

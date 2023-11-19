@@ -1,18 +1,8 @@
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
-import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
-import 'package:fitnessapp/fitness_app/views/User/drawer_header.dart';
-import 'package:fitnessapp/fitness_app/views/User/home_fragment_screen.dart';
-import 'package:fitnessapp/fitness_app/views/User/notification_fragment_screen.dart';
-import 'package:fitnessapp/fitness_app/views/User/rankings_fragment_screen.dart';
-import 'package:fitnessapp/fitness_app/views/User/rewards_fragment_screen.dart';
-import 'package:fitnessapp/fitness_app/views/User/scan_qr_fragment_screen.dart';
-import 'package:fitnessapp/fitness_app/views/User/settings_fragment_screen.dart';
 import 'package:fitnessapp/routes.dart';
-import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoadingPage extends StatefulWidget {

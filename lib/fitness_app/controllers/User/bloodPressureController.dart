@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:fitnessapp/fitness_app/models/User/bloodPressureModel.dart';
-import 'package:fitnessapp/fitness_app/models/User/bmiModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fitnessapp/routes.dart';
@@ -47,6 +46,13 @@ class bloodPressureController extends GetxController {
     updateDiastolicController.dispose();
   }
 
+  void clearFormContents() {
+    systolicController.clear();
+    diastolicController.clear();
+    updateSystolicController.clear();
+    updateDiastolicController.clear();
+  }
+
   void addNewBloodPressure() async {
     final isValid = addNewBloodPressureFormKey.currentState!.validate();
     if (!isValid) {
@@ -66,9 +72,10 @@ class bloodPressureController extends GetxController {
           var resBody = jsonDecode(res.body);
           if (resBody['success']) {
             Fluttertoast.showToast(msg: "One Blood pressure added.");
-            Get.offNamedUntil(
-                Routes.blood_pressure_page, ModalRoute.withName('/root_app'));
-            //Get.offNamed(Routes.bmi_page);
+            //refresh page
+            clearFormContents();
+            allBloodPressures.clear();
+            getUserAllBloodPressure();
           } else {
             Fluttertoast.showToast(msg: resBody.toString());
           }
@@ -129,8 +136,9 @@ class bloodPressureController extends GetxController {
           if (resBody['success']) {
             Fluttertoast.showToast(msg: "Your blood pressure info updated.");
             //refresh page
-            Get.offNamedUntil(
-                Routes.blood_pressure_page, ModalRoute.withName('/root_app'));
+            clearFormContents();
+            allBloodPressures.clear();
+            getUserAllBloodPressure();
           } else {
             Fluttertoast.showToast(msg: resBody.toString());
           }

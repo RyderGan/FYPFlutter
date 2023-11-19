@@ -4,9 +4,6 @@ import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
-
-import '../../preferences/current_user.dart';
 
 class SendFeedbackPage extends StatefulWidget {
   const SendFeedbackPage({Key? key}) : super(key: key);
@@ -16,7 +13,6 @@ class SendFeedbackPage extends StatefulWidget {
 }
 
 class _SendFeedbackPageState extends State<SendFeedbackPage> {
-  CurrentUser _currentUser = Get.put(CurrentUser());
   final _sendFeedbackController = Get.put(sendFeedbackController());
 
   @override

@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';

@@ -4,11 +4,10 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$systolic = $_POST['systolic'];
-$diastolic = $_POST['diastolic'];
-$bpID = $_POST['bpID'];
+$userID = $_POST['userID'];
+$rating = $_POST['rating'];
 
-$sqlQuery = "UPDATE blood_pressures SET systolic_pressure = '$systolic', diastolic_pressure = '$diastolic' WHERE bp_id = '$bpID'";
+$sqlQuery = "INSERT INTO visceral_fats SET user_id = '$userID', rating = '$rating'";
 $result = $connectNow->query($sqlQuery);
 
 if($result){

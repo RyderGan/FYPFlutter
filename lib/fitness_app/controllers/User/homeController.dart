@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:fitnessapp/fitness_app/controllers/User/loginController.dart';
 import 'package:fitnessapp/fitness_app/models/User/bloodPressureModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/bmiModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/stepCountModel.dart';
-import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
+import 'package:fitnessapp/fitness_app/models/User/visceralFatModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
 
@@ -34,6 +31,8 @@ class homeController extends GetxController {
     //initStepCount();
     //getUserStepCount();
     getUserBmi();
+    getUserBloodPressure();
+    getUserVisceralFat();
   }
 
   @override
@@ -149,6 +148,31 @@ class homeController extends GetxController {
               BloodPressureModel.fromJson(resBody['bloodPressureData']);
           systolicPressure.value = bloodPressureInfo.systolic;
           diastolicPressure.value = bloodPressureInfo.diastolic;
+        } else {
+          Fluttertoast.showToast(msg: resBody.toString());
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void getUserVisceralFat() async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getUserVisceralFat),
+        body: {
+          'user_id': _currentUser.user.id.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          VisceralFatModel visceralFatInfo =
+              VisceralFatModel.fromJson(resBody['visceralFatData']);
+          visceralFat.value = visceralFatInfo.rating;
         } else {
           Fluttertoast.showToast(msg: resBody.toString());
         }

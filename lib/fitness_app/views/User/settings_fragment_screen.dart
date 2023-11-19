@@ -1,4 +1,3 @@
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -13,8 +12,6 @@ class SettingsFragmentScreen extends StatefulWidget {
 }
 
 class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
-  CurrentUser _currentUser = Get.put(CurrentUser());
-
   @override
   Widget build(BuildContext context) {
     return ResponsivePadding(

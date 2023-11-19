@@ -7,8 +7,6 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../preferences/current_user.dart';
-
 class AboutUsPage extends StatefulWidget {
   const AboutUsPage({Key? key}) : super(key: key);
 
@@ -17,8 +15,6 @@ class AboutUsPage extends StatefulWidget {
 }
 
 class _AboutUsPageState extends State<AboutUsPage> {
-  CurrentUser _currentUser = Get.put(CurrentUser());
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

@@ -1,5 +1,4 @@
 import 'package:fitnessapp/fitness_app/controllers/User/homeController.dart';
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/User/drawer_header.dart';
 import 'package:fitnessapp/fitness_app/views/User/home_fragment_screen.dart';
@@ -9,10 +8,8 @@ import 'package:fitnessapp/fitness_app/views/User/rewards_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/User/scan_qr_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/User/settings_fragment_screen.dart';
 import 'package:fitnessapp/routes.dart';
-import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:line_icons/line_icons.dart';
 
 class RootApp extends StatefulWidget {
   const RootApp({Key? key}) : super(key: key);
@@ -23,11 +20,9 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> {
   int pageIndex = 0;
-  CurrentUser _currentUser = Get.put(CurrentUser());
   Widget appBarTitle = Text("Home");
   Icon settingIcon = new Icon(Icons.settings);
   var currentPage = DrawerSections.home;
-  final _homeScreenController = Get.put(homeController());
 
   @override
   Widget build(BuildContext context) {

@@ -8,6 +8,7 @@ import 'package:fitnessapp/fitness_app/views/User/login_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/reset_password_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/send_feedback_page.dart';
+import 'package:fitnessapp/fitness_app/views/User/visceral_fat_page.dart';
 import 'package:fitnessapp/fitness_app/views/root_app.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -24,6 +25,7 @@ class Routes {
   static String bmi_page = '/bmi_page';
   static String blood_pressure_page = '/bloodPressure_page';
   static String reset_password = '/reset_password';
+  static String visceral_fat_page = '/visceralFat_page';
 }
 
 /// Add this list variable into your GetMaterialApp as the value of getPages parameter.
@@ -72,5 +74,9 @@ final getPages = [
   GetPage(
     name: Routes.blood_pressure_page,
     page: () => const BloodPressurePage(),
+  ),
+  GetPage(
+    name: Routes.visceral_fat_page,
+    page: () => const VisceralFatPage(),
   ),
 ];

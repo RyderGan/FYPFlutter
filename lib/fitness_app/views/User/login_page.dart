@@ -19,8 +19,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // Initially password is obscure
   bool _obscureText = true;
-
-  String _password = '';
   String dropDownValue = 'Select user';
 
   var users = [
@@ -277,6 +275,7 @@ class _LoginPageState extends State<LoginPage> {
           if (userTypeValue == "Select user") {
             return "Please select a user";
           }
+          return null;
         },
       ),
     );

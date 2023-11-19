@@ -1,5 +1,4 @@
 import 'package:fitnessapp/fitness_app/controllers/User/homeController.dart';
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -15,7 +14,7 @@ class HomeFragmentScreen extends StatefulWidget {
 
 class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
   final _homeScreenController = Get.put(homeController());
-  CurrentUser _currentUser = Get.put(CurrentUser());
+
   @override
   Widget build(BuildContext context) {
     return ResponsivePadding(
@@ -244,16 +243,23 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      _homeScreenController.systolicPressure.value.toString() +
-                          "/" +
-                          _homeScreenController.diastolicPressure.value
-                              .toString() +
-                          " mmHg",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
+                  Obx(() => (() {
+                        if (_homeScreenController.systolicPressure.value > 0 &&
+                            _homeScreenController.diastolicPressure.value > 0) {
+                          return Text(
+                            _homeScreenController.systolicPressure.value
+                                    .toString() +
+                                "/" +
+                                _homeScreenController.diastolicPressure.value
+                                    .toString() +
+                                " mmHg",
+                            style: TextStylePreset.bigText,
+                          );
+                        } else {
+                          return Text("No data",
+                              style: TextStylePreset.bigText);
+                        }
+                      }())),
                   SizedBox(
                     height: 10,
                   ),
@@ -306,13 +312,19 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "Rating: " +
-                          _homeScreenController.visceralFat.value.toString(),
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
+                  Obx(() => (() {
+                        if (_homeScreenController.visceralFat.value > 0) {
+                          return Text(
+                            "Rating: " +
+                                _homeScreenController.visceralFat.value
+                                    .toString(),
+                            style: TextStylePreset.bigText,
+                          );
+                        } else {
+                          return Text("No data",
+                              style: TextStylePreset.bigText);
+                        }
+                      }())),
                   SizedBox(
                     height: 10,
                   ),
@@ -321,7 +333,9 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.visceral_fat_page);
+                  },
                   child: Icon(Icons.chevron_right_sharp,
                       color: Colors.white), // icon of the button
                   style: ElevatedButton.styleFrom(

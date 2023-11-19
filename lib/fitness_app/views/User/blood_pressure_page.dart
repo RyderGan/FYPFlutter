@@ -1,15 +1,9 @@
-import 'dart:math';
-
 import 'package:fitnessapp/fitness_app/controllers/User/bloodPressureController.dart';
-import 'package:fitnessapp/fitness_app/controllers/User/bmiController.dart';
-import 'package:fitnessapp/fitness_app/models/User/bmiModel.dart';
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -21,7 +15,6 @@ class BloodPressurePage extends StatefulWidget {
 }
 
 class _BloodPressurePageState extends State<BloodPressurePage> {
-  CurrentUser _currentUser = Get.put(CurrentUser());
   final _bloodPressureController = Get.put(bloodPressureController());
 
   @override
@@ -32,7 +25,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Get.offNamed(Routes.root_app),
+            onPressed: () => Get.offAllNamed(Routes.root_app),
           ),
           title: const Text("Blood Pressure"),
         ),
@@ -142,7 +135,10 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter systolic pressure";
+                  } else if (!value.isNumericOnly) {
+                    return "Please enter numeric values";
                   }
+                  return null;
                 },
               ),
             ),
@@ -179,7 +175,10 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter diastolic pressure";
+                  } else if (!value.isNumericOnly) {
+                    return "Please enter numeric values";
                   }
+                  return null;
                 },
               ),
             ),
@@ -294,6 +293,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
           InkWell(
             onTap: () {
               _bloodPressureController.updateUserBloodPressure(bpID);
+              Get.back();
             },
             child: updateBloodPressureButton(),
           )
@@ -329,7 +329,10 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter systolic pressure";
+                  } else if (!value.isNumericOnly) {
+                    return "Please enter numeric values";
                   }
+                  return null;
                 },
               ),
             ),
@@ -366,7 +369,10 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter diastolic pressure";
+                  } else if (!value.isNumericOnly) {
+                    return "Please enter numeric values";
                   }
+                  return null;
                 },
               ),
             ),

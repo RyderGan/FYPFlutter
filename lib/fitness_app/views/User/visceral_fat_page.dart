@@ -1,6 +1,4 @@
-import 'dart:math';
-
-import 'package:fitnessapp/fitness_app/controllers/User/bmiController.dart';
+import 'package:fitnessapp/fitness_app/controllers/User/visceralFatController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -9,15 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
-class BmiPage extends StatefulWidget {
-  const BmiPage({Key? key}) : super(key: key);
+class VisceralFatPage extends StatefulWidget {
+  const VisceralFatPage({Key? key}) : super(key: key);
 
   @override
-  _BmiPageState createState() => _BmiPageState();
+  _VisceralFatPageState createState() => _VisceralFatPageState();
 }
 
-class _BmiPageState extends State<BmiPage> {
-  final _bmiController = Get.put(bmiController());
+class _VisceralFatPageState extends State<VisceralFatPage> {
+  final _visceralFatController = Get.put(visceralFatController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class _BmiPageState extends State<BmiPage> {
             icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.offAllNamed(Routes.root_app),
           ),
-          title: const Text("BMI"),
+          title: const Text("Visceral Fat"),
         ),
         backgroundColor: white,
         body: SafeArea(child: getBody()),
@@ -51,13 +49,13 @@ class _BmiPageState extends State<BmiPage> {
               child: Column(
                 children: [
                   Text(
-                    "Add New Bmi",
+                    "Add New Visceral Fat",
                     style: TextStylePreset.bigTitle,
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  addNewBmiForm(),
+                  addNewVisceralFatForm(),
                   SizedBox(
                     height: 30,
                   ),
@@ -68,7 +66,7 @@ class _BmiPageState extends State<BmiPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  displayUserAllBmi(),
+                  displayUserAllVisceralFat(),
                 ],
               )),
         ),
@@ -76,7 +74,7 @@ class _BmiPageState extends State<BmiPage> {
     });
   }
 
-  Container addNewBmiForm() {
+  Container addNewVisceralFatForm() {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
@@ -86,23 +84,19 @@ class _BmiPageState extends State<BmiPage> {
         borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Form(
-        key: _bmiController.addNewBmiFormKey,
+        key: _visceralFatController.addNewVisceralFatFormKey,
         autovalidateMode: AutovalidateMode.always,
         child: Column(
           children: [
-            weightField(),
-            SizedBox(
-              height: 15,
-            ),
-            heightField(),
+            ratingField(),
             SizedBox(
               height: 15,
             ),
             InkWell(
               onTap: () {
-                _bmiController.addNewBmi();
+                _visceralFatController.addNewVisceralFat();
               },
-              child: addBmiButton(),
+              child: addVisceralFatButton(),
             )
           ],
         ),
@@ -110,7 +104,7 @@ class _BmiPageState extends State<BmiPage> {
     );
   }
 
-  Container weightField() {
+  Container ratingField() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -121,7 +115,7 @@ class _BmiPageState extends State<BmiPage> {
         child: Row(
           children: [
             Icon(
-              LineIcons.weight,
+              Icons.star,
               color: black.withOpacity(0.5),
             ),
             SizedBox(
@@ -131,14 +125,14 @@ class _BmiPageState extends State<BmiPage> {
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
                 decoration: InputDecoration(
-                    hintText: "Weight in unit (kg)", border: InputBorder.none),
+                    hintText: "Rating", border: InputBorder.none),
                 keyboardType: TextInputType.number,
-                controller: _bmiController.weightController,
+                controller: _visceralFatController.ratingController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter weight";
+                    return "Please enter systolic pressure";
                   } else if (!value.isNumericOnly) {
-                    return "Please enter numeric values";
+                    return "Please enter numeric value";
                   }
                   return null;
                 },
@@ -150,47 +144,7 @@ class _BmiPageState extends State<BmiPage> {
     );
   }
 
-  Container heightField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.height,
-              color: black.withOpacity(0.5),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
-                    hintText: "Height in unit (cm)", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _bmiController.heightController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter height";
-                  } else if (!value.isNumericOnly) {
-                    return "Please enter numeric values";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container addBmiButton() {
+  Container addVisceralFatButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -208,7 +162,7 @@ class _BmiPageState extends State<BmiPage> {
             width: 5,
           ),
           Text(
-            "Add Bmi",
+            "Add Visceral Fat",
             style: TextStylePreset.btnSmallText,
           )
         ],
@@ -216,11 +170,11 @@ class _BmiPageState extends State<BmiPage> {
     );
   }
 
-  Obx displayUserAllBmi() {
+  Obx displayUserAllVisceralFat() {
     return Obx(() => ListView.builder(
           shrinkWrap: true,
           primary: false,
-          itemCount: _bmiController.allBmis.length,
+          itemCount: _visceralFatController.allVisceralFats.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             return Card(
@@ -229,13 +183,12 @@ class _BmiPageState extends State<BmiPage> {
                 padding: EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
-                    calculateBmi(
-                        _bmiController.allBmis[index].weight.toString(),
-                        _bmiController.allBmis[index].height.toString()),
+                    _visceralFatController.allVisceralFats[index].rating
+                        .toString(),
                     style: TextStylePreset.bigText,
                   ),
                   subtitle: Text(
-                    _bmiController.allBmis[index].createdAt,
+                    _visceralFatController.allVisceralFats[index].createdAt,
                     style: TextStylePreset.normalText,
                   ),
                   trailing: Container(
@@ -250,8 +203,9 @@ class _BmiPageState extends State<BmiPage> {
                                     context: context,
                                     builder: (context) => SimpleDialog(
                                       children: [
-                                        editBmiForm(_bmiController
-                                            .allBmis[index].bmiID),
+                                        editVisceralFatForm(
+                                            _visceralFatController
+                                                .allVisceralFats[index].vfID),
                                       ],
                                     ),
                                   );
@@ -261,8 +215,9 @@ class _BmiPageState extends State<BmiPage> {
                             child: IconButton(
                                 onPressed: () {
                                   //delete action
-                                  _bmiController.deleteUserBmi(
-                                      _bmiController.allBmis[index].bmiID);
+                                  _visceralFatController.deleteUserVisceralFat(
+                                      _visceralFatController
+                                          .allVisceralFats[index].vfID);
                                 },
                                 icon: Icon(Icons.delete))),
                       ],
@@ -275,30 +230,29 @@ class _BmiPageState extends State<BmiPage> {
         ));
   }
 
-  Form editBmiForm(int bmiID) {
+  Form editVisceralFatForm(int vfID) {
     return Form(
-      key: _bmiController.editBmiFormKey,
+      key: _visceralFatController.editVisceralFatFormKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
-          editWeightField(),
+          editRatingField(),
           SizedBox(
             height: 15,
           ),
-          editHeightField(),
           InkWell(
             onTap: () {
-              _bmiController.updateUserBmi(bmiID);
+              _visceralFatController.updateUserVisceralFat(vfID);
               Get.back();
             },
-            child: updateBmiButton(),
+            child: updateVisceralFatButton(),
           )
         ],
       ),
     );
   }
 
-  Container editWeightField() {
+  Container editRatingField() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -309,7 +263,7 @@ class _BmiPageState extends State<BmiPage> {
         child: Row(
           children: [
             Icon(
-              LineIcons.weight,
+              LineIcons.star,
               color: black.withOpacity(0.5),
             ),
             SizedBox(
@@ -319,12 +273,12 @@ class _BmiPageState extends State<BmiPage> {
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
                 decoration: InputDecoration(
-                    hintText: "Weight in unit (kg)", border: InputBorder.none),
+                    hintText: "Rating", border: InputBorder.none),
                 keyboardType: TextInputType.number,
-                controller: _bmiController.updateWeightController,
+                controller: _visceralFatController.updateRatingController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter weight";
+                    return "Please enter systolic pressure";
                   } else if (!value.isNumericOnly) {
                     return "Please enter numeric values";
                   }
@@ -338,47 +292,7 @@ class _BmiPageState extends State<BmiPage> {
     );
   }
 
-  Container editHeightField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.height,
-              color: black.withOpacity(0.5),
-            ),
-            SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
-                    hintText: "Height in unit (cm)", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _bmiController.updateHeightController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter height";
-                  } else if (!value.isNumericOnly) {
-                    return "Please enter numeric values";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container updateBmiButton() {
+  Container updateVisceralFatButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -396,16 +310,11 @@ class _BmiPageState extends State<BmiPage> {
             width: 5,
           ),
           Text(
-            "Update Bmi",
+            "Update Visceral Fat",
             style: TextStylePreset.btnSmallText,
           )
         ],
       ),
     );
-  }
-
-  String calculateBmi(String weight, String height) {
-    double bmi = double.parse(weight) / pow(double.parse(height) / 100, 2);
-    return bmi.toStringAsFixed(2);
   }
 }

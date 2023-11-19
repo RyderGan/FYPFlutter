@@ -1,7 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/resetPasswordController.dart';
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';

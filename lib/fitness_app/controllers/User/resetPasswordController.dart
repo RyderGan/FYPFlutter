@@ -1,9 +1,5 @@
 import 'dart:convert';
-import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
-import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
-import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';

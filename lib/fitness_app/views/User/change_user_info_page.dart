@@ -1,14 +1,11 @@
 import 'package:fitnessapp/fitness_app/controllers/User/changeUserInfoController.dart';
-import 'package:fitnessapp/fitness_app/controllers/User/changeUserLoginDetailsController.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:line_icons/line_icons.dart';
 
 class ChangeUserInfoPage extends StatefulWidget {
   const ChangeUserInfoPage({Key? key}) : super(key: key);
@@ -128,6 +125,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                   if (value!.isEmpty) {
                     return "Please enter username";
                   }
+                  return null;
                 },
               ),
             ),
@@ -169,6 +167,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
           if (genderValue == "Select gender") {
             return "Please select a gender";
           }
+          return null;
         },
       ),
     );
@@ -225,6 +224,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
                   if (formattedDate!.isEmpty) {
                     return "Please enter date of birth";
                   }
+                  return null;
                 },
               ),
             ),

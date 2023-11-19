@@ -72,9 +72,10 @@ class bmiController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             Fluttertoast.showToast(msg: "One Bmi added.");
-            Get.offNamedUntil(
-                Routes.bmi_page, ModalRoute.withName('/root_app'));
-            //Get.offNamed(Routes.bmi_page);
+            //refresh page
+            clearFormContents();
+            allBmis.clear();
+            getUserAllBmi();
           } else {
             Fluttertoast.showToast(msg: "Error occurred");
           }
@@ -114,9 +115,6 @@ class bmiController extends GetxController {
   }
 
   void updateUserBmi(int bmiID) async {
-    print(bmiID);
-    print(updateWeightController.text.toString());
-    print(updateHeightController.text.toString());
     // ! is null check operator
     final isValid = editBmiFormKey.currentState!.validate();
     if (!isValid) {

@@ -1,14 +1,10 @@
-// @dart=2.12.0
-
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/User/loading_page.dart';
-import 'package:fitnessapp/fitness_app/views/root_app.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:fitnessapp/fitness_app/views/User/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:fitnessapp/routes.dart';
 
 void main() {
   Get.put<GetStorage>(GetStorage());
