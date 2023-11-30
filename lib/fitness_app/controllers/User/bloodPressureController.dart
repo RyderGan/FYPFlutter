@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fitnessapp/fitness_app/models/User/bloodPressureModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -44,6 +43,8 @@ class bloodPressureController extends GetxController {
     diastolicController.dispose();
     updateSystolicController.dispose();
     updateDiastolicController.dispose();
+    allBloodPressures.clear();
+    super.dispose();
   }
 
   void clearFormContents() {
@@ -151,28 +152,72 @@ class bloodPressureController extends GetxController {
   }
 
   void deleteUserBloodPressure(int bpID) async {
-    try {
-      var res = await http.post(
-        Uri.parse(Api.deleteUserBloodPressure),
-        body: {
-          'userID': _currentUser.user.id.toString(),
-          'bpID': bpID.toString(),
-        },
-      );
+    var resultResponse = await Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.grey,
+        title: Text(
+          "Delete Blood Pressure",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          "Are you sure?\nThis cannot be undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(result: "deleted");
+            },
+            child: const Text(
+              "Yes",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text(
+              "No",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
 
-      if (res.statusCode == 200) {
-        var resBody = jsonDecode(res.body);
-        if (resBody['success']) {
-          Fluttertoast.showToast(msg: "One Blood Pressure deleted.");
-          Get.offNamedUntil(
-              Routes.blood_pressure_page, ModalRoute.withName('/root_app'));
-        } else {
-          Fluttertoast.showToast(msg: "Error occurred");
+    if (resultResponse == 'deleted') {
+      try {
+        var res = await http.post(
+          Uri.parse(Api.deleteUserBloodPressure),
+          body: {
+            'userID': _currentUser.user.id.toString(),
+            'bpID': bpID.toString(),
+          },
+        );
+
+        if (res.statusCode == 200) {
+          var resBody = jsonDecode(res.body);
+          if (resBody['success']) {
+            Fluttertoast.showToast(msg: "One Blood Pressure deleted.");
+            //refresh page
+            clearFormContents();
+            allBloodPressures.clear();
+            getUserAllBloodPressure();
+          } else {
+            Fluttertoast.showToast(msg: "Error occurred");
+          }
         }
+      } catch (e) {
+        print(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
       }
-    } catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
     }
   }
 }

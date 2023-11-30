@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+//import 'package:fitnessapp/fitness_app/controllers/User/rankingsController.dart';
 import 'package:fitnessapp/fitness_app/models/User/bloodPressureModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/bmiModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/stepCountModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/visceralFatModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
 
@@ -17,51 +20,58 @@ class homeController extends GetxController {
 
   //late TextEditingController fullNameController,
   RxInt userID = 0.obs;
-  RxInt stepCount = 0.obs;
+  int stepCount = 0;
+  int lastStepCounts = 0;
+  RxInt totalStepCount = 0.obs;
   RxDouble bmi = 0.0.obs;
   RxInt systolicPressure = 0.obs;
   RxInt diastolicPressure = 0.obs;
   RxInt visceralFat = 0.obs;
   late Stream<StepCount> _stepCountStream;
   CurrentUser _currentUser = Get.put(CurrentUser());
+  //rankingsController _rankingController = Get.put(rankingsController());
+  Timer? timer;
+  DateTime savedTimestamp = new DateTime.now();
 
   @override
   void onInit() {
     super.onInit();
-    //initStepCount();
-    //getUserStepCount();
+    initStepCount();
+    getUserStepCount();
     getUserBmi();
     getUserBloodPressure();
     getUserVisceralFat();
+    //update step count every x seconds
+    timer = Timer.periodic(
+        Duration(seconds: 10), (Timer t) => updateUserStepCount(stepCount));
   }
 
   @override
   void onClose() {
-    //fullNameController.dispose();
+    timer?.cancel();
+    super.dispose();
   }
 
   /// Handle step count changed
-  void initStepCount() {
-    _stepCountStream = Pedometer.stepCountStream;
+  Future<void> initStepCount() async {
+    _stepCountStream = await Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
   }
 
   void onStepCount(StepCount event) {
-    print(event);
-    stepCount.value = event.steps;
+    stepCount = event.steps;
   }
 
   void onStepCountError(error) {
     print('onStepCountError: $error');
-    stepCount.value = -1;
+    stepCount = -1;
   }
 
-  Future<void> updateUserStepCount() async {
+  void getUserLastStepCount() async {
     try {
       var res = await http.post(
-        Uri.parse(Api.updateStepCount),
+        Uri.parse(Api.getUserLastStepCount),
         body: {
-          'stepCount': stepCount.value.toString(),
           'userID': _currentUser.user.id.toString(),
         },
       );
@@ -69,9 +79,34 @@ class homeController extends GetxController {
       if (res.statusCode == 200) {
         var resBody = jsonDecode(res.body);
         if (resBody['success']) {
+          String totalStepCounts = await resBody["LastStepCount"];
+          lastStepCounts = int.parse(totalStepCounts);
+        } else {
+          Fluttertoast.showToast(msg: resBody.toString());
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> updateUserStepCount(int stepCount) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.updateStepCount),
+        body: {
+          'stepCount': stepCount.toString(),
+          'userID': _currentUser.user.id.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          getUserStepCount();
           Fluttertoast.showToast(msg: "Step counts updated");
         } else {
-          //update user email
           Fluttertoast.showToast(msg: resBody.toString());
         }
       }
@@ -82,6 +117,7 @@ class homeController extends GetxController {
   }
 
   void getUserStepCount() async {
+    getUserLastStepCount();
     try {
       var res = await http.post(
         Uri.parse(Api.getUserStepCount),
@@ -95,7 +131,8 @@ class homeController extends GetxController {
         if (resBody['success']) {
           StepCountModel userInfo =
               StepCountModel.fromJson(resBody["stepCountData"]);
-          stepCount.value = userInfo.stepCount;
+          stepCount = userInfo.stepCount;
+          totalStepCount.value = stepCount - lastStepCounts;
         } else {
           Fluttertoast.showToast(msg: resBody.toString());
         }

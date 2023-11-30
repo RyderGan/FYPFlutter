@@ -24,6 +24,12 @@ class Api {
   static const addFeedback = "$hostConnect/user/addFeedback.php";
   //get user step count
   static const getUserStepCount = "$hostConnect/user/getUserStepCount.php";
+  //get user all step counts
+  static const getUserAllStepCounts =
+      "$hostConnect/user/getUserAllStepCounts.php";
+  //get user total stepcounts
+  static const getUserLastStepCount =
+      "$hostConnect/user/getUserLastStepCount.php";
   //update stepCount
   static const updateStepCount = "$hostConnect/user/updateStepCount.php";
   //get user current bmi
@@ -62,4 +68,27 @@ class Api {
   //delete blood pressure
   static const deleteUserVisceralFat =
       "$hostConnect/user/deleteUserVisceralFat.php";
+  //get top first staff
+  static const getTopFirstStaff = "$hostConnect/user/getTopFirstStaff.php";
+  //get top second staff
+  static const getTopSecondStaff = "$hostConnect/user/getTopSecondStaff.php";
+  //get top third staff
+  static const getTopThirdStaff = "$hostConnect/user/getTopThirdStaff.php";
+  //get top first student
+  static const getTopFirstStudent = "$hostConnect/user/getTopFirstStudent.php";
+  //get top second student
+  static const getTopSecondStudent =
+      "$hostConnect/user/getTopSecondStudent.php";
+  //get top third student
+  static const getTopThirdStudent = "$hostConnect/user/getTopThirdStudent.php";
+  //get staff ranking
+  static const getStaffRanking = "$hostConnect/user/getStaffRanking.php";
+  //get student ranking
+  static const getStudentRanking = "$hostConnect/user/getStudentRanking.php";
+  //add user checkpoint
+  static const recordUserCheckpoint = "$hostConnect/user/addUserCheckpoint.php";
+  //get all rewards
+  static const getAllRewards = "$hostConnect/user/getAllRewards.php";
+  //claim reward
+  static const claimReward = "$hostConnect/user/claimReward.php";
 }

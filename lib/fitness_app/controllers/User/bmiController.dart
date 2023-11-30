@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:fitnessapp/fitness_app/models/User/bmiModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -44,6 +43,8 @@ class bmiController extends GetxController {
     heightController.dispose();
     updateWeightController.dispose();
     updateHeightController.dispose();
+    allBmis.clear();
+    super.dispose();
   }
 
   void clearFormContents() {
@@ -152,27 +153,72 @@ class bmiController extends GetxController {
   }
 
   void deleteUserBmi(int bmiID) async {
-    try {
-      var res = await http.post(
-        Uri.parse(Api.deleteUserBmi),
-        body: {
-          'userID': _currentUser.user.id.toString(),
-          'bmiID': bmiID.toString(),
-        },
-      );
+    var resultResponse = await Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.grey,
+        title: Text(
+          "Delete BMI",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Text(
+          "Are you sure?\nThis cannot be undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(result: "deleted");
+            },
+            child: const Text(
+              "Yes",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text(
+              "No",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
 
-      if (res.statusCode == 200) {
-        var resBodyOfLogin = jsonDecode(res.body);
-        if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "One Bmi deleted.");
-          Get.offNamedUntil(Routes.bmi_page, ModalRoute.withName('/root_app'));
-        } else {
-          Fluttertoast.showToast(msg: "Error occurred");
+    if (resultResponse == 'deleted') {
+      try {
+        var res = await http.post(
+          Uri.parse(Api.deleteUserBmi),
+          body: {
+            'userID': _currentUser.user.id.toString(),
+            'bmiID': bmiID.toString(),
+          },
+        );
+
+        if (res.statusCode == 200) {
+          var resBodyOfLogin = jsonDecode(res.body);
+          if (resBodyOfLogin['success']) {
+            Fluttertoast.showToast(msg: "One Bmi deleted.");
+            //refresh page
+            clearFormContents();
+            allBmis.clear();
+            getUserAllBmi();
+          } else {
+            Fluttertoast.showToast(msg: "Error occurred");
+          }
         }
+      } catch (e) {
+        print(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
       }
-    } catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
     }
   }
 }

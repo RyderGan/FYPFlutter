@@ -31,6 +31,7 @@ class changeUserLoginDetailsController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    super.dispose();
   }
 
   String? validateEmail(String value) {

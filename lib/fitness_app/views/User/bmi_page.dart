@@ -103,7 +103,7 @@ class _BmiPageState extends State<BmiPage> {
                 _bmiController.addNewBmi();
               },
               child: addBmiButton(),
-            )
+            ),
           ],
         ),
       ),

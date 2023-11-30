@@ -80,7 +80,7 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                   ),
                   Obx(() {
                     return Text(
-                      _homeScreenController.stepCount.value.toString() +
+                      _homeScreenController.totalStepCount.value.toString() +
                           "/10000 steps",
                       style: TextStylePreset.bigText,
                     );
@@ -93,7 +93,9 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(Routes.step_count_page);
+                  },
                   child: Icon(Icons.chevron_right_sharp,
                       color: Colors.white), // icon of the button
                   style: ElevatedButton.styleFrom(
@@ -111,9 +113,9 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
             height: 15,
           ),
           Obx(() => (() {
-                if (_homeScreenController.stepCount.value >= 0) {
+                if (_homeScreenController.totalStepCount >= 0) {
                   return LinearPercentIndicator(
-                    percent: _homeScreenController.stepCount.value / 10000,
+                    percent: _homeScreenController.totalStepCount.value / 10000,
                     progressColor: Colors.green,
                     lineHeight: 15,
                     animation: true,

@@ -10,10 +10,11 @@ class UserModel {
   String userType;
   String gender;
   String dateOfBirth;
+  int rewardPoint;
   String createdAt;
 
   UserModel(this.id, this.email, this.password, this.fullName, this.userType,
-      this.gender, this.dateOfBirth, this.createdAt);
+      this.gender, this.dateOfBirth, this.rewardPoint, this.createdAt);
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         int.parse(json["id"]),
@@ -23,6 +24,7 @@ class UserModel {
         json["user_type"],
         json["gender"],
         json["dateOfBirth"],
+        int.parse(json["reward_point"]),
         json["created_at"],
       );
 
@@ -34,6 +36,7 @@ class UserModel {
         "user_type": userType,
         "gender": gender,
         "dateOfBirth": dateOfBirth,
+        "reward_point": rewardPoint.toString(),
         "created_at": createdAt,
       };
 }

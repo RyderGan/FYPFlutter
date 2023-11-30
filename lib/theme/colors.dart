@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 const Color white = Color(0xFFFFFFFF);
 const Color black = Color.fromARGB(255, 0, 0, 0);
-
-const Color primary = Color(0xFF7A8DEB);
-const Color secondary = Color(0xFFD876E3);
+//0xFF7A8DEB
+const Color primary = Color.fromARGB(255, 149, 166, 254);
+const Color secondary = Color.fromARGB(255, 244, 145, 254);
 const Color thirdColor = Color(0xFFB778E7);
 const Color fourthColor = Color(0xFFE478B5);
 const Color alternate = Color(0xFFE0E3E7);

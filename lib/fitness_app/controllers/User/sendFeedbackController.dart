@@ -24,6 +24,7 @@ class sendFeedbackController extends GetxController {
   void onClose() {
     titleController.dispose();
     descriptionController.dispose();
+    super.dispose();
   }
 
   String? validateTitle(String value) {

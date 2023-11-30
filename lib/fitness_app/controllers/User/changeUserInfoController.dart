@@ -33,6 +33,7 @@ class changeUserInfoController extends GetxController {
   void onClose() {
     fullNameController.dispose();
     dobController.dispose();
+    super.dispose();
   }
 
   Future<void> updateUserInfo() async {

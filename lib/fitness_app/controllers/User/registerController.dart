@@ -38,6 +38,7 @@ class registerController extends GetxController {
     emailController.dispose();
     passwordController.dispose();
     dobController.dispose();
+    super.dispose();
   }
 
   String? validateEmail(String value) {
@@ -96,6 +97,7 @@ class registerController extends GetxController {
       userTypeValue.value.trim(),
       gender.toString(),
       dobController.text.trim(),
+      0,
       "",
     );
 

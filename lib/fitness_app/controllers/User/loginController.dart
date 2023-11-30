@@ -27,6 +27,7 @@ class loginController extends GetxController {
   void onClose() {
     emailController.dispose();
     passwordController.dispose();
+    super.dispose();
   }
 
   String? validateEmail(String value) {
