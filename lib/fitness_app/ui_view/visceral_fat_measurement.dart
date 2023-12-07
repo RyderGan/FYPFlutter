@@ -19,7 +19,7 @@ class VisceralFatView extends StatelessWidget {
         return FadeTransition(
           opacity: animation!,
           child: Transform(
-            transform: new Matrix4.translationValues(
+            transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - animation!.value), 0.0),
             child: Padding(
               padding: const EdgeInsets.only(
@@ -57,7 +57,7 @@ class DataClass extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: FitnessAppTheme.white,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(8.0),
             bottomLeft: Radius.circular(8.0),
             bottomRight: Radius.circular(8.0),
@@ -65,7 +65,7 @@ class DataClass extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: FitnessAppTheme.grey.withOpacity(0.2),
-              offset: Offset(1.1, 1.1),
+              offset: const Offset(1.1, 1.1),
               blurRadius: 10.0),
         ],
       ),
@@ -77,8 +77,8 @@ class DataClass extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(left: 4, bottom: 8, top: 16),
+                const Padding(
+                  padding: EdgeInsets.only(left: 4, bottom: 8, top: 16),
                   child: Text(
                     'Visceral Fat',
                     textAlign: TextAlign.center,
@@ -103,7 +103,7 @@ class DataClass extends StatelessWidget {
                           child: Text(
                             datalist.visceralFat.toString(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: FitnessAppTheme.fontName,
                               fontWeight: FontWeight.w600,
                               fontSize: 28,
@@ -111,8 +111,8 @@ class DataClass extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, bottom: 8),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 8, bottom: 8),
                           child: Text(
                             '%',
                             textAlign: TextAlign.center,
@@ -163,8 +163,8 @@ class DataClass extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-              padding: const EdgeInsets.only(
+          const Padding(
+              padding: EdgeInsets.only(
                   left: 24, right: 24, top: 8, bottom: 8)),
         ],
       ),

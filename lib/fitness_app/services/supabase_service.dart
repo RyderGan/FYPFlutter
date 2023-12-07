@@ -1,10 +1,7 @@
-import 'dart:convert';
-import 'dart:html';
 
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:uuid/uuid.dart';
 
 class supabaseService {
   final supabase = Get.find<SupabaseClient>();
@@ -24,7 +21,7 @@ class supabaseService {
   Future<String?> checkEmailExist(String email) async {
     var response = await supabase
         .from('profiles')
-        .select('email', FetchOptions(count: CountOption.exact))
+        .select('email', const FetchOptions(count: CountOption.exact))
         .eq("email", email);
     print(response);
     return response.count;
@@ -48,5 +45,6 @@ class supabaseService {
       var jsonString = response.body;
       return UserModel.fromJson(jsonString);
     }
+    return null;
   }
 }

@@ -23,6 +23,7 @@ class RemoteService {
       print("Error response");
       print(response.statusCode);
     }
+    return null;
   }
 
   Future<List<Rankings>?> getStaffRankings() async {
@@ -34,6 +35,7 @@ class RemoteService {
       var json = response.body;
       return rankingsFromJson(json);
     }
+    return null;
   }
 
   Future<StepCounts?> getStepCount() async {
@@ -46,6 +48,7 @@ class RemoteService {
       var json = response.body;
       return stepCountsFromJson(json);
     }
+    return null;
   }
 
   Future<Bmis?> getBmi() async {
@@ -58,6 +61,7 @@ class RemoteService {
       var json = response.body;
       return bmisFromJson(json);
     }
+    return null;
   }
 
   Future<BloodPressures?> getBloodPressure() async {
@@ -70,6 +74,7 @@ class RemoteService {
       var json = response.body;
       return bloodPressuresFromJson(json);
     }
+    return null;
   }
 
   Future<VisceralFats?> getVisceralFat() async {
@@ -82,5 +87,6 @@ class RemoteService {
       var json = response.body;
       return visceralFatsFromJson(json);
     }
+    return null;
   }
 }

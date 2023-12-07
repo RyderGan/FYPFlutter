@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/User/loading_page.dart';
 import 'package:fitnessapp/routes.dart';
@@ -8,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:fitnessapp/fitness_app/views/User/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   Get.put<GetStorage>(GetStorage());
@@ -17,11 +14,13 @@ void main() {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(MyApp()));
-  runApp(MyApp());
+  ]).then((value) => runApp(const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -32,9 +31,9 @@ class MyApp extends StatelessWidget {
         future: RememberUserPrefs.readUserInfo(),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return LoginPage();
+            return const LoginPage();
           } else {
-            return LoadingPage();
+            return const LoadingPage();
           }
         },
       ),
@@ -49,7 +48,7 @@ class HexColor extends Color {
   static int _getColorFromHex(String hexColor) {
     hexColor = hexColor.toUpperCase().replaceAll('#', '');
     if (hexColor.length == 6) {
-      hexColor = 'FF' + hexColor;
+      hexColor = 'FF$hexColor';
     }
     return int.parse(hexColor, radix: 16);
   }

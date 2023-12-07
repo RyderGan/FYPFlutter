@@ -16,7 +16,7 @@ class ChangeUserInfoPage extends StatefulWidget {
 
 class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
   final _changeUserInfoController = Get.put(changeUserInfoController());
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   var genders = [
     'Select gender',
     'Female',
@@ -32,7 +32,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Change User Information"),
@@ -53,11 +53,11 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(children: [
-              Text(
+              const Text(
                 "Change user info",
                 style: TextStylePreset.bigTitle,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               userInfoForm(),
@@ -75,15 +75,15 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
       child: Column(
         children: [
           nameField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           genderField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           dobField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           InkWell(
@@ -111,13 +111,13 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
               Icons.abc,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Username", border: InputBorder.none),
                 keyboardType: TextInputType.name,
                 controller: _changeUserInfoController.fullNameController,
@@ -143,7 +143,7 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
         border: Border.all(color: black.withOpacity(0.1)),
       ),
       child: DropdownButtonFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           prefixIcon: Icon(Icons.wc),
         ),
@@ -187,14 +187,14 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
               Icons.calendar_today,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 controller: _changeUserInfoController.dobController,
                 //editing controller of this TextField
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Enter Date Of Birth", //label text of field
                 ),
                 readOnly: true,
@@ -239,9 +239,9 @@ class _ChangeUserInfoPageState extends State<ChangeUserInfoPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

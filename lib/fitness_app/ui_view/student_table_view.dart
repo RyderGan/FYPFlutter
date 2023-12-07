@@ -1,4 +1,3 @@
-import 'package:fitnessapp/fitness_app/fitness_app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:fitnessapp/fitness_app/models/rankings.dart';
 import 'package:fitnessapp/fitness_app/services/remote_service.dart';
@@ -9,10 +8,10 @@ class StudentTableView extends StatefulWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  StudentTableView(
+  const StudentTableView(
       {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
+      this.titleTxt = "",
+      this.subTxt = "",
       this.animationController,
       this.animation})
       : super(key: key);
@@ -30,7 +29,7 @@ class _StudentTableViewState extends State<StudentTableView> {
         return FadeTransition(
           opacity: widget.animation!,
           child: Transform(
-            transform: new Matrix4.translationValues(
+            transform: Matrix4.translationValues(
                 0.0, 30 * (1.0 - widget.animation!.value), 0.0),
             child: Container(
               child: FutureBuilder(

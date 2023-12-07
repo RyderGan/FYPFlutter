@@ -9,6 +9,8 @@ import 'my_diary/my_diary_screen.dart';
 import 'leaderboard/leaderboard_screen.dart';
 
 class FitnessAppHomeScreen extends StatefulWidget {
+  const FitnessAppHomeScreen({super.key});
+
   @override
   _FitnessAppHomeScreenState createState() => _FitnessAppHomeScreenState();
 }
@@ -27,9 +29,9 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
 
   @override
   void initState() {
-    tabIconsList.forEach((TabIconData tab) {
+    for (var tab in tabIconsList) {
       tab.isSelected = false;
-    });
+    }
     tabIconsList[0].isSelected = true;
 
     animationController = AnimationController(
@@ -58,13 +60,13 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
             actions: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.notifications),
+                icon: const Icon(Icons.notifications),
               ),
             ],
           ),
           backgroundColor: Colors.transparent,
           body: Center(
-            child: Text("LoginID: ${userID}"),
+            child: Text("LoginID: $userID"),
           ),
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -72,7 +74,7 @@ class _FitnessAppHomeScreenState extends State<FitnessAppHomeScreen>
             onTap: (index) => setState(() {
               currentIndex = index;
             }),
-            items: [
+            items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.dashboard),
                 label: 'Dashboard',

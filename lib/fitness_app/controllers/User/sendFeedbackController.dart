@@ -11,7 +11,7 @@ class sendFeedbackController extends GetxController {
   GlobalKey<FormState> sendFeedbackFormKey = GlobalKey<FormState>();
   late TextEditingController titleController, descriptionController;
 
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void onInit() {

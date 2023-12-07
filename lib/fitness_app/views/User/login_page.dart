@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:fitnessapp/fitness_app/controllers/User/loginController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
@@ -47,9 +46,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget getBody() {
-    TextStyle defaultStyle = TextStyle(color: Colors.black);
-    TextStyle linkStyle =
-        TextStyle(color: Colors.blue, decoration: TextDecoration.underline);
+    TextStyle defaultStyle = const TextStyle(color: Colors.black);
+    TextStyle linkStyle = const TextStyle(
+        color: Colors.blue, decoration: TextDecoration.underline);
     return LayoutBuilder(
       builder: (context, constraints) {
         return ConstrainedBox(
@@ -67,27 +66,27 @@ class _LoginPageState extends State<LoginPage> {
                       Container(
                         child: Column(
                           children: [
-                            Text(
+                            const Text(
                               "Hey there,",
                               style: TextStyle(fontSize: 16),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "Welcome Back",
                               style: TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 30,
                             ),
                             emailField(),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             passwordField(),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             RichText(
@@ -104,14 +103,14 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             userTypeField(),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
 
@@ -126,10 +125,10 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: loginButton(),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Row(
+                          const Row(
                             children: [
                               Flexible(
                                 child: Divider(
@@ -150,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
@@ -170,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
                               Container(
@@ -189,20 +188,39 @@ class _LoginPageState extends State<LoginPage> {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           RichText(
                             text: TextSpan(
                               style: defaultStyle,
                               children: <TextSpan>[
-                                TextSpan(text: "Don't have account yet? "),
+                                const TextSpan(
+                                    text: "Don't have account yet? "),
                                 TextSpan(
                                     text: 'Register now',
                                     style: linkStyle,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Get.toNamed(Routes.register);
+                                      }),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: defaultStyle,
+                              children: <TextSpan>[
+                                const TextSpan(text: "Others: "),
+                                TextSpan(
+                                    text: 'Admin Only',
+                                    style: linkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.toNamed(Routes.admin_login);
                                       }),
                               ],
                             ),
@@ -223,9 +241,9 @@ class _LoginPageState extends State<LoginPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [secondary, primary]),
+          gradient: const LinearGradient(colors: [secondary, primary]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -252,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
         border: Border.all(color: black.withOpacity(0.1)),
       ),
       child: DropdownButtonFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           prefixIcon: Icon(Icons.person),
         ),
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -295,7 +313,7 @@ class _LoginPageState extends State<LoginPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
@@ -340,13 +358,13 @@ class _LoginPageState extends State<LoginPage> {
               LineIcons.envelope,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Email", border: InputBorder.none),
                 keyboardType: TextInputType.emailAddress,
                 controller: _loginController.emailController,

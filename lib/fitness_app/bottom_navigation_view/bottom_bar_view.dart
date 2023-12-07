@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'package:fitnessapp/fitness_app/fitness_app_theme.dart';
 import 'package:fitnessapp/fitness_app/models/tabIcon_data.dart';
-import 'package:fitnessapp/main.dart';
 import 'package:flutter/material.dart';
 
 class BottomBarView extends StatefulWidget {

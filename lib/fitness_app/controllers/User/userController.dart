@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
-import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
 import 'package:get/get.dart';
 
 class userController extends GetxController {

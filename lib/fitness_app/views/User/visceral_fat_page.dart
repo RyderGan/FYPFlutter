@@ -24,7 +24,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.offAllNamed(Routes.root_app),
           ),
           title: const Text("Visceral Fat"),
@@ -48,22 +48,22 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  Text(
+                  const Text(
                     "Add New Visceral Fat",
                     style: TextStylePreset.bigTitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   addNewVisceralFatForm(),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Text(
+                  const Text(
                     "All records",
                     style: TextStylePreset.bigTitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   displayUserAllVisceralFat(),
@@ -78,10 +78,10 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Form(
         key: _visceralFatController.addNewVisceralFatFormKey,
@@ -89,7 +89,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
         child: Column(
           children: [
             ratingField(),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             InkWell(
@@ -118,13 +118,13 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
               Icons.star,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Rating", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _visceralFatController.ratingController,
@@ -149,9 +149,9 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -180,7 +180,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
             return Card(
               color: primary,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
                     _visceralFatController.allVisceralFats[index].rating
@@ -191,7 +191,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
                     _visceralFatController.allVisceralFats[index].createdAt,
                     style: TextStylePreset.normalText,
                   ),
-                  trailing: Container(
+                  trailing: SizedBox(
                     width: 90,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -210,7 +210,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
                                     ),
                                   );
                                 },
-                                icon: Icon(Icons.edit))),
+                                icon: const Icon(Icons.edit))),
                         Expanded(
                             child: IconButton(
                                 onPressed: () {
@@ -219,7 +219,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
                                       _visceralFatController
                                           .allVisceralFats[index].vfID);
                                 },
-                                icon: Icon(Icons.delete))),
+                                icon: const Icon(Icons.delete))),
                       ],
                     ),
                   ),
@@ -237,7 +237,7 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
       child: Column(
         children: [
           editRatingField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           InkWell(
@@ -266,13 +266,13 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
               LineIcons.star,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Rating", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _visceralFatController.updateRatingController,
@@ -297,9 +297,9 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

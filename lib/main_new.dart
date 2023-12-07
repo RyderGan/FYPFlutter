@@ -1,12 +1,14 @@
 import 'package:fitnessapp/Animation/FadeAnimation.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MaterialApp(
+void main() => runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: HomePage(),
     ));
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,8 +95,8 @@ class HomePage extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  const BoxShadow(
+                                boxShadow: const [
+                                  BoxShadow(
                                       color: Color.fromRGBO(143, 148, 251, .2),
                                       blurRadius: 20.0,
                                       offset: Offset(0, 10))
@@ -153,9 +155,9 @@ class HomePage extends StatelessWidget {
                       const SizedBox(
                         height: 70,
                       ),
-                      FadeAnimation(
+                      const FadeAnimation(
                           1.5,
-                          const Text(
+                          Text(
                             "Forgot Password?",
                             style: TextStyle(
                                 color: Color.fromRGBO(143, 148, 251, 1)),
