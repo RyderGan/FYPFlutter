@@ -25,9 +25,7 @@ class _LoadingPageState extends State<LoadingPage> {
       if (userStatus == null) {
         Fluttertoast.showToast(msg: "User not found");
       } else {
-        Future.delayed(Duration(milliseconds: 2000), () {
-          Get.offNamed(Routes.root_app);
-        });
+        Get.offAllNamed(Routes.root_app);
       }
     });
   }
@@ -43,6 +41,7 @@ class _LoadingPageState extends State<LoadingPage> {
     return GetBuilder(
       init: CurrentUser(),
       initState: (currentState) {
+        _currentUser.getUserInfo();
         loadPage();
       },
       builder: (controller) {

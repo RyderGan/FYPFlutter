@@ -5,6 +5,7 @@ include '../connection.php';
 //GET retrieve/read data
 
 $stepCount = $_POST['stepCount'];
+$actualStepCount = $_POST['actualStepCount'];
 $userID = $_POST['userID'];
 
 //check previous record exist
@@ -55,4 +56,8 @@ if ($result->num_rows > 0) {
         echo json_encode(array("success" => false));
     }
 }
+
+//insert into realtime table
+$sqlQuery4 = "INSERT INTO stepcounts_realtime SET user_id = '$userID', stepCount = '$actualStepCount'";
+$result4 = $connectNow->query($sqlQuery4);
 

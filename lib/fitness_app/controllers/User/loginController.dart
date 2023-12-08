@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
@@ -67,7 +66,7 @@ class loginController extends GetxController {
           await RememberUserPrefs.storeUserData(userInfo);
           _currentUser.getUserInfo();
           //navigate to home page
-          Get.offAllNamed(Routes.loading);
+          Get.offNamed(Routes.loading);
         } else {
           Fluttertoast.showToast(msg: "Incorrect credentials, try again.");
         }

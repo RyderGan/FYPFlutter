@@ -23,6 +23,7 @@ class homeController extends GetxController {
   int stepCount = 0;
   int lastStepCounts = 0;
   RxInt finalStepCount = 0.obs;
+  int actualStepCount = 0;
   RxDouble bmi = 0.0.obs;
   RxInt systolicPressure = 0.obs;
   RxInt diastolicPressure = 0.obs;
@@ -69,7 +70,7 @@ class homeController extends GetxController {
     } else {
       finalStepCount.value = stepCount - lastStepCounts;
     }
-    print(stepCount);
+    actualStepCount = finalStepCount.value;
   }
 
   void onStepCountError(error) {
@@ -111,6 +112,7 @@ class homeController extends GetxController {
         Uri.parse(Api.updateStepCount),
         body: {
           'stepCount': stepCount.toString(),
+          'actualStepCount': actualStepCount.toString(),
           'userID': _currentUser.user.id.toString(),
         },
       );
