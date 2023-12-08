@@ -82,7 +82,7 @@ function process($connectNow, $rfidUID, $rfidCheckpointID){
             $result = insertRewardPoint($connectNow, $pointsGained, $userID);
 
             //Insert current checkpoint Info
-            // insertCheckpointHistory($connectNow, $rfidBandID, $currentRfidCheckpointID);
+            insertCheckpointHistory($connectNow, $rfidBandID, $currentRfidCheckpointID);
             break;
 
         case "Ignore":
