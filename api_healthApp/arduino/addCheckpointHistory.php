@@ -124,7 +124,7 @@ function calculatePoints($previousCpTime, $distance, $elevation, $difficulty, $u
 
     
 
-    return 100;
+    return 5;
 }
 
 function getUserStepCount($connectNow, $userID, $previousCpTime){
