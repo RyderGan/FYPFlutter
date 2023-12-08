@@ -1,5 +1,6 @@
 import 'package:fitnessapp/fitness_app/controllers/User/stepCountController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
+import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class _StepCountPageState extends State<StepCountPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Step Counts"),
@@ -39,7 +40,7 @@ class _StepCountPageState extends State<StepCountPage> {
       return ConstrainedBox(
         constraints: BoxConstraints(
           minHeight: constraints.maxHeight,
-          minWidth: double.infinity,
+          //minWidth: double.infinity,
         ),
         child: SingleChildScrollView(
           child: Container(
@@ -48,14 +49,14 @@ class _StepCountPageState extends State<StepCountPage> {
               child: Column(
                 children: [
                   displayUserLatestStepCount(),
-                  const SizedBox(
+                  SizedBox(
                     height: 30,
                   ),
-                  const Text(
+                  Text(
                     "Other records",
                     style: TextStylePreset.bigTitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   displayUserAllStepCounts(),
@@ -70,43 +71,43 @@ class _StepCountPageState extends State<StepCountPage> {
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Column(
         children: [
-          const Text(
+          Text(
             "Today",
             style: TextStylePreset.bigTitle,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           Obx(() {
             return Text(
-              "${_stepCountController.totalStepCounts}/10000 steps",
+              _stepCountController.finalStepCount.toString() + "/10000 steps",
               style: TextStylePreset.bigText,
             );
           }),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           Obx(() => (() {
-                if (_stepCountController.totalStepCounts >= 0) {
+                if (_stepCountController.finalStepCount >= 0) {
                   return LinearPercentIndicator(
-                    percent: _stepCountController.totalStepCounts / 10000,
+                    percent: _stepCountController.finalStepCount / 10000,
                     progressColor: Colors.green,
                     lineHeight: 15,
                     animation: true,
                   );
                 } else {
-                  return const Text(
+                  return Text(
                       "Error: cannot show percent indicator for value < 0");
                 }
               }())),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
         ],
@@ -124,7 +125,7 @@ class _StepCountPageState extends State<StepCountPage> {
             return Card(
               color: primary,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
                     _stepCountController.allStepCounts[index].stepCount

@@ -14,7 +14,7 @@ class visceralFatController extends GetxController {
   late TextEditingController ratingController, updateRatingController;
   //Map<String, TextEditingController> bmiEditingControllers = {};
 
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
   List<VisceralFatModel> allVisceralFats = <VisceralFatModel>[].obs;
 
   @override
@@ -136,14 +136,14 @@ class visceralFatController extends GetxController {
     var resultResponse = await Get.dialog(
       AlertDialog(
         backgroundColor: Colors.grey,
-        title: const Text(
+        title: Text(
           "Delete Visceral Fat",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: const Text(
+        content: Text(
           "Are you sure?\nThis cannot be undone.",
         ),
         actions: [

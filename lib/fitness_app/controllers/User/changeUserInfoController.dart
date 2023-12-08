@@ -16,7 +16,7 @@ class changeUserInfoController extends GetxController {
       genderController,
       dobController;
 
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
   RxString gender = ''.obs;
 
   @override
@@ -61,7 +61,7 @@ class changeUserInfoController extends GetxController {
             //change user info to local storage using Shared Preferences
             await RememberUserPrefs.storeUserData(userInfo);
             //navigate to home page
-            Get.offAllNamed(Routes.root_app);
+            Get..offAllNamed(Routes.root_app);
           } else {
             Fluttertoast.showToast(msg: "Error occurred");
           }

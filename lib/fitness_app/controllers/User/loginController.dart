@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fitnessapp/fitness_app/models/User/userModel.dart';
+import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fitnessapp/routes.dart';
@@ -15,6 +16,7 @@ class loginController extends GetxController {
   var email = '';
   var password = '';
   RxString userType = ''.obs;
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void onInit() {
@@ -51,7 +53,7 @@ class loginController extends GetxController {
       var res = await http.post(Uri.parse(Api.login), body: {
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
-        "user_type": userType.value.trim(),
+        "user_type": userType.value.trim()
       });
 
       if (res.statusCode == 200) {
@@ -61,6 +63,7 @@ class loginController extends GetxController {
           UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
           //save user info to local storage using Shared Preferences
           await RememberUserPrefs.storeUserData(userInfo);
+          _currentUser.getUserInfo();
           //navigate to home page
           Get.offAllNamed(Routes.loading);
           //Get.offAllNamed(Routes.root_app);

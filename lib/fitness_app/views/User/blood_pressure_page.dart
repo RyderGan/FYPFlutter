@@ -24,8 +24,8 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Get.offAllNamed(Routes.root_app),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.offNamed(Routes.root_app),
           ),
           title: const Text("Blood Pressure"),
         ),
@@ -48,22 +48,22 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     "Add New Blood Pressure",
                     style: TextStylePreset.bigTitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 15,
                   ),
                   addNewBloodPressureForm(),
-                  const SizedBox(
+                  SizedBox(
                     height: 30,
                   ),
-                  const Text(
+                  Text(
                     "All records",
                     style: TextStylePreset.bigTitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   displayUserAllBloodPressure(),
@@ -78,10 +78,10 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Form(
         key: _bloodPressureController.addNewBloodPressureFormKey,
@@ -89,11 +89,11 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
         child: Column(
           children: [
             systolicField(),
-            const SizedBox(
+            SizedBox(
               height: 15,
             ),
             diastolicField(),
-            const SizedBox(
+            SizedBox(
               height: 15,
             ),
             InkWell(
@@ -122,13 +122,13 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
               Icons.outbond,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Systolic pressure", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bloodPressureController.systolicController,
@@ -162,13 +162,13 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
               Icons.bedtime,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Diastolic pressure", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bloodPressureController.diastolicController,
@@ -193,9 +193,9 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -224,18 +224,22 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
             return Card(
               color: primary,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
-                    "${_bloodPressureController.allBloodPressures[index].systolic}/${_bloodPressureController
-                            .allBloodPressures[index].diastolic}",
+                    _bloodPressureController.allBloodPressures[index].systolic
+                            .toString() +
+                        "/" +
+                        _bloodPressureController
+                            .allBloodPressures[index].diastolic
+                            .toString(),
                     style: TextStylePreset.bigText,
                   ),
                   subtitle: Text(
                     _bloodPressureController.allBloodPressures[index].createdAt,
                     style: TextStylePreset.normalText,
                   ),
-                  trailing: SizedBox(
+                  trailing: Container(
                     width: 90,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -254,7 +258,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                     ),
                                   );
                                 },
-                                icon: const Icon(Icons.edit))),
+                                icon: Icon(Icons.edit))),
                         Expanded(
                             child: IconButton(
                                 onPressed: () {
@@ -264,7 +268,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                                           _bloodPressureController
                                               .allBloodPressures[index].bpID);
                                 },
-                                icon: const Icon(Icons.delete))),
+                                icon: Icon(Icons.delete))),
                       ],
                     ),
                   ),
@@ -282,7 +286,7 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
       child: Column(
         children: [
           editSystolicField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           editDiastolicField(),
@@ -312,13 +316,13 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
               LineIcons.weight,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Systolic pressure", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bloodPressureController.updateSystolicController,
@@ -352,13 +356,13 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
               Icons.height,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Diastolic pressure", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bloodPressureController.updateDiastolicController,
@@ -383,9 +387,9 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

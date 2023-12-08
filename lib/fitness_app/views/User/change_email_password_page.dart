@@ -33,7 +33,7 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Change Login Credentials"),
@@ -54,22 +54,22 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(children: [
-              const Text(
+              Text(
                 "Change email address",
                 style: TextStylePreset.bigTitle,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 15,
               ),
               emailForm(),
-              const SizedBox(
+              SizedBox(
                 height: 45,
               ),
-              const Text(
+              Text(
                 "Change password",
                 style: TextStylePreset.bigTitle,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 15,
               ),
               passwordForm(),
@@ -87,7 +87,7 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
       child: Column(
         children: [
           emailField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           InkWell(
@@ -115,13 +115,13 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
               LineIcons.envelope,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Email", border: InputBorder.none),
                 keyboardType: TextInputType.emailAddress,
                 controller: _changeUserLoginDetailsController.emailController,
@@ -142,9 +142,9 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -170,11 +170,11 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
       child: Column(
         children: [
           passwordField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           confirmPasswordField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           InkWell(
@@ -202,7 +202,7 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
@@ -246,7 +246,7 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
@@ -281,9 +281,9 @@ class _ChangeEmailPasswordPageState extends State<ChangeEmailPasswordPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

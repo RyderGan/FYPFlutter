@@ -1,10 +1,14 @@
+import 'dart:io';
 
 import 'package:fitnessapp/fitness_app/controllers/User/scanQRController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
+import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QRCodeResultPage extends StatefulWidget {
   const QRCodeResultPage({Key? key}) : super(key: key);
@@ -33,7 +37,7 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("QR code result"),
@@ -71,7 +75,7 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
                 : 'No result',
             style: TextStylePreset.bigText,
           ),
-          const SizedBox(
+          SizedBox(
             height: 30,
           ),
           InkWell(
@@ -91,9 +95,9 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

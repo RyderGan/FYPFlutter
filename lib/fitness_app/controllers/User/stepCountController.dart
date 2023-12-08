@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:fitnessapp/fitness_app/models/User/stepCountModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
@@ -7,17 +8,21 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class stepCountController extends GetxController {
-  final CurrentUser _currentUser = Get.put(CurrentUser());
-  int stepCount = 0;
-  RxInt totalStepCounts = 0.obs;
+  CurrentUser _currentUser = Get.put(CurrentUser());
+  int totalStepCount = 0;
+  RxInt finalStepCount = 0.obs;
   int totalStepCountsBeforeToday = 0;
   List<StepCountModel> allStepCounts = <StepCountModel>[].obs;
+  List<StepCountModel> allPreviousStepCounts = <StepCountModel>[];
 
   @override
   void onInit() {
-    super.onInit();
-    getUserStepCount();
+    getUserLastStepCount();
+    Timer(Duration(seconds: 2), () {
+      getUserStepCount();
+    });
     getUserAllStepCounts();
+    super.onInit();
   }
 
   @override
@@ -27,7 +32,6 @@ class stepCountController extends GetxController {
   }
 
   void getUserStepCount() async {
-    getUserLastStepCount();
     try {
       var res = await http.post(
         Uri.parse(Api.getUserStepCount),
@@ -41,8 +45,8 @@ class stepCountController extends GetxController {
         if (resBody['success']) {
           StepCountModel userInfo =
               StepCountModel.fromJson(resBody["stepCountData"]);
-          stepCount = userInfo.stepCount;
-          totalStepCounts.value = stepCount - totalStepCountsBeforeToday;
+          totalStepCount = userInfo.stepCount;
+          finalStepCount.value = totalStepCount - totalStepCountsBeforeToday;
         } else {
           Fluttertoast.showToast(msg: resBody.toString());
         }
@@ -89,9 +93,22 @@ class stepCountController extends GetxController {
       if (res.statusCode == 200) {
         var resBody = jsonDecode(res.body);
         if (resBody['success']) {
+          //Current step counts
           List<StepCountModel> stepCounts = await resBody["allStepCountData"]
               .map<StepCountModel>((json) => StepCountModel.fromJson(json))
               .toList();
+          List<StepCountModel> previousStepCounts =
+              await resBody["allPreviousStepCounts"]
+                  .map<StepCountModel>((json) => StepCountModel.fromJson(json))
+                  .toList();
+          for (int i = 0; i < previousStepCounts.length; i++) {
+            stepCounts[i].stepCount -= previousStepCounts[i].stepCount;
+          }
+          // adjust all step counts values
+          // for (int i = 0; i < allPreviousStepCounts.length; i++) {
+          //   stepCounts[i].stepCount -= allPreviousStepCounts[i].stepCount;
+          //   print(stepCounts[i].stepCount);
+          // }
           allStepCounts.addAll(stepCounts);
         } else {
           List<StepCountModel> stepCounts = <StepCountModel>[];

@@ -5,17 +5,17 @@ class SessionManager {
   late final SharedPreferences prefs;
 
 //set data into shared preferences like this
-  Future<void> setAuthToken(String authToken) async {
+  Future<void> setAuthToken(String auth_token) async {
     prefs = await SharedPreferences.getInstance();
-    prefs.setString(auth_token, authToken);
+    prefs.setString(this.auth_token, auth_token);
   }
 
 //get value from shared preferences
   Future<String?> getAuthToken() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
-    String? authToken;
-    authToken = (pref.getString(auth_token));
-    return authToken;
+    String? auth_token;
+    auth_token = (pref.getString(this.auth_token) ?? null);
+    return auth_token;
   }
 
   clearAll() async {

@@ -18,7 +18,7 @@ if ($result->num_rows > 0) {
     }
     echo json_encode(array(
         "success" => true,
-        "userData" => $userDetails[0],  //row number
+        "userData" => $userDetails[0] //row number
     ));
 } else {
     echo json_encode(array("success" => false));

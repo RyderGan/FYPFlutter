@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 08:16 AM
+-- Generation Time: Dec 08, 2023 at 09:18 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `iot_healthapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `about_us`
+--
+
+CREATE TABLE `about_us` (
+  `about_us_id` int(11) NOT NULL,
+  `about_us_title` text NOT NULL,
+  `about_us_who` text NOT NULL,
+  `about_us_who_details` text NOT NULL,
+  `about_us_aim` text NOT NULL,
+  `about_us_aim_details` text NOT NULL,
+  `about_us_website_name` text NOT NULL,
+  `about_us_website_link` text NOT NULL,
+  `about_us_facebook_link` text NOT NULL,
+  `about_us_instagram_link` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `about_us`
+--
+
+INSERT INTO `about_us` (`about_us_id`, `about_us_title`, `about_us_who`, `about_us_who_details`, `about_us_aim`, `about_us_aim_details`, `about_us_website_name`, `about_us_website_link`, `about_us_facebook_link`, `about_us_instagram_link`) VALUES
+(1, 'About IOT FSKTM', 'Students of Software Enginnering Deparment', 'We are 2 students from FSKTM.', 'To motivate users to run', 'We aim to promote a health lifestyle among FSKTM residents. How? Well, by motivating them of course. Through challenges and special rewards, we would like to get more and more people to join in.', 'IOT FSKTM Website', 'https://www.google.com/', 'https://www.facebook.com/', 'https://www.instagram.com/');
 
 -- --------------------------------------------------------
 
@@ -92,6 +118,39 @@ INSERT INTO `checkpoints` (`cp_id`, `check_point`, `road_id`, `created_at`) VALU
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `checkpoint_history`
+--
+
+CREATE TABLE `checkpoint_history` (
+  `checkpoint_history_id` int(11) NOT NULL,
+  `rfid_checkpoint_id` int(11) NOT NULL,
+  `rfid_band_id` int(11) NOT NULL,
+  `checkpoint_time` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `checkpoint_history`
+--
+
+INSERT INTO `checkpoint_history` (`checkpoint_history_id`, `rfid_checkpoint_id`, `rfid_band_id`, `checkpoint_time`) VALUES
+(1, 1, 1, '2023-12-07 04:31:50'),
+(2, 1, 1, '2023-12-07 04:34:26'),
+(3, 1, 1, '2023-12-07 04:53:10'),
+(4, 1, 1, '2023-12-07 04:53:16'),
+(5, 1, 1, '2023-12-07 08:52:39'),
+(6, 1, 1, '2023-12-07 08:52:42'),
+(7, 1, 1, '2023-12-07 09:16:17'),
+(8, 2, 1, '2023-12-07 09:17:27'),
+(9, 1, 1, '2023-12-07 18:17:34'),
+(10, 1, 1, '2023-12-07 18:35:50'),
+(11, 2, 1, '2023-12-07 18:36:33'),
+(12, 2, 1, '2023-12-08 01:09:10'),
+(13, 1, 1, '2023-12-08 03:00:06'),
+(14, 1, 1, '2023-12-08 02:59:11');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `feedbacks`
 --
 
@@ -108,6 +167,31 @@ CREATE TABLE `feedbacks` (
 
 INSERT INTO `feedbacks` (`feedback_id`, `user_id`, `title`, `fb_description`) VALUES
 (1, 3, '1st feedback', 'Testing');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paths`
+--
+
+CREATE TABLE `paths` (
+  `path_id` int(255) NOT NULL,
+  `path_name` varchar(255) NOT NULL,
+  `path_from_cp_id` int(255) NOT NULL,
+  `path_to_cp_id` int(255) NOT NULL,
+  `path_distance` int(255) DEFAULT NULL,
+  `path_elevation` int(255) DEFAULT NULL,
+  `path_difficulty` int(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `paths`
+--
+
+INSERT INTO `paths` (`path_id`, `path_name`, `path_from_cp_id`, `path_to_cp_id`, `path_distance`, `path_elevation`, `path_difficulty`) VALUES
+(1, 'Path from BK2 to BK1', 1, 2, 100, 2, 4),
+(2, 'Path from BK2 to BK1', 2, 1, 100, -2, 2),
+(3, 'Path from DK1 to DK2', 2, 3, 100, 2, -2);
 
 -- --------------------------------------------------------
 
@@ -142,6 +226,72 @@ CREATE TABLE `reward_points` (
   `user_id` int(100) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reward_points`
+--
+
+INSERT INTO `reward_points` (`reward_pt_id`, `reward_pt`, `user_id`, `created_at`) VALUES
+(1, 100, 3, '2023-12-07 12:08:28'),
+(2, 100, 3, '2023-12-07 12:08:33'),
+(3, 100, 3, '2023-12-07 17:10:23'),
+(4, 100, 3, '2023-12-07 17:10:31'),
+(5, 100, 3, '2023-12-07 18:35:50'),
+(6, 100, 3, '2023-12-07 18:36:33'),
+(7, 100, 3, '2023-12-08 02:15:41'),
+(8, 100, 3, '2023-12-08 02:29:17'),
+(9, 100, 3, '2023-12-08 02:29:32'),
+(10, 100, 3, '2023-12-08 02:34:34'),
+(11, 100, 3, '2023-12-08 02:36:40'),
+(12, 100, 3, '2023-12-08 02:37:11'),
+(13, 100, 3, '2023-12-08 02:59:46'),
+(14, 100, 3, '2023-12-08 03:00:28'),
+(15, 100, 3, '2023-12-08 03:01:28'),
+(16, 100, 3, '2023-12-08 03:01:45');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rfid_bands`
+--
+
+CREATE TABLE `rfid_bands` (
+  `rfid_band_id` int(100) NOT NULL,
+  `rfid_band_uid` varchar(255) NOT NULL,
+  `rfid_band_name` varchar(255) NOT NULL,
+  `user_id` int(100) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rfid_bands`
+--
+
+INSERT INTO `rfid_bands` (`rfid_band_id`, `rfid_band_uid`, `rfid_band_name`, `user_id`, `created_at`) VALUES
+(1, 'A9 73 40 59', 'RFID Band 1', 3, '2023-12-07 12:53:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rfid_checkpoint`
+--
+
+CREATE TABLE `rfid_checkpoint` (
+  `rfid_checkpoint_id` int(255) NOT NULL,
+  `rfid_checkpoint_name` varchar(255) NOT NULL,
+  `rfid_checkpoint_description` text NOT NULL,
+  `rfid_checkpoint_location` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rfid_checkpoint`
+--
+
+INSERT INTO `rfid_checkpoint` (`rfid_checkpoint_id`, `rfid_checkpoint_name`, `rfid_checkpoint_description`, `rfid_checkpoint_location`, `created_at`) VALUES
+(1, 'Checkpoint 1', 'RFID Checkpoint at BK2', 'BK2', '2023-12-06 00:45:29'),
+(2, 'Checkpoint 2', 'RFID Checkpoint at BK1', 'BK1', '2023-12-06 00:45:29'),
+(3, 'Checkpoint 3', 'RFID Checkpoint at BK3', 'BK3', '2023-12-06 00:45:29');
 
 -- --------------------------------------------------------
 
@@ -184,7 +334,10 @@ CREATE TABLE `stepcounts` (
 INSERT INTO `stepcounts` (`stepCount_id`, `user_id`, `stepCount`, `created_at`) VALUES
 (6, 3, 358, '2023-11-27 08:14:39'),
 (8, 3, 380, '2023-11-29 03:44:34'),
-(10, 3, 380, '2023-11-30 03:52:04');
+(10, 3, 380, '2023-11-30 03:52:04'),
+(14, 3, 461, '2023-12-07 10:00:47'),
+(15, 0, 0, '2023-12-08 06:33:19'),
+(16, 3, 461, '2023-12-08 06:43:27');
 
 -- --------------------------------------------------------
 
@@ -261,6 +414,12 @@ INSERT INTO `visceral_fats` (`vf_id`, `user_id`, `rating`, `created_at`) VALUES
 --
 
 --
+-- Indexes for table `about_us`
+--
+ALTER TABLE `about_us`
+  ADD PRIMARY KEY (`about_us_id`);
+
+--
 -- Indexes for table `blood_pressures`
 --
 ALTER TABLE `blood_pressures`
@@ -279,16 +438,46 @@ ALTER TABLE `checkpoints`
   ADD PRIMARY KEY (`cp_id`);
 
 --
+-- Indexes for table `checkpoint_history`
+--
+ALTER TABLE `checkpoint_history`
+  ADD PRIMARY KEY (`checkpoint_history_id`);
+
+--
 -- Indexes for table `feedbacks`
 --
 ALTER TABLE `feedbacks`
   ADD PRIMARY KEY (`feedback_id`);
 
 --
+-- Indexes for table `paths`
+--
+ALTER TABLE `paths`
+  ADD PRIMARY KEY (`path_id`);
+
+--
 -- Indexes for table `rewards`
 --
 ALTER TABLE `rewards`
   ADD PRIMARY KEY (`reward_id`);
+
+--
+-- Indexes for table `reward_points`
+--
+ALTER TABLE `reward_points`
+  ADD PRIMARY KEY (`reward_pt_id`);
+
+--
+-- Indexes for table `rfid_bands`
+--
+ALTER TABLE `rfid_bands`
+  ADD PRIMARY KEY (`rfid_band_id`);
+
+--
+-- Indexes for table `rfid_checkpoint`
+--
+ALTER TABLE `rfid_checkpoint`
+  ADD PRIMARY KEY (`rfid_checkpoint_id`);
 
 --
 -- Indexes for table `roads`
@@ -364,7 +553,7 @@ ALTER TABLE `roads`
 -- AUTO_INCREMENT for table `stepcounts`
 --
 ALTER TABLE `stepcounts`
-  MODIFY `stepCount_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `stepCount_id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`

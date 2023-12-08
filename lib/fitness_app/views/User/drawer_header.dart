@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HeaderDrawer extends StatefulWidget {
-  const HeaderDrawer({super.key});
-
   @override
   _HeaderDrawerState createState() => _HeaderDrawerState();
 }
 
 class _HeaderDrawerState extends State<HeaderDrawer> {
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   //methods
 
@@ -20,23 +18,23 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
       color: Colors.blue,
       width: double.infinity,
       height: 200,
-      padding: const EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            margin: const EdgeInsets.only(bottom: 10),
+            margin: EdgeInsets.only(bottom: 10),
             height: 70,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     image: AssetImage('assets/icons/profile_icon.jpg'))),
           ),
           Text(
             _currentUser.user.fullName,
-            style: const TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontSize: 20),
           ),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
           Text(

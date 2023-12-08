@@ -14,8 +14,12 @@ class scanQRController extends GetxController {
   int road = 0;
   int checkpoint = 0;
   String? result = "";
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   @override
   void onClose() {
@@ -24,7 +28,7 @@ class scanQRController extends GetxController {
   }
 
   Future<void> recordCheckpoint(String url) async {
-    Uri uri = Uri.dataFromString(url);
+    Uri uri = new Uri.dataFromString(url);
     String? road = uri.queryParameters['r'];
     String? checkpoint = uri.queryParameters['c'];
     try {

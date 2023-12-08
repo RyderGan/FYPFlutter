@@ -26,8 +26,8 @@ class _BmiPageState extends State<BmiPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () => Get.offAllNamed(Routes.root_app),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.offNamed(Routes.root_app),
           ),
           title: const Text("BMI"),
         ),
@@ -50,22 +50,22 @@ class _BmiPageState extends State<BmiPage> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     "Add New Bmi",
                     style: TextStylePreset.bigTitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 15,
                   ),
                   addNewBmiForm(),
-                  const SizedBox(
+                  SizedBox(
                     height: 30,
                   ),
-                  const Text(
+                  Text(
                     "All records",
                     style: TextStylePreset.bigTitle,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
                   displayUserAllBmi(),
@@ -80,10 +80,10 @@ class _BmiPageState extends State<BmiPage> {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Form(
         key: _bmiController.addNewBmiFormKey,
@@ -91,11 +91,11 @@ class _BmiPageState extends State<BmiPage> {
         child: Column(
           children: [
             weightField(),
-            const SizedBox(
+            SizedBox(
               height: 15,
             ),
             heightField(),
-            const SizedBox(
+            SizedBox(
               height: 15,
             ),
             InkWell(
@@ -124,13 +124,13 @@ class _BmiPageState extends State<BmiPage> {
               LineIcons.weight,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Weight in unit (kg)", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bmiController.weightController,
@@ -164,13 +164,13 @@ class _BmiPageState extends State<BmiPage> {
               Icons.height,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Height in unit (cm)", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bmiController.heightController,
@@ -195,9 +195,9 @@ class _BmiPageState extends State<BmiPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -226,7 +226,7 @@ class _BmiPageState extends State<BmiPage> {
             return Card(
               color: primary,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
                     calculateBmi(
@@ -238,7 +238,7 @@ class _BmiPageState extends State<BmiPage> {
                     _bmiController.allBmis[index].createdAt,
                     style: TextStylePreset.normalText,
                   ),
-                  trailing: SizedBox(
+                  trailing: Container(
                     width: 90,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,7 +256,7 @@ class _BmiPageState extends State<BmiPage> {
                                     ),
                                   );
                                 },
-                                icon: const Icon(Icons.edit))),
+                                icon: Icon(Icons.edit))),
                         Expanded(
                             child: IconButton(
                                 onPressed: () {
@@ -264,7 +264,7 @@ class _BmiPageState extends State<BmiPage> {
                                   _bmiController.deleteUserBmi(
                                       _bmiController.allBmis[index].bmiID);
                                 },
-                                icon: const Icon(Icons.delete))),
+                                icon: Icon(Icons.delete))),
                       ],
                     ),
                   ),
@@ -282,7 +282,7 @@ class _BmiPageState extends State<BmiPage> {
       child: Column(
         children: [
           editWeightField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           editHeightField(),
@@ -312,13 +312,13 @@ class _BmiPageState extends State<BmiPage> {
               LineIcons.weight,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Weight in unit (kg)", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bmiController.updateWeightController,
@@ -352,13 +352,13 @@ class _BmiPageState extends State<BmiPage> {
               Icons.height,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Height in unit (cm)", border: InputBorder.none),
                 keyboardType: TextInputType.number,
                 controller: _bmiController.updateHeightController,
@@ -383,9 +383,9 @@ class _BmiPageState extends State<BmiPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

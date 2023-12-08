@@ -22,7 +22,7 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Send feedback"),
@@ -43,18 +43,18 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(children: [
-              const Text(
+              Text(
                 "Send Feedback",
                 style: TextStylePreset.bigTitle,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 15,
               ),
               feedbackForm(),
-              const SizedBox(
+              SizedBox(
                 height: 45,
               ),
-              const SizedBox(
+              SizedBox(
                 height: 15,
               ),
             ]),
@@ -71,11 +71,11 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
       child: Column(
         children: [
           titleField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           descriptionField(),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           InkWell(
@@ -103,13 +103,13 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
               Icons.title,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     hintText: "Title", border: InputBorder.none),
                 keyboardType: TextInputType.text,
                 controller: _sendFeedbackController.titleController,
@@ -138,13 +138,13 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
               Icons.description,
               color: black.withOpacity(0.5),
             ),
-            const SizedBox(
+            SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: "Description",
                   border: InputBorder.none,
                 ),
@@ -166,9 +166,9 @@ class _SendFeedbackPageState extends State<SendFeedbackPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

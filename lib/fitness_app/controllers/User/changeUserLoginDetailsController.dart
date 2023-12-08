@@ -15,7 +15,7 @@ class changeUserLoginDetailsController extends GetxController {
   late TextEditingController emailController,
       passwordController,
       confirmPasswordController;
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void onInit() {

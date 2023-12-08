@@ -23,7 +23,7 @@ class _StaffRankingPageState extends State<StaffRankingPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Staff Ranking"),
@@ -55,21 +55,21 @@ class _StaffRankingPageState extends State<StaffRankingPage> {
   Widget dataTable() {
     List<UserModel> staffs = _staffRankingsController.allStaffs;
     return Obx(() => DataTable(
-          columns: const [
+          columns: [
             DataColumn(
-              label: SizedBox(
+              label: Container(
                 width: 25,
                 child: Text('Pos'),
               ),
             ),
             DataColumn(
-              label: SizedBox(
+              label: Container(
                 width: 145,
                 child: Text('Name'),
               ),
             ),
             DataColumn(
-              label: SizedBox(
+              label: Container(
                 width: 40,
                 child: Text('Points'),
               ),

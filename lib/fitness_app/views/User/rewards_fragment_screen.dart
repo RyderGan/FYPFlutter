@@ -1,4 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/rewardsController.dart';
+import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
@@ -14,6 +15,7 @@ class RewardsFragmentScreen extends StatefulWidget {
 
 class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
   final _rewardController = Get.put(rewardsController());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +41,14 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
             child: Column(
               children: [
                 displayUserPoint(),
-                const SizedBox(
+                SizedBox(
                   height: 30,
                 ),
-                const Text(
+                Text(
                   "Rewards",
                   style: TextStylePreset.bigTitle,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 15,
                 ),
                 displayAllRewards(),
@@ -60,18 +62,18 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
-      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Column(
         children: [
-          const Text(
+          Text(
             "User Points",
             style: TextStylePreset.bigTitle,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
           Obx(() {
@@ -80,7 +82,7 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
               style: TextStylePreset.bigText,
             );
           }),
-          const SizedBox(
+          SizedBox(
             height: 15,
           ),
         ],
@@ -98,7 +100,7 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
             return Card(
               color: primary,
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
                     _rewardController.allRewards[index].title,
@@ -108,14 +110,16 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
                     _rewardController.allRewards[index].description,
                     style: TextStylePreset.normalText,
                   ),
-                  trailing: SizedBox(
+                  trailing: Container(
                     width: 125,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "${_rewardController.allRewards[index].required_pt}pt",
+                            _rewardController.allRewards[index].required_pt
+                                    .toString() +
+                                "pt",
                             style: TextStylePreset.normalText,
                           ),
                         ),
@@ -145,9 +149,9 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
       height: 40,
       width: 50,
       decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(

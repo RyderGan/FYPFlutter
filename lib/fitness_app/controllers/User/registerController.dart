@@ -115,10 +115,6 @@ class registerController extends GetxController {
         } else {
           Fluttertoast.showToast(msg: "Error occurred, try it again.");
         }
-      } else {
-        print(userModel.toJson());
-        print("Error response");
-        print(res.statusCode);
       }
     } catch (e) {
       print(e.toString());

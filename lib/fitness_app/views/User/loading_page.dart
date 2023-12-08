@@ -13,7 +13,7 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  final CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void initState() {
@@ -21,15 +21,14 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   loadPage() {
-    getUserStatus().then((userStatus) {
-      print(_currentUser.user.userType);
-      if (userStatus == null) {
-        Fluttertoast.showToast(msg: "User not found");
-      } else if (_currentUser.user.userType == 'Admin') {
-        Get.offAllNamed(Routes.admin_loading);
-      } else {
-        Get.offAllNamed(Routes.root_app);
-      }
+    Future.delayed(Duration(milliseconds: 2000), () {
+      getUserStatus().then((userStatus) {
+        if (userStatus == null) {
+          Fluttertoast.showToast(msg: "User not found");
+        } else {
+          Get.offAllNamed(Routes.root_app);
+        }
+      });
     });
   }
 
@@ -44,18 +43,17 @@ class _LoadingPageState extends State<LoadingPage> {
     return GetBuilder(
       init: CurrentUser(),
       initState: (currentState) {
-        _currentUser.getUserInfo();
         loadPage();
       },
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: const Text("Loading"),
+            title: Text("Loading"),
           ),
           backgroundColor: Colors.white,
           body: Container(
-              child: const Center(
+              child: Center(
             child: CircularProgressIndicator(),
           )),
         );
