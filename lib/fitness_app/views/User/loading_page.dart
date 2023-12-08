@@ -21,14 +21,14 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   loadPage() {
-    Future.delayed(Duration(milliseconds: 2000), () {
-      getUserStatus().then((userStatus) {
-        if (userStatus == null) {
-          Fluttertoast.showToast(msg: "User not found");
-        } else {
-          Get.offAllNamed(Routes.root_app);
-        }
-      });
+    getUserStatus().then((userStatus) {
+      if (userStatus == null) {
+        Fluttertoast.showToast(msg: "User not found");
+      } else {
+        Future.delayed(Duration(milliseconds: 2000), () {
+          Get.offNamed(Routes.root_app);
+        });
+      }
     });
   }
 

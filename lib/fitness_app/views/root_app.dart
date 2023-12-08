@@ -1,4 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/homeController.dart';
+import 'package:fitnessapp/fitness_app/controllers/User/loginController.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/User/drawer_header.dart';
 import 'package:fitnessapp/fitness_app/views/User/home_fragment_screen.dart';
@@ -217,6 +218,7 @@ class _RootAppState extends State<RootApp> {
     if (resultResponse == 'loggedOut') {
       //delete user data from local storage
       RememberUserPrefs.removeUserInfo().then((value) {
+        Get.delete<loginController>();
         Get.offAllNamed(Routes.login);
       });
     }

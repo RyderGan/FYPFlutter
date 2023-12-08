@@ -20,13 +20,15 @@ class loginController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+    super.onInit();
   }
 
   @override
   void onClose() {
+    emailController.clear();
+    passwordController.clear();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -66,7 +68,6 @@ class loginController extends GetxController {
           _currentUser.getUserInfo();
           //navigate to home page
           Get.offAllNamed(Routes.loading);
-          //Get.offAllNamed(Routes.root_app);
         } else {
           Fluttertoast.showToast(msg: "Incorrect credentials, try again.");
         }

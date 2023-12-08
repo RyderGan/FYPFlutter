@@ -17,6 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _loginController = Get.put(loginController());
   // Initially password is obscure
   bool _obscureText = true;
   String dropDownValue = 'Select user';
@@ -26,8 +27,6 @@ class _LoginPageState extends State<LoginPage> {
     'Staff',
     'Student',
   ];
-
-  final _loginController = Get.put(loginController());
 
   // Toggles the password show status
   void _toggle() {
