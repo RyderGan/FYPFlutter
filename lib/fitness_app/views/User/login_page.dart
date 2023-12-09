@@ -206,6 +206,21 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
+                          RichText(
+                            text: TextSpan(
+                              style: defaultStyle,
+                              children: <TextSpan>[
+                                const TextSpan(text: "Others: "),
+                                TextSpan(
+                                    text: 'Admin Only',
+                                    style: linkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.toNamed(Routes.admin_login);
+                                      }),
+                              ],
+                            ),
+                          ),
                         ],
                       ))
                     ],

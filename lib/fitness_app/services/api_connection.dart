@@ -1,14 +1,18 @@
 //port 8080 for app
 //port 51036 for web
 class Api {
+  // Use localhost:3000 for iOS and 10.0.2.2:3000 for Android
   static const hostConnect = "http://192.168.0.208:8080/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
+  //http://192.168.0.208:8080/
 
   //signUp user
   static const validateEmail = "$hostConnect/user/validate_email.php";
   static const signUp = "$hostConnect/user/signup.php";
   //login
   static const login = "$hostConnect/user/login.php";
+  //admin login
+  static const adminLogin = "$hostConnect/user/login.php";
   //validate reset password
   static const validateResetPassword =
       "$hostConnect/user/validateResetPassword.php";
@@ -93,4 +97,54 @@ class Api {
   static const getAllRewards = "$hostConnect/user/getAllRewards.php";
   //claim reward
   static const claimReward = "$hostConnect/user/claimReward.php";
+
+  //get user list
+  static const getUserList = "$hostConnect/admin/getUserList.php";
+  //get feedback list
+  static const getFeedbackList = "$hostConnect/admin/getFeedbackList.php";
+  //get checkpoint list
+  static const getCheckpointList = "$hostConnect/admin/getCheckpointList.php";
+  //get reward list
+  static const getRewardList = "$hostConnect/admin/getRewardList.php";
+  //delete user
+  static const deleteUser = "$hostConnect/admin/deleteUser.php";
+  //delete feedback
+  static const deleteFeedback = "$hostConnect/admin/deleteFeedback.php";
+  //delete reward
+  static const deleteReward = "$hostConnect/admin/deleteReward.php";
+  //change reward info
+  static const updateRewardInfo = "$hostConnect/admin/updateRewardInfo.php";
+  //add reward
+  static const addReward = "$hostConnect/admin/addReward.php";
+  //get rfid checkpoint list
+  static const getRfidCheckpointList =
+      "$hostConnect/admin/getRfidCheckpointList.php";
+  //delete rfid heckpoint
+  static const deleteRfidCheckpoint =
+      "$hostConnect/admin/deleteRfidCheckpoint.php";
+  //change rfid heckpoint info
+  static const updateRfidCheckpointInfo =
+      "$hostConnect/admin/updateRfidCheckpointInfo.php";
+  //add rfid checkpoint
+  static const addRfidCheckpoint = "$hostConnect/admin/addRfidCheckpoint.php";
+  //get path list
+  static const getPathList = "$hostConnect/admin/getPathList.php";
+  //delete path heckpoint
+  static const deletePath = "$hostConnect/admin/deletePath.php";
+  //change path info
+  static const updatePathInfo = "$hostConnect/admin/updatePathInfo.php";
+  //add path
+  static const addPath = "$hostConnect/admin/addPath.php";
+  //get about us
+  static const getAboutUs = "$hostConnect/admin/getAboutUs.php";
+  //update about us
+  static const updateAboutUsInfo = "$hostConnect/admin/updateAboutUsInfo.php";
+  //get rfid band list
+  static const getRfidBandList = "$hostConnect/admin/getRfidBandList.php";
+  //delete rfid band heckpoint
+  static const deleteRfidBand = "$hostConnect/admin/deleteRfidBand.php";
+  //change rfid band info
+  static const updateRfidBandInfo = "$hostConnect/admin/updateRfidBandInfo.php";
+  //add rfid band
+  static const addRfidBand = "$hostConnect/admin/addRfidBand.php";
 }
