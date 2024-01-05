@@ -73,7 +73,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         Expanded(
                           child: Text(
                             "${_feedbackController.feedback[index].feedbackID}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
                         Expanded(

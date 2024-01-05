@@ -2,7 +2,7 @@
 //port 51036 for web
 class Api {
   // Use localhost:3000 for iOS and 10.0.2.2:3000 for Android
-  static const hostConnect = "http://192.168.0.208:8080/api_healthApp";
+  static const hostConnect = "http://localhost/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
   //http://192.168.0.208:8080/
 

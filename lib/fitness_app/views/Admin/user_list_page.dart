@@ -72,8 +72,8 @@ class _UserListPageState extends State<UserListPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${_userListController.userList[index].userType}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            _userListController.userList[index].userType,
+                            style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
                         Expanded(

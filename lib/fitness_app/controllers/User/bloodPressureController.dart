@@ -18,7 +18,7 @@ class bloodPressureController extends GetxController {
       updateDiastolicController;
   //Map<String, TextEditingController> bmiEditingControllers = {};
 
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   List<BloodPressureModel> allBloodPressures = <BloodPressureModel>[].obs;
 
   @override
@@ -155,14 +155,14 @@ class bloodPressureController extends GetxController {
     var resultResponse = await Get.dialog(
       AlertDialog(
         backgroundColor: Colors.grey,
-        title: Text(
+        title: const Text(
           "Delete Blood Pressure",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Text(
+        content: const Text(
           "Are you sure?\nThis cannot be undone.",
         ),
         actions: [

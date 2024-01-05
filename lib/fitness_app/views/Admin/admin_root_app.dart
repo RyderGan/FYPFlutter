@@ -1,5 +1,6 @@
 import 'package:fitnessapp/fitness_app/controllers/Admin/adminHomeController.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/about_us_admin_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/app_info_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/checkpoint_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/feedback_page.dart';
@@ -62,8 +63,8 @@ class _AdminRootAppState extends State<AdminRootApp> {
           container = const RewardsListPage();
           appBarTitle = const Text("Rewards");
         } else if (currentPage == DrawerSections.about_us) {
-          container = const AppInfoFragmentScreen();
-          appBarTitle = const Text("App Info");
+          container = const AboutUsAdminPage();
+          appBarTitle = const Text("About Us");
         }
         return Scaffold(
           appBar: AppBar(
@@ -76,7 +77,7 @@ class _AdminRootAppState extends State<AdminRootApp> {
             child: SingleChildScrollView(
               child: Container(
                 child: Column(children: [
-                  HeaderDrawer(),
+                  const HeaderDrawer(),
                   DrawerList(),
                   signOutButton(),
                 ]),

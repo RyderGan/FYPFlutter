@@ -14,10 +14,6 @@ class editUserInfoController extends GetxController {
       dobController;
   RxString gender = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {

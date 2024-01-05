@@ -8,10 +8,8 @@ import 'package:fitnessapp/fitness_app/models/User/stepCountModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/visceralFatModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:pedometer/pedometer.dart';
 
@@ -29,17 +27,17 @@ class homeController extends GetxController {
   RxInt diastolicPressure = 0.obs;
   RxInt visceralFat = 0.obs;
   late Stream<StepCount> _stepCountStream;
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   //rankingsController _rankingController = Get.put(rankingsController());
   Timer? timer;
-  DateTime savedTimestamp = new DateTime.now();
+  DateTime savedTimestamp = DateTime.now();
 
   @override
   void onInit() {
     super.onInit();
     initStepCount();
     getUserLastStepCount();
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       getUserStepCount();
     });
     getUserBmi();
@@ -48,7 +46,7 @@ class homeController extends GetxController {
 
     //update step count every x seconds
     timer = Timer.periodic(
-        Duration(seconds: 10), (Timer t) => updateUserStepCount(stepCount));
+        const Duration(seconds: 10), (Timer t) => updateUserStepCount(stepCount));
   }
 
   @override
@@ -59,7 +57,7 @@ class homeController extends GetxController {
 
   /// Handle step count changed
   Future<void> initStepCount() async {
-    _stepCountStream = await Pedometer.stepCountStream;
+    _stepCountStream = Pedometer.stepCountStream;
     _stepCountStream.listen(onStepCount).onError(onStepCountError);
   }
 

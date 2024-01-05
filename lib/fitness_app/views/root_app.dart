@@ -21,8 +21,8 @@ class RootApp extends StatefulWidget {
 
 class _RootAppState extends State<RootApp> {
   int pageIndex = 0;
-  Widget appBarTitle = Text("Home");
-  Icon settingIcon = new Icon(Icons.settings);
+  Widget appBarTitle = const Text("Home");
+  Icon settingIcon = const Icon(Icons.settings);
   var currentPage = DrawerSections.home;
 
   @override
@@ -37,25 +37,25 @@ class _RootAppState extends State<RootApp> {
       init: homeController(),
       initState: (currentState) {},
       builder: (controller) {
-        var container;
+        late Widget container;
         if (currentPage == DrawerSections.home) {
-          container = HomeFragmentScreen();
-          appBarTitle = Text("Home");
+          container = const HomeFragmentScreen();
+          appBarTitle = const Text("Home");
         } else if (currentPage == DrawerSections.notifications) {
-          container = NotificationFragmentScreen();
-          appBarTitle = Text("Notifications");
+          container = const NotificationFragmentScreen();
+          appBarTitle = const Text("Notifications");
         } else if (currentPage == DrawerSections.rankings) {
-          container = RankingsFragmentScreen();
-          appBarTitle = Text("Rankings");
+          container = const RankingsFragmentScreen();
+          appBarTitle = const Text("Rankings");
         } else if (currentPage == DrawerSections.scan_qr) {
-          container = ScanQRFragmentScreen();
-          appBarTitle = Text("Scan QR code");
+          container = const ScanQRFragmentScreen();
+          appBarTitle = const Text("Scan QR code");
         } else if (currentPage == DrawerSections.rewards) {
-          container = RewardsFragmentScreen();
-          appBarTitle = Text("Rewards");
+          container = const RewardsFragmentScreen();
+          appBarTitle = const Text("Rewards");
         } else if (currentPage == DrawerSections.settings) {
-          container = SettingsFragmentScreen();
-          appBarTitle = Text("Settings");
+          container = const SettingsFragmentScreen();
+          appBarTitle = const Text("Settings");
         }
         return Scaffold(
           appBar: AppBar(
@@ -68,7 +68,7 @@ class _RootAppState extends State<RootApp> {
             child: SingleChildScrollView(
               child: Container(
                 child: Column(children: [
-                  HeaderDrawer(),
+                  const HeaderDrawer(),
                   DrawerList(),
                   signOutButton(),
                 ]),
@@ -82,7 +82,7 @@ class _RootAppState extends State<RootApp> {
 
   Widget DrawerList() {
     return Container(
-      padding: EdgeInsets.only(top: 15),
+      padding: const EdgeInsets.only(top: 15),
       child: Column(
         children: [
           menuItem(1, "Home", Icons.home,
@@ -125,7 +125,7 @@ class _RootAppState extends State<RootApp> {
           });
         },
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Row(
             children: [
               Expanded(
@@ -139,7 +139,7 @@ class _RootAppState extends State<RootApp> {
                 flex: 3,
                 child: Text(
                   title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                   ),
@@ -155,15 +155,15 @@ class _RootAppState extends State<RootApp> {
   Widget signOutButton() {
     return Container(
       child: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           children: [
             MaterialButton(
               minWidth: double.infinity,
               height: 35,
-              color: Color(0xFFFF5963),
-              child: new Text('Sign Out',
-                  style: new TextStyle(fontSize: 16, color: Colors.white)),
+              color: const Color(0xFFFF5963),
+              child: const Text('Sign Out',
+                  style: TextStyle(fontSize: 16, color: Colors.white)),
               onPressed: () {
                 signOutUser();
               },
@@ -178,14 +178,14 @@ class _RootAppState extends State<RootApp> {
     var resultResponse = await Get.dialog(
       AlertDialog(
         backgroundColor: Colors.grey,
-        title: Text(
+        title: const Text(
           "Logout",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Text(
+        content: const Text(
           "Are you sure?\nThis will log you out from app.",
         ),
         actions: [

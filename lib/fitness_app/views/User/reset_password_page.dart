@@ -31,7 +31,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Reset Password"),
@@ -53,7 +53,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               resetPasswordForm(),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
             ]),
@@ -70,15 +70,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       child: Column(
         children: [
           emailField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           passwordField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           confirmPasswordField(),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           InkWell(
@@ -106,13 +106,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               LineIcons.envelope,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Email", border: InputBorder.none),
                 keyboardType: TextInputType.emailAddress,
                 controller: _resetPasswordController.emailController,
@@ -141,7 +141,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
@@ -183,7 +183,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
@@ -216,9 +216,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

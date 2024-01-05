@@ -69,8 +69,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: Column(
                   children: [
                     Container(
-                        padding: EdgeInsets.only(bottom: 20),
-                        child: Column(
+                        padding: const EdgeInsets.only(bottom: 20),
+                        child: const Column(
                           children: [
                             Text(
                               "Welcome to UM Health Tracker",
@@ -90,27 +90,27 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: Column(
                         children: [
                           nameField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           emailField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           passwordField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           userTypeField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           genderField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           dobField(),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           InkWell(
@@ -158,13 +158,13 @@ class _RegisterPageState extends State<RegisterPage> {
               Icons.abc,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Username", border: InputBorder.none),
                 keyboardType: TextInputType.name,
                 controller: _registerController.nameController,
@@ -199,13 +199,13 @@ class _RegisterPageState extends State<RegisterPage> {
               LineIcons.envelope,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     hintText: "Email", border: InputBorder.none),
                 keyboardType: TextInputType.emailAddress,
                 controller: _registerController.emailController,
@@ -237,7 +237,7 @@ class _RegisterPageState extends State<RegisterPage> {
               LineIcons.lock,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
@@ -276,7 +276,7 @@ class _RegisterPageState extends State<RegisterPage> {
         border: Border.all(color: black.withOpacity(0.1)),
       ),
       child: DropdownButtonFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           prefixIcon: Icon(Icons.person),
         ),
@@ -313,7 +313,7 @@ class _RegisterPageState extends State<RegisterPage> {
         border: Border.all(color: black.withOpacity(0.1)),
       ),
       child: DropdownButtonFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: InputBorder.none,
           prefixIcon: Icon(Icons.wc),
         ),
@@ -357,14 +357,14 @@ class _RegisterPageState extends State<RegisterPage> {
               Icons.calendar_today,
               color: black.withOpacity(0.5),
             ),
-            SizedBox(
+            const SizedBox(
               width: 15,
             ),
             Flexible(
               child: TextFormField(
                 controller: _registerController.dobController,
                 //editing controller of this TextField
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Enter Date Of Birth", //label text of field
                 ),
                 readOnly: true,
@@ -412,9 +412,9 @@ class _RegisterPageState extends State<RegisterPage> {
       height: 50,
       width: double.infinity,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
@@ -439,9 +439,9 @@ class _RegisterPageState extends State<RegisterPage> {
       height: 50,
       width: 200,
       decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [fourthColor, thirdColor]),
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(

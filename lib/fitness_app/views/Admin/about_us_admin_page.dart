@@ -48,13 +48,6 @@ class _AboutUsAdminPageState extends State<AboutUsAdminPage> {
         builder: (context, constraints) {
           return ResponsivePadding(
             child: Scaffold(
-              appBar: AppBar(
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Get.back(),
-                ),
-                title: Text(aboutUs.title),
-              ),
               backgroundColor: white,
               body: SafeArea(child: getBody()),
             ),

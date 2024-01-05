@@ -89,7 +89,7 @@ class _PathListPageState extends State<PathListPage> {
                         Expanded(
                           child: Text(
                             "${_pathListController.pathList[index].path_id}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
                         Expanded(

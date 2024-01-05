@@ -14,10 +14,6 @@ class editRewardInfoController extends GetxController {
       pointController;
   RxString gender = ''.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {

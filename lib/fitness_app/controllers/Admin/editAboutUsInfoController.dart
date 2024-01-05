@@ -19,10 +19,6 @@ class EditAboutUsInfoController extends GetxController {
       facebookLinkController,
       instagramLinkController;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {

@@ -155,7 +155,7 @@ class HomePage extends StatelessWidget {
                       const SizedBox(
                         height: 70,
                       ),
-                      FadeAnimation(
+                      const FadeAnimation(
                           1.5,
                           Text(
                             "Forgot Password?",

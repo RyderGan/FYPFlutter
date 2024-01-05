@@ -14,7 +14,6 @@ import 'package:fitnessapp/fitness_app/views/User/step_count_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/student_ranking_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/visceral_fat_page.dart';
 import 'package:fitnessapp/fitness_app/views/root_app.dart';
-import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/user_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/admin_login_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/admin_loading_page.dart';

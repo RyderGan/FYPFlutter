@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class rewardsController extends GetxController {
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   List<RewardModel> allRewards = <RewardModel>[].obs;
   RxInt currentUserPoints = 0.obs;
 
@@ -53,14 +53,14 @@ class rewardsController extends GetxController {
     var resultResponse = await Get.dialog(
       AlertDialog(
         backgroundColor: Colors.grey,
-        title: Text(
+        title: const Text(
           "Claim Reward",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Text(
+        content: const Text(
           "Are you sure?\nThis cannot be undone.",
         ),
         actions: [

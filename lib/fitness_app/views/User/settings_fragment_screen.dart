@@ -35,23 +35,23 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
               child: Column(
                 children: [
                   userSettingsTitle(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   changeUserInfoButton(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   changeUserEmailPasswordButton(),
-                  SizedBox(
+                  const SizedBox(
                     height: 45,
                   ),
                   aboutUsButton(),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   sendFeedbackButton(),
-                  SizedBox(
+                  const SizedBox(
                     height: 75,
                   ),
                   appInfo(),
@@ -64,7 +64,7 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
 
   Container userSettingsTitle() {
     return Container(
-      child: Text(
+      child: const Text(
         "User Settings",
         style: TextStyle(
           fontSize: 24,
@@ -80,8 +80,8 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: primary,
-      child: new Text('Change User info',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('Change User info',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.change_userInfo);
       },
@@ -93,8 +93,8 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: primary,
-      child: new Text('Change Email & Password',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('Change Email & Password',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.change_userLogin);
       },
@@ -106,8 +106,8 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: secondary,
-      child: new Text('About Us',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('About Us',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.about_us);
       },
@@ -119,8 +119,8 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: fourthColor,
-      child: new Text('Send Us Feedback',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('Send Us Feedback',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.send_feedback);
       },
@@ -137,7 +137,7 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
           width: 100,
           fit: BoxFit.contain,
         ),
-        Text("v 0.1"),
+        const Text("v 0.1"),
       ],
     ));
   }

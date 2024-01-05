@@ -13,10 +13,6 @@ class EditCheckpointInfoController extends GetxController {
       descriptionController,
       locationController;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {

@@ -18,7 +18,7 @@ class bmiController extends GetxController {
       updateHeightController;
   //Map<String, TextEditingController> bmiEditingControllers = {};
 
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   List<BmiModel> allBmis = <BmiModel>[].obs;
 
   @override
@@ -156,14 +156,14 @@ class bmiController extends GetxController {
     var resultResponse = await Get.dialog(
       AlertDialog(
         backgroundColor: Colors.grey,
-        title: Text(
+        title: const Text(
           "Delete BMI",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        content: Text(
+        content: const Text(
           "Are you sure?\nThis cannot be undone.",
         ),
         actions: [

@@ -89,7 +89,7 @@ class _CheckpointListPageState extends State<CheckpointListPage> {
                         Expanded(
                           child: Text(
                             "${_checkpointListController.checkpointList[index].rfid_checkpoint_id}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
                         Expanded(
