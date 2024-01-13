@@ -39,13 +39,11 @@ class _StepCountPageState extends State<StepCountPage> {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: constraints.maxHeight,
-          //minWidth: double.infinity,
-        ),
+            //minWidth: double.infinity,
+            ),
         child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   displayUserLatestStepCount(),
@@ -129,12 +127,13 @@ class _StepCountPageState extends State<StepCountPage> {
                 child: ListTile(
                   title: Text(
                     _stepCountController.allStepCounts[index].stepCount
-                        .toString(),
-                    style: TextStylePreset.bigText,
+                            .toString() +
+                        " steps",
+                    style: TextStylePreset.bigWhiteText,
                   ),
                   subtitle: Text(
                     _stepCountController.allStepCounts[index].createdAt,
-                    style: TextStylePreset.normalText,
+                    style: TextStylePreset.normalWhiteText,
                   ),
                 ),
               ),

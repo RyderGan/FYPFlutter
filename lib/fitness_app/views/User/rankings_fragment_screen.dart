@@ -36,9 +36,12 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
           child: SingleChildScrollView(
               child: Container(
                   padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
+                      refreshButton(),
+                      SizedBox(
+                        height: 15,
+                      ),
                       displayTopThreeStaffs(),
                       SizedBox(
                         height: 15,
@@ -47,6 +50,19 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                     ],
                   ))));
     });
+  }
+
+  MaterialButton refreshButton() {
+    return MaterialButton(
+      minWidth: double.infinity,
+      height: 50,
+      color: secondary,
+      child: new Text('Refresh',
+          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      onPressed: () {
+        _rankingsController.refreshList();
+      },
+    );
   }
 
   Container displayTopThreeStaffs() {

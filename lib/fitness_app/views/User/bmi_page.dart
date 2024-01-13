@@ -47,7 +47,6 @@ class _BmiPageState extends State<BmiPage> {
         child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   Text(
@@ -230,13 +229,14 @@ class _BmiPageState extends State<BmiPage> {
                 child: ListTile(
                   title: Text(
                     calculateBmi(
-                        _bmiController.allBmis[index].weight.toString(),
-                        _bmiController.allBmis[index].height.toString()),
-                    style: TextStylePreset.bigText,
+                            _bmiController.allBmis[index].weight.toString(),
+                            _bmiController.allBmis[index].height.toString()) +
+                        " kg/m\u{00B2}",
+                    style: TextStylePreset.bigWhiteText,
                   ),
                   subtitle: Text(
                     _bmiController.allBmis[index].createdAt,
-                    style: TextStylePreset.normalText,
+                    style: TextStylePreset.normalWhiteText,
                   ),
                   trailing: Container(
                     width: 90,

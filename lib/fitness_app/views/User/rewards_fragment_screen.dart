@@ -37,9 +37,12 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
           child: SingleChildScrollView(
               child: Container(
             padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
+                refreshButton(),
+                SizedBox(
+                  height: 15,
+                ),
                 displayUserPoint(),
                 SizedBox(
                   height: 30,
@@ -56,6 +59,19 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
             ),
           )));
     });
+  }
+
+  MaterialButton refreshButton() {
+    return MaterialButton(
+      minWidth: double.infinity,
+      height: 50,
+      color: secondary,
+      child: new Text('Refresh',
+          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      onPressed: () {
+        _rewardController.refreshList();
+      },
+    );
   }
 
   Container displayUserPoint() {

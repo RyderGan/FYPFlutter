@@ -37,8 +37,8 @@ class homeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initStepCount();
     getUserLastStepCount();
+    initStepCount();
     Timer(Duration(seconds: 2), () {
       getUserStepCount();
     });
@@ -54,7 +54,22 @@ class homeController extends GetxController {
   @override
   void onClose() {
     timer?.cancel();
-    super.dispose();
+    userID.close();
+    finalStepCount.close();
+    bmi.close();
+    systolicPressure.close();
+    diastolicPressure.close();
+    visceralFat.close();
+    stepCount = 0;
+    lastStepCounts = 0;
+    actualStepCount = 0;
+    //super.dispose();
+  }
+
+  void refreshList() {
+    getUserBmi();
+    getUserBloodPressure();
+    getUserVisceralFat();
   }
 
   /// Handle step count changed
@@ -65,12 +80,18 @@ class homeController extends GetxController {
 
   void onStepCount(StepCount event) {
     stepCount = event.steps;
-    if (stepCount == 0 || stepCount < lastStepCounts) {
-      finalStepCount.value = stepCount;
+    //fix step count when phone rebooted, counter reset
+    if (lastStepCounts != 0) {
+      if (stepCount == 0 || stepCount < lastStepCounts) {
+        finalStepCount.value = stepCount;
+      } else {
+        finalStepCount.value = stepCount - lastStepCounts;
+      }
+      actualStepCount = finalStepCount.value;
     } else {
-      finalStepCount.value = stepCount - lastStepCounts;
+      //if user don't have previous record
+      lastStepCounts = stepCount;
     }
-    actualStepCount = finalStepCount.value;
   }
 
   void onStepCountError(error) {
@@ -121,7 +142,7 @@ class homeController extends GetxController {
         var resBody = jsonDecode(res.body);
         if (resBody['success']) {
           getUserStepCount();
-          Fluttertoast.showToast(msg: "Step counts updated");
+          //Fluttertoast.showToast(msg: "Step counts updated");
         } else {
           Fluttertoast.showToast(msg: resBody.toString());
         }
