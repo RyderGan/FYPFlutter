@@ -1,8 +1,13 @@
+import 'dart:convert';
+import 'package:fitnessapp/fitness_app/models/Admin/aboutUsModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:http/http.dart' as http;
 
 class SettingsFragmentScreen extends StatefulWidget {
   const SettingsFragmentScreen({Key? key}) : super(key: key);
@@ -12,6 +17,34 @@ class SettingsFragmentScreen extends StatefulWidget {
 }
 
 class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
+  AboutUsModel aboutUs =
+      AboutUsModel(0, "", "", "", "", "", "", "", "", "", 0, 0);
+
+  Future<AboutUsModel> getAboutUs() async {
+    AboutUsModel newAboutUs =
+        AboutUsModel(0, "", "", "", "", "", "", "", "", "", 0, 0);
+    try {
+      var res = await http.post(Uri.parse(Api.getAboutUs));
+      var resBodyOfLogin = jsonDecode(res.body);
+      if (resBodyOfLogin['success']) {
+        List<AboutUsModel> aboutUsInfo = await resBodyOfLogin["aboutUs"]
+            .map<AboutUsModel>((json) => AboutUsModel.fromJson(json))
+            .toList();
+        newAboutUs = aboutUsInfo[0];
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return newAboutUs;
+  }
+
+  @override
+  void initState() {
+    getAboutUs().then((value) => aboutUs = value);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsivePadding(
@@ -108,7 +141,7 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
       child: const Text('About Us',
           style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
-        Get.toNamed(Routes.about_us);
+        Get.toNamed(Routes.about_us_user, arguments: aboutUs);
       },
     );
   }

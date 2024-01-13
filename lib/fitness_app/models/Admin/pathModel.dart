@@ -5,7 +5,7 @@
 class PathModel {
   int id;
   String name;
-  String checkpoint_list;
+  List<int> checkpoint_list;
   int distance;
   int elevation;
   int difficulty;
@@ -18,7 +18,11 @@ class PathModel {
   factory PathModel.fromJson(Map<String, dynamic> json) => PathModel(
         int.parse(json["path_id"]),
         json["path_name"],
-        json["path_checkpoint_list"],
+        json["path_checkpoint_list"]
+            .split(",")
+            .map(int.parse)
+            .toList()
+            .cast<int>(),
         int.parse(json["path_distance"]),
         int.parse(json["path_elevation"]),
         int.parse(json["path_difficulty"]),
@@ -29,7 +33,8 @@ class PathModel {
   Map<String, dynamic> toJson() => {
         "path_id": id.toString(),
         "path_name": name,
-        "path_checkpoint_list": checkpoint_list,
+        "path_checkpoint_list":
+            checkpoint_list.toString().replaceAll("[", "").replaceAll("]", ""),
         "path_distance": distance.toString(),
         "path_elevation": elevation.toString(),
         "path_difficulty": difficulty.toString(),

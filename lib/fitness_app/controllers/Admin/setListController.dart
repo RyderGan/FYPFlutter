@@ -16,6 +16,11 @@ class setListController extends GetxController {
     getSetList();
   }
 
+  void refreshList() {
+    setList.clear();
+    getSetList();
+  }
+
   @override
   void onClose() {
     setList.clear();
@@ -24,7 +29,7 @@ class setListController extends GetxController {
 
   Future<List<PathModel>> getCurrentPaths(SetModel set) async {
     List<PathModel> currentPathList = <PathModel>[].obs;
-    List<int> pathsinset = json.decode(set.path_list).cast<int>();
+    List<int> pathsinset = set.path_list;
     for (int pathID in pathsinset) {
       try {
         var res = await http.get(

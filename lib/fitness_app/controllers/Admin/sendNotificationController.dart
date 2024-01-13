@@ -70,9 +70,10 @@ class sendNotificationController extends GetxController {
           Uri.parse(Api.addNotification),
           body: {
             'userID': userIDValue,
-            'message': messageController.text.trim(),
+            'msg': messageController.text.trim(),
           },
         );
+        print(res.statusCode);
         if (res.statusCode == 200) {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {

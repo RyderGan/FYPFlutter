@@ -22,7 +22,18 @@ class _RfidBandListPageState extends State<RfidBandListPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _rfidBandListController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }

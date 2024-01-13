@@ -16,6 +16,11 @@ class rfidBandListController extends GetxController {
     getRfidBandList();
   }
 
+  void refreshList() {
+    rfidBandList.clear();
+    getRfidBandList();
+  }
+
   @override
   void onClose() {
     rfidBandList.clear();

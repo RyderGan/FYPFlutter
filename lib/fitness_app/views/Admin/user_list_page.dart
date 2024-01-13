@@ -22,7 +22,18 @@ class _UserListPageState extends State<UserListPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _userListController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -39,6 +50,13 @@ class _UserListPageState extends State<UserListPage> {
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
+                      const Text(
+                        "Current Users:",
+                        style: TextStylePreset.bigTitle,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       dataTable(),
                     ],
                   ))));

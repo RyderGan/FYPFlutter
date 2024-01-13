@@ -10,6 +10,8 @@ class Api {
   static const signUp = "$hostConnect/user/signup.php";
   //login
   static const login = "$hostConnect/user/login.php";
+  //admin login
+  static const adminLogin = "$hostConnect/user/login.php";
   //validate reset password
   static const validateResetPassword =
       "$hostConnect/user/validateResetPassword.php";
@@ -169,13 +171,15 @@ class Api {
   //add rfid band
   static const addRfidBand = "$hostConnect/admin/addRfidBand.php";
   //get claim rewards list
+  static const addClaimReward = "$hostConnect/user/addClaimReward.php";
+  //get claim rewards list
   static const getClaimRewardList = "$hostConnect/admin/getClaimRewardList.php";
   //delete claim reward
   static const deleteClaimReward = "$hostConnect/admin/deleteClaimReward.php";
   //admin claim reward
   static const adminClaimReward = "$hostConnect/admin/adminClaimReward.php";
   //send notification
-  static const addNotification = "$hostConnect/admin/addNotification.php";
+  static const addNotification = "$hostConnect/user/addNotification.php";
   //get all notifications
   static const getAllUserNotifications =
       "$hostConnect/user/getUserAllNotifications.php";

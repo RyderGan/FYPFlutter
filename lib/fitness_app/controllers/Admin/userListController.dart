@@ -14,6 +14,11 @@ class userListController extends GetxController {
     getUserList();
   }
 
+  void refreshList() {
+    userList.clear();
+    getUserList();
+  }
+
   @override
   void onClose() {
     userList.clear();

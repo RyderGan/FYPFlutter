@@ -33,6 +33,21 @@ class AdminHomeController extends GetxController {
     getRewardCount();
   }
 
+  void refreshList() {
+    userCount = 0.obs;
+    rfidBandCount = 0.obs;
+    feedbackCount = 0.obs;
+    checkpointCount = 0.obs;
+    pathCount = 0.obs;
+    rewardCount = 0.obs;
+    getUserCount();
+    getRfidBandCount();
+    getFeedbackCount();
+    getCheckpointCount();
+    getPathCount();
+    getRewardCount();
+  }
+
   @override
   void onClose() {
     timer?.cancel();

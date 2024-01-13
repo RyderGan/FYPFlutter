@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fitnessapp/fitness_app/models/Admin/aboutUsModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';

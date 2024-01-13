@@ -29,7 +29,8 @@ class editSetPathsController extends GetxController {
       var res = await http.post(
         Uri.parse(Api.updateSetPaths),
         body: {
-          'path_list': path_list.toString(),
+          'path_list':
+              path_list.toString().replaceAll("[", "").replaceAll("]", ""),
           'setID': set.id.toString(),
         },
       );

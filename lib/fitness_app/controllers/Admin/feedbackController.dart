@@ -14,6 +14,11 @@ class feedbackController extends GetxController {
     getfeedback();
   }
 
+  void refreshList() {
+    feedback.clear();
+    getfeedback();
+  }
+
   @override
   void onClose() {
     feedback.clear();

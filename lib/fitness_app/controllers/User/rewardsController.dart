@@ -96,7 +96,7 @@ class rewardsController extends GetxController {
 
     if (resultResponse == 'claimed') {
       if (checkUserPointIsSufficient(rewardPoints)) {
-        //claim rewards
+        //Claim Reward
         try {
           var res = await http.post(
             Uri.parse(Api.claimReward),
@@ -111,8 +111,30 @@ class rewardsController extends GetxController {
             var resBody = jsonDecode(res.body);
             if (resBody['success']) {
               //update user points
-              getCurrentUserPoints();
-              Fluttertoast.showToast(msg: "Reward claimed successfully");
+              //Add to Claim Reward
+              try {
+                var res = await http.post(
+                  Uri.parse(Api.addClaimReward),
+                  body: {
+                    'userID': _currentUser.user.id.toString(),
+                    'rewardID': rewardID.toString(),
+                  },
+                );
+
+                if (res.statusCode == 200) {
+                  var resBody = jsonDecode(res.body);
+                  if (resBody['success']) {
+                    //update user points
+                    getCurrentUserPoints();
+                    Fluttertoast.showToast(msg: "Reward claimed successfully");
+                  } else {
+                    Fluttertoast.showToast(msg: resBody.toString());
+                  }
+                }
+              } catch (e) {
+                print(e.toString());
+                Fluttertoast.showToast(msg: e.toString());
+              }
             } else {
               Fluttertoast.showToast(msg: resBody.toString());
             }

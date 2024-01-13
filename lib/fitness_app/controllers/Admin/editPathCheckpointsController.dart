@@ -29,7 +29,10 @@ class editPathCheckpointsController extends GetxController {
       var res = await http.post(
         Uri.parse(Api.updatePathCheckpoints),
         body: {
-          'checkpoint_list': checkpoint_list.toString(),
+          'checkpoint_list': checkpoint_list
+              .toString()
+              .replaceAll("[", "")
+              .replaceAll("]", ""),
           'pathID': path.id.toString(),
         },
       );

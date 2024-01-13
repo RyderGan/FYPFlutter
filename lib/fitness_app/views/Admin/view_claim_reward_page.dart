@@ -55,14 +55,14 @@ class _ViewClaimRewardPageState extends State<ViewClaimRewardPage> {
               const SizedBox(
                 height: 45,
               ),
-              if (arguments[0].status == "unclaimed")
+              if (arguments[0].status == "new")
                 InkWell(
                   onTap: () {
                     _viewClaimRewardController.claimReward();
                   },
                   child: claimRewardButton(),
                 ),
-              if (arguments[0].status == "unclaimed")
+              if (arguments[0].status == "new")
                 const SizedBox(
                   height: 15,
                 ),
@@ -136,7 +136,7 @@ class _ViewClaimRewardPageState extends State<ViewClaimRewardPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.delete,
+            Icons.redeem,
             color: white,
           ),
           SizedBox(

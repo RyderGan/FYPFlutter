@@ -27,7 +27,18 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _claimRewardController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -51,7 +62,7 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
                       const SizedBox(
                         height: 15,
                       ),
-                      unclaimedTable(),
+                      newTable(),
                       const SizedBox(
                         height: 15,
                       ),
@@ -68,11 +79,11 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
     });
   }
 
-  Widget unclaimedTable() {
+  Widget newTable() {
     return Obx(() => ListView.builder(
           shrinkWrap: true,
           primary: false,
-          itemCount: _claimRewardController.unclaimedRewardList.length,
+          itemCount: _claimRewardController.newRewardList.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             return Card(
@@ -82,15 +93,15 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
                 child: ListTile(
                   title: Text(
                     _claimRewardController
-                        .getUserDetails(_claimRewardController
-                            .unclaimedRewardList[index].user_id)
+                        .getUserDetails(
+                            _claimRewardController.newRewardList[index].user_id)
                         .fullName,
                     style: TextStylePreset.bigText,
                   ),
                   subtitle: Text(
                     _claimRewardController
                         .getRewardDetails(_claimRewardController
-                            .unclaimedRewardList[index].reward_id)
+                            .newRewardList[index].reward_id)
                         .title,
                     style: TextStylePreset.normalText,
                   ),
@@ -101,7 +112,7 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${_claimRewardController.unclaimedRewardList[index].status}",
+                            "${_claimRewardController.newRewardList[index].status}",
                             style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
@@ -109,14 +120,13 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
                           child: InkWell(
                             onTap: () {
                               Get.toNamed(Routes.view_claim_reward, arguments: [
-                                _claimRewardController
-                                    .unclaimedRewardList[index],
+                                _claimRewardController.newRewardList[index],
                                 _claimRewardController.getUserDetails(
                                     _claimRewardController
-                                        .unclaimedRewardList[index].user_id),
+                                        .newRewardList[index].user_id),
                                 _claimRewardController.getRewardDetails(
                                     _claimRewardController
-                                        .unclaimedRewardList[index].reward_id)
+                                        .newRewardList[index].reward_id)
                               ]);
                             },
                             child: viewButton(),

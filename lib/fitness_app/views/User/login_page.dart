@@ -46,8 +46,8 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget getBody() {
     TextStyle defaultStyle = const TextStyle(color: Colors.black);
-    TextStyle linkStyle =
-        const TextStyle(color: Colors.blue, decoration: TextDecoration.underline);
+    TextStyle linkStyle = const TextStyle(
+        color: Colors.blue, decoration: TextDecoration.underline);
     return LayoutBuilder(
       builder: (context, constraints) {
         return ConstrainedBox(
@@ -194,13 +194,29 @@ class _LoginPageState extends State<LoginPage> {
                             text: TextSpan(
                               style: defaultStyle,
                               children: <TextSpan>[
-                                const TextSpan(text: "Don't have account yet? "),
+                                const TextSpan(
+                                    text: "Don't have account yet? "),
                                 TextSpan(
                                     text: 'Register now',
                                     style: linkStyle,
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
                                         Get.toNamed(Routes.register);
+                                      }),
+                              ],
+                            ),
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: defaultStyle,
+                              children: <TextSpan>[
+                                const TextSpan(text: "Others: "),
+                                TextSpan(
+                                    text: 'Admin Only',
+                                    style: linkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.toNamed(Routes.admin_login);
                                       }),
                               ],
                             ),

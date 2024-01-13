@@ -27,7 +27,18 @@ class _SetListPageState extends State<SetListPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _setListController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -44,6 +55,9 @@ class _SetListPageState extends State<SetListPage> {
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
+                      const SizedBox(
+                        height: 15,
+                      ),
                       InkWell(
                         onTap: () {
                           Get.toNamed(Routes.add_set_info);
