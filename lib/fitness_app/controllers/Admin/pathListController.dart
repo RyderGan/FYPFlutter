@@ -16,6 +16,11 @@ class pathListController extends GetxController {
     getPathList();
   }
 
+  void refreshList() {
+    pathList.clear();
+    getPathList();
+  }
+
   @override
   void onClose() {
     pathList.clear();
@@ -24,7 +29,7 @@ class pathListController extends GetxController {
 
   Future<List<CheckpointModel>> getCurrentCheckpoints(PathModel path) async {
     List<CheckpointModel> currentCheckpointList = <CheckpointModel>[].obs;
-    List<int> checkpointsinpath = json.decode(path.checkpoint_list).cast<int>();
+    List<int> checkpointsinpath = path.checkpoint_list;
     for (int checkpointID in checkpointsinpath) {
       try {
         var res = await http.get(

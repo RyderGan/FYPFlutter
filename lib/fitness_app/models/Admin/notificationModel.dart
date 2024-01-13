@@ -5,14 +5,14 @@
 class NotificationModel {
   int id;
   int user_id;
-  String message;
+  String msg;
   int hasRead;
   String createdAt;
 
   NotificationModel(
     this.id,
     this.user_id,
-    this.message,
+    this.msg,
     this.hasRead,
     this.createdAt,
   );
@@ -21,7 +21,7 @@ class NotificationModel {
       NotificationModel(
         int.parse(json["notify_id"]),
         int.parse(json["user_id"]),
-        json["message"],
+        json["msg"],
         int.parse(json["hasRead"]),
         json["created_at"],
       );
@@ -29,7 +29,7 @@ class NotificationModel {
   Map<String, dynamic> toJson() => {
         "notify_id": id.toString(),
         "user_id": user_id.toString(),
-        "message": message,
+        "msg": msg,
         "hasRead": hasRead.toString(),
         "created_at": createdAt,
       };

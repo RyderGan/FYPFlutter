@@ -14,6 +14,11 @@ class checkpointListController extends GetxController {
     getCheckpointList();
   }
 
+  void refreshList() {
+    checkpointList.clear();
+    getCheckpointList();
+  }
+
   @override
   void onClose() {
     checkpointList.clear();

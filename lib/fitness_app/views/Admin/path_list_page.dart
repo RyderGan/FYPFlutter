@@ -27,7 +27,18 @@ class _PathListPageState extends State<PathListPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _pathListController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -22,7 +22,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
     return ResponsivePadding(
       child: Scaffold(
         backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _feedbackController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -39,6 +50,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
+                      const Text(
+                        "Current Feedbacks:",
+                        style: TextStylePreset.bigTitle,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
                       dataTable(),
                     ],
                   ))));

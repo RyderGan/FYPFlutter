@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 
 class claimRewardController extends GetxController {
   List<UserModel> userList = <UserModel>[].obs;
-  List<ClaimRewardModel> unclaimedRewardList = <ClaimRewardModel>[].obs;
+  List<ClaimRewardModel> newRewardList = <ClaimRewardModel>[].obs;
   List<ClaimRewardModel> claimedRewardList = <ClaimRewardModel>[].obs;
   List<RewardModel> rewardList = <RewardModel>[].obs;
   @override
@@ -20,9 +20,19 @@ class claimRewardController extends GetxController {
     getUserList();
   }
 
+  void refreshList() {
+    newRewardList.clear();
+    claimedRewardList.clear();
+    rewardList.clear();
+    userList.clear;
+    getClaimReward();
+    getAllRewards();
+    getUserList();
+  }
+
   @override
   void onClose() {
-    unclaimedRewardList.clear();
+    newRewardList.clear();
     claimedRewardList.clear();
     rewardList.clear();
     userList.clear;
@@ -64,15 +74,15 @@ class claimRewardController extends GetxController {
                       (json) => ClaimRewardModel.fromJson(json))
                   .toList();
           for (ClaimRewardModel claimReward in claimRewards) {
-            if (claimReward.status == "unclaimed") {
-              unclaimedRewardList.add(claimReward);
+            if (claimReward.status == "new") {
+              newRewardList.add(claimReward);
             } else if (claimReward.status == "claimed") {
               claimedRewardList.add(claimReward);
             }
           }
         } else {
           List<ClaimRewardModel> claimRewards = <ClaimRewardModel>[];
-          unclaimedRewardList.addAll(claimRewards);
+          newRewardList.addAll(claimRewards);
           claimedRewardList.addAll(claimRewards);
         }
       }

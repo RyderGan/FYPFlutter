@@ -1,8 +1,6 @@
 // To parse this JSON data, do
 //
 //     final userModel = userModelFromJson(jsonString);
-import 'dart:convert';
-import 'package:fitnessapp/fitness_app/models/User/pathModel.dart';
 
 class SetModel {
   int set_id;

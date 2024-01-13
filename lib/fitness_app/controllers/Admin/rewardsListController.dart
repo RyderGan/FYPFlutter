@@ -14,6 +14,11 @@ class rewardsListController extends GetxController {
     getPathList();
   }
 
+  void refreshList() {
+    rewardsList.clear();
+    getPathList();
+  }
+
   @override
   void onClose() {
     rewardsList.clear();

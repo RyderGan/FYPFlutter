@@ -5,7 +5,7 @@
 class SetModel {
   int id;
   String name;
-  String path_list;
+  List<int> path_list;
   int bonus_points;
 
   SetModel(
@@ -18,14 +18,15 @@ class SetModel {
   factory SetModel.fromJson(Map<String, dynamic> json) => SetModel(
         int.parse(json["set_id"]),
         json["set_name"],
-        json["set_path_list"],
+        json["set_path_list"].split(",").map(int.parse).toList().cast<int>(),
         int.parse(json["set_bonus_points"]),
       );
 
   Map<String, dynamic> toJson() => {
         "set_id": id.toString(),
         "set_name": name,
-        "set_path_list": path_list,
+        "set_path_list":
+            path_list.toString().replaceAll("[", "").replaceAll("]", ""),
         "set_bonus_points": bonus_points.toString(),
       };
 }
