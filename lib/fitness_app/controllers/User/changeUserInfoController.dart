@@ -22,18 +22,41 @@ class changeUserInfoController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getUserInfo();
     fullNameController = TextEditingController();
-    fullNameController.text = _currentUser.user.fullName;
-    gender.value = _currentUser.user.gender;
     dobController = TextEditingController();
-    dobController.text = _currentUser.user.dateOfBirth;
   }
 
   @override
   void onClose() {
-    fullNameController.dispose();
-    dobController.dispose();
     super.dispose();
+  }
+
+  void getUserInfo() async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getUserDetails),
+        body: {
+          'userID': _currentUser.user.id.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success']) {
+          Fluttertoast.showToast(msg: "Your user info updated.");
+          UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
+          fullNameController.text = userInfo.fullName;
+          gender.value = userInfo.gender;
+          dobController.text = userInfo.dateOfBirth;
+        } else {
+          Fluttertoast.showToast(msg: "Error occurred");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   Future<void> updateUserInfo() async {
@@ -61,7 +84,7 @@ class changeUserInfoController extends GetxController {
             //change user info to local storage using Shared Preferences
             await RememberUserPrefs.storeUserData(userInfo);
             //navigate to home page
-            Get.offAllNamed(Routes.root_app);
+            Get.back();
           } else {
             Fluttertoast.showToast(msg: "Error occurred");
           }

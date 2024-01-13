@@ -43,7 +43,6 @@ class _StaffRankingPageState extends State<StaffRankingPage> {
           child: SingleChildScrollView(
               child: Container(
                   padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
                       dataTable(),

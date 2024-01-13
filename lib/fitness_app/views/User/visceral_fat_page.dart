@@ -45,7 +45,6 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
         child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   const Text(
@@ -183,13 +182,14 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
                 padding: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
-                    _visceralFatController.allVisceralFats[index].rating
-                        .toString(),
-                    style: TextStylePreset.bigText,
+                    "Rating: " +
+                        _visceralFatController.allVisceralFats[index].rating
+                            .toString(),
+                    style: TextStylePreset.bigWhiteText,
                   ),
                   subtitle: Text(
                     _visceralFatController.allVisceralFats[index].createdAt,
-                    style: TextStylePreset.normalText,
+                    style: TextStylePreset.normalWhiteText,
                   ),
                   trailing: SizedBox(
                     width: 90,

@@ -67,7 +67,7 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
         children: [
           Text(
             _scanQRController.result != null
-                ? _scanQRController.result!
+                ? getQRCodeInfo(_scanQRController.result!)
                 : 'No result',
             style: TextStylePreset.bigText,
           ),
@@ -84,6 +84,13 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
         ],
       ),
     );
+  }
+
+  String getQRCodeInfo(String url) {
+    Uri uri = new Uri.dataFromString(url);
+    String? path = uri.queryParameters['p'];
+    String? checkpoint = uri.queryParameters['c'];
+    return "Path $path Checkpoint $checkpoint";
   }
 
   Container openLinkButton() {

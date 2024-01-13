@@ -29,6 +29,15 @@ class rankingsController extends GetxController {
     super.dispose();
   }
 
+  void refreshList() {
+    getTopFirstStaff();
+    getTopFirstStudent();
+    getTopSecondStaff();
+    getTopSecondStudent();
+    getTopThirdStaff();
+    getTopThirdStudent();
+  }
+
   void getTopFirstStaff() async {
     try {
       var res = await http.get(

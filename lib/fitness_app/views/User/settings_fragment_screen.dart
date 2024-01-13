@@ -31,7 +31,6 @@ class _SettingsFragmentScreenState extends State<SettingsFragmentScreen> {
           child: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   userSettingsTitle(),

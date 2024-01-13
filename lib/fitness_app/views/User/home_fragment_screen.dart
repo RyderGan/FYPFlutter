@@ -36,7 +36,6 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
           child: SingleChildScrollView(
               child: Container(
                   padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
                       displayStepCounts(),
@@ -52,6 +51,10 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                         height: 15,
                       ),
                       displayVisceralFat(),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      refreshButton()
                     ],
                   ))));
     });
@@ -346,6 +349,19 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  MaterialButton refreshButton() {
+    return MaterialButton(
+      minWidth: double.infinity,
+      height: 50,
+      color: secondary,
+      child: new Text('Refresh',
+          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      onPressed: () {
+        _homeScreenController.refreshList();
+      },
     );
   }
 }

@@ -80,7 +80,9 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
         setState(() {
           _scanQRController.barcode = barcode;
           _scanQRController.result = _scanQRController.barcode!.code;
+          print(_scanQRController.result);
         });
+
         // Handle the scanned data as desired
         Get.toNamed(Routes.qr_code_result_page);
       });
@@ -96,7 +98,7 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
       ),
       child: Text(
         _scanQRController.barcode != null
-            ? 'Result: ${_scanQRController.barcode!.code}'
+            ? 'QR code scanned' //${_scanQRController.barcode!.code}, Result: QR code scanned
             : 'Scan a QR code',
         maxLines: 3,
         style: const TextStyle(color: Colors.white),

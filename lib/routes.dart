@@ -7,6 +7,7 @@ import 'package:fitnessapp/fitness_app/views/User/change_email_password_page.dar
 import 'package:fitnessapp/fitness_app/views/User/change_user_info_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/loading_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/login_page.dart';
+import 'package:fitnessapp/fitness_app/views/User/notification_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/User/qr_code_result_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/reset_password_page.dart';
@@ -15,7 +16,9 @@ import 'package:fitnessapp/fitness_app/views/User/staff_ranking_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/step_count_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/student_ranking_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/visceral_fat_page.dart';
+import 'package:fitnessapp/fitness_app/views/User/workout_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/root_app.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/user_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/admin_login_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/admin_loading_page.dart';
@@ -104,6 +107,8 @@ class Routes {
   static String staff_ranking_page = '/staffRanking_page';
   static String student_ranking_page = '/studentRanking_page';
   static String qr_code_result_page = '/qrResult_page';
+  static String workout = '/workout';
+  static String notifications = '/notifications';
 }
 
 /// Add this list variable into your GetMaterialApp as the value of getPages parameter.
@@ -308,5 +313,13 @@ final getPages = [
   GetPage(
     name: Routes.qr_code_result_page,
     page: () => const QRCodeResultPage(),
+  ),
+  GetPage(
+    name: Routes.workout,
+    page: () => const WorkoutFragmentScreen(),
+  ),
+  GetPage(
+    name: Routes.notifications,
+    page: () => const NotificationsFragmentScreen(),
   ),
 ];

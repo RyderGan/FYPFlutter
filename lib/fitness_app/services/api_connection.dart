@@ -4,15 +4,12 @@ class Api {
   // Use localhost:3000 for iOS and 10.0.2.2:3000 for Android
   static const hostConnect = "http://localhost/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
-  //http://192.168.0.208:8080/
 
   //signUp user
   static const validateEmail = "$hostConnect/user/validate_email.php";
   static const signUp = "$hostConnect/user/signup.php";
   //login
   static const login = "$hostConnect/user/login.php";
-  //admin login
-  static const adminLogin = "$hostConnect/user/login.php";
   //validate reset password
   static const validateResetPassword =
       "$hostConnect/user/validateResetPassword.php";
@@ -26,8 +23,10 @@ class Api {
   static const validatePassword = "$hostConnect/user/validate_password.php";
   //change user info
   static const updateUserInfo = "$hostConnect/user/updateUserInfo.php";
+
   //send feedback
   static const addFeedback = "$hostConnect/user/addFeedback.php";
+
   //get user step count
   static const getUserStepCount = "$hostConnect/user/getUserStepCount.php";
   //get user all step counts
@@ -38,6 +37,7 @@ class Api {
       "$hostConnect/user/getUserLastStepCount.php";
   //update stepCount
   static const updateStepCount = "$hostConnect/user/updateStepCount.php";
+
   //get user current bmi
   static const getUserBmi = "$hostConnect/user/getUserBmi.php";
   //get user all bmi
@@ -48,6 +48,7 @@ class Api {
   static const updateBmi = "$hostConnect/user/updateBmi.php";
   //delete user bmi
   static const deleteUserBmi = "$hostConnect/user/deleteUserBmi.php";
+
   //get user blood pressure
   static const getUserBloodPressure =
       "$hostConnect/user/getUserBloodPressure.php";
@@ -62,6 +63,7 @@ class Api {
   //delete blood pressure
   static const deleteUserBloodPressure =
       "$hostConnect/user/deleteUserBloodPressure.php";
+
   //get user visceral fat
   static const getUserVisceralFat = "$hostConnect/user/getUserVisceralFat.php";
   //add new visceral fat
@@ -71,9 +73,10 @@ class Api {
       "$hostConnect/user/getUserAllVisceralFat.php";
   //update visceral fat
   static const updateVisceralFat = "$hostConnect/user/updateVisceralFat.php";
-  //delete blood pressure
+  //delete visceral fat
   static const deleteUserVisceralFat =
       "$hostConnect/user/deleteUserVisceralFat.php";
+
   //get top first staff
   static const getTopFirstStaff = "$hostConnect/user/getTopFirstStaff.php";
   //get top second staff
@@ -91,13 +94,20 @@ class Api {
   static const getStaffRanking = "$hostConnect/user/getStaffRanking.php";
   //get student ranking
   static const getStudentRanking = "$hostConnect/user/getStudentRanking.php";
+
+  //get all sets
+  static const getAllWorkoutSets = "$hostConnect/user/getAllWorkoutSets.php";
+  //get path details
+  static const getPathDetails = "$hostConnect/user/getOnePath.php";
   //add user checkpoint
   static const recordUserCheckpoint = "$hostConnect/user/addUserCheckpoint.php";
+  //add set bonus points to user
+  static const addSetBonusPoints = "$hostConnect/user/addSetBonusPoints.php";
+
   //get all rewards
   static const getAllRewards = "$hostConnect/user/getAllRewards.php";
   //claim reward
   static const claimReward = "$hostConnect/user/claimReward.php";
-
   //get user list
   static const getUserList = "$hostConnect/admin/getUserList.php";
   //get feedback list
@@ -166,4 +176,16 @@ class Api {
   static const adminClaimReward = "$hostConnect/admin/adminClaimReward.php";
   //send notification
   static const addNotification = "$hostConnect/admin/addNotification.php";
+  //get all notifications
+  static const getAllUserNotifications =
+      "$hostConnect/user/getUserAllNotifications.php";
+  //mark notification as read
+  static const markNotificationAsRead =
+      "$hostConnect/user/markNotificationAsRead.php";
+  //unmark notification as read
+  static const unmarkNotificationAsRead =
+      "$hostConnect/user/unmarkNotificationAsRead.php";
+  //delete notification
+  static const deleteOneNotification =
+      "$hostConnect/user/deleteNotification.php";
 }

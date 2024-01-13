@@ -17,8 +17,21 @@ class TextStylePreset {
   static const TextStyle normalText = TextStyle(
     fontSize: 16,
   );
+  static const TextStyle normalWhiteText = TextStyle(
+    color: white,
+    fontSize: 16,
+  );
 
   static const TextStyle bigText = TextStyle(
+    fontSize: 20,
+  );
+  static const TextStyle bigWhiteText = TextStyle(
+    color: white,
+    fontSize: 20,
+  );
+  static const TextStyle bigWhiteBoldText = TextStyle(
+    color: white,
+    fontWeight: FontWeight.bold,
     fontSize: 20,
   );
 

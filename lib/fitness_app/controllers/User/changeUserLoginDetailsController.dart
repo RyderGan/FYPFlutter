@@ -20,18 +20,40 @@ class changeUserLoginDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getUserInfo();
     emailController = TextEditingController();
-    emailController.text = _currentUser.user.email;
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
   }
 
   @override
   void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void getUserInfo() async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getUserDetails),
+        body: {
+          'userID': _currentUser.user.id.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success']) {
+          Fluttertoast.showToast(msg: "Your user info updated.");
+          UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
+          emailController.text = _currentUser.user.email;
+        } else {
+          Fluttertoast.showToast(msg: "Error occurred");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   String? validateEmail(String value) {
@@ -77,6 +99,7 @@ class changeUserLoginDetailsController extends GetxController {
           } else {
             //update user email
             updateUserEmail();
+            Get.back();
           }
         }
       } catch (e) {

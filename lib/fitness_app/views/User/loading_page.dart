@@ -24,8 +24,6 @@ class _LoadingPageState extends State<LoadingPage> {
     getUserStatus().then((userStatus) {
       if (userStatus == null) {
         Fluttertoast.showToast(msg: "User not found");
-      } else if (_currentUser.user.userType == 'Admin') {
-        Get.offAllNamed(Routes.admin_loading);
       } else {
         Get.offAllNamed(Routes.root_app);
       }

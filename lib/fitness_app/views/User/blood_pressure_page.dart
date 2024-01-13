@@ -45,7 +45,6 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
         child: SingleChildScrollView(
           child: Container(
               padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
                   const Text(
@@ -227,13 +226,18 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
                 padding: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
-                    "${_bloodPressureController.allBloodPressures[index].systolic}/${_bloodPressureController
-                            .allBloodPressures[index].diastolic}",
-                    style: TextStylePreset.bigText,
+                    _bloodPressureController.allBloodPressures[index].systolic
+                            .toString() +
+                        "/" +
+                        _bloodPressureController
+                            .allBloodPressures[index].diastolic
+                            .toString() +
+                        " mmHg",
+                    style: TextStylePreset.bigWhiteText,
                   ),
                   subtitle: Text(
                     _bloodPressureController.allBloodPressures[index].createdAt,
-                    style: TextStylePreset.normalText,
+                    style: TextStylePreset.normalWhiteText,
                   ),
                   trailing: SizedBox(
                     width: 90,

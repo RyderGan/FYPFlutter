@@ -25,6 +25,10 @@ class rewardsController extends GetxController {
     super.dispose();
   }
 
+  void refreshList() {
+    getCurrentUserPoints();
+  }
+
   void getAllRewards() async {
     try {
       var res = await http.get(

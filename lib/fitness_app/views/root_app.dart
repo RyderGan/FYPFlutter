@@ -1,5 +1,6 @@
 import 'package:fitnessapp/fitness_app/controllers/User/homeController.dart';
 import 'package:fitnessapp/fitness_app/controllers/User/loginController.dart';
+import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/User/drawer_header.dart';
 import 'package:fitnessapp/fitness_app/views/User/home_fragment_screen.dart';
@@ -8,6 +9,7 @@ import 'package:fitnessapp/fitness_app/views/User/rankings_fragment_screen.dart'
 import 'package:fitnessapp/fitness_app/views/User/rewards_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/User/scan_qr_fragment_screen.dart';
 import 'package:fitnessapp/fitness_app/views/User/settings_fragment_screen.dart';
+import 'package:fitnessapp/fitness_app/views/User/workout_fragment_screen.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +26,7 @@ class _RootAppState extends State<RootApp> {
   Widget appBarTitle = const Text("Home");
   Icon settingIcon = const Icon(Icons.settings);
   var currentPage = DrawerSections.home;
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   Widget build(BuildContext context) {
@@ -39,28 +42,31 @@ class _RootAppState extends State<RootApp> {
       builder: (controller) {
         late Widget container;
         if (currentPage == DrawerSections.home) {
-          container = const HomeFragmentScreen();
-          appBarTitle = const Text("Home");
+          container = HomeFragmentScreen();
+          // appBarTitle = Text("Home");
         } else if (currentPage == DrawerSections.notifications) {
-          container = const NotificationFragmentScreen();
-          appBarTitle = const Text("Notifications");
+          container = NotificationsFragmentScreen();
+          // appBarTitle = Text("Notifications");
         } else if (currentPage == DrawerSections.rankings) {
-          container = const RankingsFragmentScreen();
-          appBarTitle = const Text("Rankings");
+          container = RankingsFragmentScreen();
+          // appBarTitle = Text("Rankings");
+        } else if (currentPage == DrawerSections.workout) {
+          container = WorkoutFragmentScreen();
+          // appBarTitle = Text("Rankings");
         } else if (currentPage == DrawerSections.scan_qr) {
-          container = const ScanQRFragmentScreen();
-          appBarTitle = const Text("Scan QR code");
+          container = ScanQRFragmentScreen();
+          // appBarTitle = Text("Scan QR code");
         } else if (currentPage == DrawerSections.rewards) {
-          container = const RewardsFragmentScreen();
-          appBarTitle = const Text("Rewards");
+          container = RewardsFragmentScreen();
+          // appBarTitle = Text("Rewards");
         } else if (currentPage == DrawerSections.settings) {
-          container = const SettingsFragmentScreen();
-          appBarTitle = const Text("Settings");
+          container = SettingsFragmentScreen();
+          // appBarTitle = Text("Settings");
         }
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: appBarTitle,
+            title: Text("Stay Fit, " + _currentUser.user.fullName),
           ),
           backgroundColor: Colors.white,
           body: container,
@@ -93,9 +99,11 @@ class _RootAppState extends State<RootApp> {
               currentPage == DrawerSections.rankings ? true : false),
           menuItem(4, "Scan QR code", Icons.qr_code,
               currentPage == DrawerSections.scan_qr ? true : false),
-          menuItem(5, "Rewards", Icons.monetization_on,
+          menuItem(5, "Workout", Icons.run_circle_outlined,
+              currentPage == DrawerSections.workout ? true : false),
+          menuItem(6, "Rewards", Icons.monetization_on,
               currentPage == DrawerSections.rewards ? true : false),
-          menuItem(6, "Settings", Icons.settings,
+          menuItem(7, "Settings", Icons.settings,
               currentPage == DrawerSections.settings ? true : false),
         ],
       ),
@@ -118,8 +126,10 @@ class _RootAppState extends State<RootApp> {
             } else if (id == 4) {
               currentPage = DrawerSections.scan_qr;
             } else if (id == 5) {
-              currentPage = DrawerSections.rewards;
+              currentPage = DrawerSections.workout;
             } else if (id == 6) {
+              currentPage = DrawerSections.rewards;
+            } else if (id == 7) {
               currentPage = DrawerSections.settings;
             }
           });
@@ -230,6 +240,7 @@ enum DrawerSections {
   notifications,
   rankings,
   scan_qr,
+  workout,
   rewards,
   settings,
 }
