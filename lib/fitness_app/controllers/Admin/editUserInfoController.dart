@@ -11,23 +11,37 @@ class editUserInfoController extends GetxController {
 
   late TextEditingController fullNameController,
       genderController,
-      dobController;
+      emailController,
+      dobController,
+      rewardPointsController;
   RxString gender = ''.obs;
-
 
   @override
   void onClose() {
     fullNameController.dispose();
+    emailController.dispose();
     dobController.dispose();
+    rewardPointsController.dispose();
     super.dispose();
   }
 
   void setUserDetails(var arguments) {
     fullNameController = TextEditingController();
     fullNameController.text = arguments.fullName;
+    emailController = TextEditingController();
+    emailController.text = arguments.email;
     gender.value = arguments.gender;
     dobController = TextEditingController();
     dobController.text = arguments.dateOfBirth;
+    rewardPointsController = TextEditingController();
+    rewardPointsController.text = arguments.rewardPoint.toString();
+  }
+
+  String? validateEmail(String value) {
+    if (!GetUtils.isEmail(value)) {
+      return "Provide valid email";
+    }
+    return null;
   }
 
   Future<void> updateUserInfo(var arguments) async {

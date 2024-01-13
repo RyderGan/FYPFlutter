@@ -163,10 +163,10 @@ function getCheckpointInfo($connectNow, $rfidCheckpointID) {
     $result = $connectNow->query($sqlQuery);
     if ($result->num_rows > 0) {
         while ($rowFound = $result->fetch_assoc()) {
-            $rfidCheckpointList[] = $rowFound;
+            $checkpointList[] = $rowFound;
         }
-        if($rfidCheckpointList){
-            $rfidCheckpoint = $rfidCheckpointList[0];
+        if($checkpointList){
+            $rfidCheckpoint = $checkpointList[0];
             // $rfidBandID = $rfidCheckpoint['rfid_checkpoint_id'];
             // $rfidName= $rfidCheckpoint['rfid_checkpoint_name'];
             // $rfidDescription = $rfidCheckpoint['rfid_checkpoint_description'];

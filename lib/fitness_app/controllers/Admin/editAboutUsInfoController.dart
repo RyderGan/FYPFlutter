@@ -17,8 +17,9 @@ class EditAboutUsInfoController extends GetxController {
       websiteNameController,
       websiteLinkController,
       facebookLinkController,
-      instagramLinkController;
-
+      instagramLinkController,
+      latController,
+      longController;
 
   @override
   void onClose() {
@@ -31,6 +32,8 @@ class EditAboutUsInfoController extends GetxController {
     websiteLinkController.dispose();
     facebookLinkController.dispose();
     instagramLinkController.dispose();
+    latController.dispose();
+    longController.dispose();
     super.dispose();
   }
 
@@ -53,6 +56,10 @@ class EditAboutUsInfoController extends GetxController {
     facebookLinkController.text = arguments.facebookLink;
     instagramLinkController = TextEditingController();
     instagramLinkController.text = arguments.instagramLink;
+    latController = TextEditingController();
+    latController.text = arguments.lat.toString();
+    longController = TextEditingController();
+    longController.text = arguments.long.toString();
   }
 
   Future<void> updateAboutUsInfo(var arguments) async {
@@ -74,9 +81,12 @@ class EditAboutUsInfoController extends GetxController {
             "websiteLink": websiteLinkController.text.trim(),
             "facebookLink": facebookLinkController.text.trim(),
             "instagramLink": instagramLinkController.text.trim(),
+            "lat": latController.text.toString(),
+            "long": longController.text.toString(),
             "about_us_id": arguments.about_us_id.toString(),
           },
         );
+        print(res.statusCode);
         if (res.statusCode == 200) {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {

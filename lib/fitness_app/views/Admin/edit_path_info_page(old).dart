@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fitnessapp/fitness_app/controllers/Admin/editPathInfoController.dart';
+import 'package:fitnessapp/fitness_app/controllers/Admin/editPathInfoController(old).dart';
 import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -20,15 +20,57 @@ class EditPathInfoPage extends StatefulWidget {
 class _EditPathInfoPageState extends State<EditPathInfoPage> {
   final _editPathInfoController = Get.put(EditPathInfoController());
   List<String> checkpointList = [];
+  String fromCpIDValue = "Checkpoint 1";
+  String toCpIDValue = "Checkpoint 2";
   var arguments = Get.arguments;
+  Future<String> fromCpIDValue1 = Get.arguments[1];
+  Future<String> toCpIDValue1 = Get.arguments[2];
+
+  Future getAllCheckpoints() async {
+    try {
+      var res = await http.get(
+        Uri.parse(Api.getcheckpointList),
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success']) {
+          checkpointList = [];
+          List<CheckpointModel> checkpoints =
+              await resBodyOfLogin["checkpointList"]
+                  .map<CheckpointModel>(
+                      (json) => CheckpointModel.fromJson(json))
+                  .toList();
+          for (CheckpointModel checkpoint in checkpoints) {
+            checkpointList.add(checkpoint.name.toString());
+          }
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    fromCpIDValue1.then((value) => fromCpIDValue = value);
+    toCpIDValue1.then((value) => toCpIDValue = value);
+    fromCpIDValue1.then(
+        (value) => _editPathInfoController.fromCpIDController.text = value);
+    toCpIDValue1
+        .then((value) => _editPathInfoController.toCpIDController.text = value);
+    super.initState();
+    getAllCheckpoints();
+  }
   //methods
 
   @override
   Widget build(BuildContext context) {
-    _editPathInfoController.setPathDetails(arguments);
+    _editPathInfoController.setPathDetails(arguments[0]);
     // fromCpIDValue =
-    //     _editPathInfoController.getCheckpointName(arguments.fromCpID);
-    // toCpIDValue = _editPathInfoController.getCheckpointName(arguments.toCpID);
+    //     _editPathInfoController.getCheckpointName(arguments[0].fromCpID);
+    // toCpIDValue = _editPathInfoController.getCheckpointName(arguments[0].toCpID);
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
@@ -80,6 +122,14 @@ class _EditPathInfoPageState extends State<EditPathInfoPage> {
           const SizedBox(
             height: 15,
           ),
+          fromCpIDField(),
+          const SizedBox(
+            height: 15,
+          ),
+          toCpIDField(),
+          const SizedBox(
+            height: 15,
+          ),
           distanceField(),
           const SizedBox(
             height: 15,
@@ -92,17 +142,9 @@ class _EditPathInfoPageState extends State<EditPathInfoPage> {
           const SizedBox(
             height: 15,
           ),
-          pointsField(),
-          const SizedBox(
-            height: 15,
-          ),
-          timeLimitField(),
-          const SizedBox(
-            height: 15,
-          ),
           InkWell(
             onTap: () {
-              _editPathInfoController.updatePathInfo(arguments);
+              _editPathInfoController.updatePathInfo(arguments[0]);
             },
             child: updatePathInfoButton(),
           ),
@@ -111,7 +153,7 @@ class _EditPathInfoPageState extends State<EditPathInfoPage> {
           ),
           InkWell(
             onTap: () {
-              _editPathInfoController.deletePath(arguments);
+              _editPathInfoController.deletePath(arguments[0]);
             },
             child: deletePathButton(),
           )
@@ -156,6 +198,86 @@ class _EditPathInfoPageState extends State<EditPathInfoPage> {
         ),
       ),
     );
+  }
+
+  FutureBuilder fromCpIDField() {
+    return FutureBuilder(
+        future: Future.wait([getAllCheckpoints()]),
+        builder: (context, constraints) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(color: black.withOpacity(0.1)),
+            ),
+            child: DropdownButtonFormField(
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.location_pin),
+              ),
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              value: fromCpIDValue,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              isExpanded: true,
+              items: checkpointList.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  fromCpIDValue = newValue!;
+                  _editPathInfoController.fromCpIDController.text = newValue;
+                });
+              },
+              validator: (userTypeValue) {
+                if (userTypeValue == "Select CP ID") {
+                  return "Please select a CP ID";
+                }
+                return null;
+              },
+            ),
+          );
+        });
+  }
+
+  FutureBuilder toCpIDField() {
+    return FutureBuilder(
+        future: Future.wait([getAllCheckpoints()]),
+        builder: (context, constraints) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.0),
+              border: Border.all(color: black.withOpacity(0.1)),
+            ),
+            child: DropdownButtonFormField(
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.location_pin),
+              ),
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              value: toCpIDValue,
+              icon: const Icon(Icons.keyboard_arrow_down),
+              isExpanded: true,
+              items: checkpointList.map((String items) {
+                return DropdownMenuItem(
+                  value: items,
+                  child: Text(items),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  toCpIDValue = newValue!;
+                  _editPathInfoController.toCpIDController.text = newValue;
+                });
+              },
+              validator: (userTypeValue) {
+                if (userTypeValue == "Select CP ID") {
+                  return "Please select a CP ID";
+                }
+                return null;
+              },
+            ),
+          );
+        });
   }
 
   Container distanceField() {
@@ -265,86 +387,6 @@ class _EditPathInfoPageState extends State<EditPathInfoPage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter Difficulty";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container pointsField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Points", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _editPathInfoController.pointsController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter Points";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container timeLimitField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Time Limit", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _editPathInfoController.timeLimitController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter time limit";
                   } else if (!value.isNum) {
                     return "Please input a number";
                   }

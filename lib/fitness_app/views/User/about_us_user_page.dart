@@ -21,7 +21,8 @@ class AboutUsUserPage extends StatefulWidget {
 }
 
 class _AboutUsUserPageState extends State<AboutUsUserPage> {
-  AboutUsModel aboutUs = AboutUsModel(0, "", "", "", "", "", "", "", "", "");
+  AboutUsModel aboutUs =
+      AboutUsModel(0, "", "", "", "", "", "", "", "", "", 0, 0);
 
   Future getAboutUs() async {
     try {

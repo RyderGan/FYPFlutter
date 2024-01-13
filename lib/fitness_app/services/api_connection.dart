@@ -117,23 +117,34 @@ class Api {
   //add reward
   static const addReward = "$hostConnect/admin/addReward.php";
   //get rfid checkpoint list
-  static const getRfidCheckpointList =
-      "$hostConnect/admin/getRfidCheckpointList.php";
-  //delete rfid heckpoint
-  static const deleteRfidCheckpoint =
-      "$hostConnect/admin/deleteRfidCheckpoint.php";
-  //change rfid heckpoint info
-  static const updateRfidCheckpointInfo =
-      "$hostConnect/admin/updateRfidCheckpointInfo.php";
-  //add rfid checkpoint
-  static const addRfidCheckpoint = "$hostConnect/admin/addRfidCheckpoint.php";
+  static const getcheckpointList = "$hostConnect/admin/getcheckpointList.php";
+  //delete checkpoint
+  static const deleteCheckpoint = "$hostConnect/admin/deleteCheckpoint.php";
+  //change checkpoint info
+  static const updateCheckpointInfo =
+      "$hostConnect/admin/updateCheckpointInfo.php";
+  //add checkpoint
+  static const addCheckpoint = "$hostConnect/admin/addCheckpoint.php";
   //get path list
   static const getPathList = "$hostConnect/admin/getPathList.php";
   //delete path heckpoint
   static const deletePath = "$hostConnect/admin/deletePath.php";
-  //change path info
+  //update path info
   static const updatePathInfo = "$hostConnect/admin/updatePathInfo.php";
+  //update path checkpoint info
+  static const updatePathCheckpoints =
+      "$hostConnect/admin/updatePathCheckpoints.php";
   //add path
+  static const addSet = "$hostConnect/admin/addSet.php";
+  //get set list
+  static const getSetList = "$hostConnect/admin/getSetList.php";
+  //delete set
+  static const deleteSet = "$hostConnect/admin/deleteSet.php";
+  //update set info
+  static const updateSetInfo = "$hostConnect/admin/updateSetInfo.php";
+  //update set checkpoint info
+  static const updateSetPaths = "$hostConnect/admin/updateSetPaths.php";
+  //add set
   static const addPath = "$hostConnect/admin/addPath.php";
   //get about us
   static const getAboutUs = "$hostConnect/admin/getAboutUs.php";
@@ -147,4 +158,12 @@ class Api {
   static const updateRfidBandInfo = "$hostConnect/admin/updateRfidBandInfo.php";
   //add rfid band
   static const addRfidBand = "$hostConnect/admin/addRfidBand.php";
+  //get claim rewards list
+  static const getClaimRewardList = "$hostConnect/admin/getClaimRewardList.php";
+  //delete claim reward
+  static const deleteClaimReward = "$hostConnect/admin/deleteClaimReward.php";
+  //admin claim reward
+  static const adminClaimReward = "$hostConnect/admin/adminClaimReward.php";
+  //send notification
+  static const addNotification = "$hostConnect/admin/addNotification.php";
 }

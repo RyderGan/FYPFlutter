@@ -13,6 +13,8 @@ class AboutUsModel {
   String websiteLink;
   String facebookLink;
   String instagramLink;
+  double lat;
+  double long;
 
   AboutUsModel(
       this.about_us_id,
@@ -24,20 +26,23 @@ class AboutUsModel {
       this.websiteName,
       this.websiteLink,
       this.facebookLink,
-      this.instagramLink);
+      this.instagramLink,
+      this.lat,
+      this.long);
 
   factory AboutUsModel.fromJson(Map<String, dynamic> json) => AboutUsModel(
-        int.parse(json["about_us_id"]),
-        json["about_us_title"],
-        json["about_us_who"],
-        json["about_us_who_details"],
-        json["about_us_aim"],
-        json["about_us_aim_details"],
-        json["about_us_website_name"],
-        json["about_us_website_link"],
-        json["about_us_facebook_link"],
-        json["about_us_instagram_link"],
-      );
+      int.parse(json["about_us_id"]),
+      json["about_us_title"],
+      json["about_us_who"],
+      json["about_us_who_details"],
+      json["about_us_aim"],
+      json["about_us_aim_details"],
+      json["about_us_website_name"],
+      json["about_us_website_link"],
+      json["about_us_facebook_link"],
+      json["about_us_instagram_link"],
+      double.parse(json["about_us_lat"]),
+      double.parse(json["about_us_long"]));
 
   Map<String, dynamic> toJson() => {
         "about_us_id": about_us_id.toString(),
@@ -50,5 +55,7 @@ class AboutUsModel {
         "about_us_website_link": websiteLink,
         "about_us_facebook_link": facebookLink,
         "about_us_instagram_link": instagramLink,
+        "about_us_lat": lat.toString(),
+        "about_us_long": long.toString(),
       };
 }

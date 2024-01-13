@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fitnessapp/fitness_app/controllers/Admin/addPathInfoController.dart';
+import 'package:fitnessapp/fitness_app/controllers/Admin/addSetInfoController.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -10,15 +10,15 @@ import 'package:get/get.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:http/http.dart' as http;
 
-class AddPathInfoPage extends StatefulWidget {
-  const AddPathInfoPage({Key? key}) : super(key: key);
+class AddSetInfoPage extends StatefulWidget {
+  const AddSetInfoPage({Key? key}) : super(key: key);
 
   @override
-  _AddPathInfoPageState createState() => _AddPathInfoPageState();
+  _AddSetInfoPageState createState() => _AddSetInfoPageState();
 }
 
-class _AddPathInfoPageState extends State<AddPathInfoPage> {
-  final _addPathInfoController = Get.put(addPathInfoController());
+class _AddSetInfoPageState extends State<AddSetInfoPage> {
+  final _addSetInfoController = Get.put(addSetInfoController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
-          title: const Text("Add Path Information"),
+          title: const Text("Add Set Information"),
         ),
         backgroundColor: white,
         body: SafeArea(child: getBody()),
@@ -49,13 +49,13 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               const Text(
-                "Add Path",
+                "Add Set",
                 style: TextStylePreset.bigTitle,
               ),
               const SizedBox(
                 height: 15,
               ),
-              pathInfoForm(),
+              setInfoForm(),
             ]),
           ),
         ),
@@ -63,9 +63,9 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
     });
   }
 
-  Form pathInfoForm() {
+  Form setInfoForm() {
     return Form(
-      key: _addPathInfoController.addPathInfoFormKey,
+      key: _addSetInfoController.addSetInfoFormKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
@@ -73,31 +73,15 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
           const SizedBox(
             height: 15,
           ),
-          distanceField(),
-          const SizedBox(
-            height: 15,
-          ),
-          elevationField(),
-          const SizedBox(
-            height: 15,
-          ),
-          difficultyField(),
-          const SizedBox(
-            height: 15,
-          ),
-          pointsField(),
-          const SizedBox(
-            height: 15,
-          ),
-          timeLimitField(),
+          bonusPointsField(),
           const SizedBox(
             height: 15,
           ),
           InkWell(
             onTap: () {
-              _addPathInfoController.addPath();
+              _addSetInfoController.addSet();
             },
-            child: addPathButton(),
+            child: addSetButton(),
           ),
         ],
       ),
@@ -127,7 +111,7 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
                 decoration: const InputDecoration(
                     hintText: "Name", border: InputBorder.none),
                 keyboardType: TextInputType.name,
-                controller: _addPathInfoController.nameController,
+                controller: _addSetInfoController.nameController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter name";
@@ -142,7 +126,7 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
     );
   }
 
-  Container distanceField() {
+  Container bonusPointsField() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -163,12 +147,12 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
                 decoration: const InputDecoration(
-                    hintText: "Distance", border: InputBorder.none),
+                    hintText: "Bonus Points", border: InputBorder.none),
                 keyboardType: TextInputType.number,
-                controller: _addPathInfoController.distanceController,
+                controller: _addSetInfoController.bonusPointsController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter Distance";
+                    return "Please enter bonus points";
                   } else if (!value.isNum) {
                     return "Please input a number";
                   }
@@ -182,167 +166,7 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
     );
   }
 
-  Container elevationField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Elevation", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _addPathInfoController.elevationController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter Elevation";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container difficultyField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Difficulty", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _addPathInfoController.difficultyController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter Difficulty";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container pointsField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Points", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _addPathInfoController.pointsController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter Points";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container timeLimitField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Time Limit", border: InputBorder.none),
-                keyboardType: TextInputType.number,
-                controller: _addPathInfoController.timeLimitController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter time limit";
-                  } else if (!value.isNum) {
-                    return "Please input a number";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container addPathButton() {
+  Container addSetButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -360,7 +184,7 @@ class _AddPathInfoPageState extends State<AddPathInfoPage> {
             width: 5,
           ),
           Text(
-            "Add Path",
+            "Add Set",
             style: TextStylePreset.btnSmallText,
           )
         ],

@@ -3,6 +3,7 @@ import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class EditAboutUsInfoPage extends StatefulWidget {
@@ -101,6 +102,14 @@ class _EditAboutUsInfoPageState extends State<EditAboutUsInfoPage> {
             height: 15,
           ),
           instagramLinkField(),
+          const SizedBox(
+            height: 15,
+          ),
+          latField(),
+          const SizedBox(
+            height: 15,
+          ),
+          longField(),
           const SizedBox(
             height: 30,
           ),
@@ -450,6 +459,90 @@ class _EditAboutUsInfoPageState extends State<EditAboutUsInfoPage> {
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter title";
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container latField() {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: bgTextField, borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          children: [
+            Icon(
+              Icons.abc,
+              color: black.withOpacity(0.5),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Flexible(
+              child: TextFormField(
+                cursorColor: black.withOpacity(0.5),
+                decoration: const InputDecoration(
+                    hintText: "Latitude", border: InputBorder.none),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^(\d+)?\.?\d{0,4}'))
+                ],
+                controller: _editAboutUsInfoController.latController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter Latitude";
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container longField() {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: bgTextField, borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          children: [
+            Icon(
+              Icons.abc,
+              color: black.withOpacity(0.5),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Flexible(
+              child: TextFormField(
+                cursorColor: black.withOpacity(0.5),
+                decoration: const InputDecoration(
+                    hintText: "Longitude", border: InputBorder.none),
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^(\d+)?\.?\d{0,4}'))
+                ],
+                controller: _editAboutUsInfoController.longController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter Longitude";
                   }
                   return null;
                 },

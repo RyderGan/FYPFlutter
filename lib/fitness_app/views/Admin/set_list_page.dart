@@ -1,20 +1,25 @@
-import 'package:fitnessapp/fitness_app/controllers/Admin/rewardsListController.dart';
+import 'dart:convert';
+import 'package:fitnessapp/fitness_app/controllers/Admin/setListController.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/pathModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:http/http.dart' as http;
 
-class RewardsListPage extends StatefulWidget {
-  const RewardsListPage({Key? key}) : super(key: key);
+class SetListPage extends StatefulWidget {
+  const SetListPage({Key? key}) : super(key: key);
 
   @override
-  _RewardsListPageState createState() => _RewardsListPageState();
+  _SetListPageState createState() => _SetListPageState();
 }
 
-class _RewardsListPageState extends State<RewardsListPage> {
-  final _rewardsListController = Get.put(rewardsListController());
+class _SetListPageState extends State<SetListPage> {
+  final _setListController = Get.put(setListController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +46,15 @@ class _RewardsListPageState extends State<RewardsListPage> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Get.toNamed(Routes.add_reward_info);
+                          Get.toNamed(Routes.add_set_info);
                         },
-                        child: addRewardButton(),
+                        child: addSetButton(),
                       ),
                       const SizedBox(
                         height: 30,
                       ),
                       const Text(
-                        "Reward List:",
+                        "Set List:",
                         style: TextStylePreset.bigTitle,
                       ),
                       const SizedBox(
@@ -65,7 +70,7 @@ class _RewardsListPageState extends State<RewardsListPage> {
     return Obx(() => ListView.builder(
           shrinkWrap: true,
           primary: false,
-          itemCount: _rewardsListController.rewardsList.length,
+          itemCount: _setListController.setList.length,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, index) {
             return Card(
@@ -74,34 +79,59 @@ class _RewardsListPageState extends State<RewardsListPage> {
                 padding: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
-                    _rewardsListController.rewardsList[index].title,
+                    _setListController.setList[index].name,
                     style: TextStylePreset.bigText,
                   ),
                   subtitle: Text(
-                    _rewardsListController.rewardsList[index].description,
+                    _setListController.setList[index].bonus_points.toString(),
                     style: TextStylePreset.normalText,
                   ),
                   trailing: SizedBox(
+                    height: 150,
                     width: 125,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "${_rewardsListController.rewardsList[index].id}",
+                            "${_setListController.setList[index].id}",
                             style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.edit_reward_info,
-                                  arguments: _rewardsListController
-                                      .rewardsList[index]);
-                            },
-                            child: editButton(),
-                          ),
-                        ),
+                        SizedBox(
+                            width: 100,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.edit_set_info,
+                                          arguments: _setListController
+                                              .setList[index]);
+                                    },
+                                    child: editButton(),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.edit_set_paths,
+                                          arguments: [
+                                            _setListController.setList[index],
+                                            _setListController.getCurrentPaths(
+                                                _setListController
+                                                    .setList[index])
+                                          ]);
+                                    },
+                                    child: editPathOrderButton(),
+                                  ),
+                                ),
+                              ],
+                            ))
                       ],
                     ),
                   ),
@@ -114,8 +144,8 @@ class _RewardsListPageState extends State<RewardsListPage> {
 
   Container editButton() {
     return Container(
-      height: 40,
-      width: 50,
+      height: 80,
+      width: 100,
       decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
@@ -131,7 +161,26 @@ class _RewardsListPageState extends State<RewardsListPage> {
     );
   }
 
-  Container addRewardButton() {
+  Container editPathOrderButton() {
+    return Container(
+      height: 80,
+      width: 100,
+      decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          borderRadius: BorderRadius.circular(30)),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "CP",
+            style: TextStylePreset.btnSmallText,
+          )
+        ],
+      ),
+    );
+  }
+
+  Container addSetButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -149,7 +198,7 @@ class _RewardsListPageState extends State<RewardsListPage> {
             width: 15,
           ),
           Text(
-            "Add Reward",
+            "Add Set",
             style: TextStylePreset.btnBigText,
           )
         ],
@@ -159,7 +208,7 @@ class _RewardsListPageState extends State<RewardsListPage> {
 
   // List<DataRow> getRows(List<UserModel> students) =>
   //     students.map((UserModel student) {
-  //       final cells = ["#"+, student.fullName, student.rewardPoint];
+  //       final cells = ["#"+, student.fullName, student.setPoint];
   //       return DataRow(cells: getCells(cells));
   //     }).toList();
 }

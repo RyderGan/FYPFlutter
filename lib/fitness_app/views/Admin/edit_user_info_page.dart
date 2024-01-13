@@ -5,6 +5,7 @@ import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:line_icons/line_icons.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   const EditUserInfoPage({Key? key}) : super(key: key);
@@ -78,7 +79,15 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           const SizedBox(
             height: 15,
           ),
+          emailField(),
+          const SizedBox(
+            height: 15,
+          ),
           genderField(),
+          const SizedBox(
+            height: 15,
+          ),
+          rewardPointsField(),
           const SizedBox(
             height: 15,
           ),
@@ -135,6 +144,41 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     return "Please enter username";
                   }
                   return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container emailField() {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: bgTextField, borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          children: [
+            Icon(
+              LineIcons.envelope,
+              color: black.withOpacity(0.5),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Flexible(
+              child: TextFormField(
+                cursorColor: black.withOpacity(0.5),
+                decoration: const InputDecoration(
+                    hintText: "Email", border: InputBorder.none),
+                keyboardType: TextInputType.emailAddress,
+                controller: _editUserInfoController.emailController,
+                validator: (value) {
+                  return _editUserInfoController.validateEmail(value!);
                 },
               ),
             ),
@@ -231,6 +275,46 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 validator: (formattedDate) {
                   if (formattedDate!.isEmpty) {
                     return "Please enter date of birth";
+                  }
+                  return null;
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container rewardPointsField() {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: bgTextField, borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Row(
+          children: [
+            Icon(
+              Icons.abc,
+              color: black.withOpacity(0.5),
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            Flexible(
+              child: TextFormField(
+                cursorColor: black.withOpacity(0.5),
+                decoration: const InputDecoration(
+                    hintText: "Points", border: InputBorder.none),
+                keyboardType: TextInputType.number,
+                controller: _editUserInfoController.rewardPointsController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please enter Points";
+                  } else if (!value.isNum) {
+                    return "Please input a number";
                   }
                   return null;
                 },

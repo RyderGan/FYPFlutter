@@ -10,20 +10,27 @@ import 'package:http/http.dart' as http;
 class EditPathInfoController extends GetxController {
   GlobalKey<FormState> editPathInfoFormKey = GlobalKey<FormState>();
   late TextEditingController nameController,
+      fromCpIDController,
+      toCpIDController,
       distanceController,
       elevationController,
-      difficultyController,
-      pointsController,
-      timeLimitController;
+      difficultyController;
+
+  @override
+  void onInit() {
+    fromCpIDController = TextEditingController();
+    toCpIDController = TextEditingController();
+    super.onInit();
+  }
 
   @override
   void onClose() {
     nameController.dispose();
+    fromCpIDController.dispose();
+    toCpIDController.dispose();
     distanceController.dispose();
     elevationController.dispose();
     difficultyController.dispose();
-    pointsController.dispose();
-    timeLimitController.dispose();
     super.dispose();
   }
 
@@ -36,13 +43,38 @@ class EditPathInfoController extends GetxController {
     elevationController.text = arguments.elevation.toString();
     difficultyController = TextEditingController();
     difficultyController.text = arguments.difficulty.toString();
-    pointsController = TextEditingController();
-    pointsController.text = arguments.points.toString();
-    timeLimitController = TextEditingController();
-    timeLimitController.text = arguments.time_limit.toString();
   }
 
   Future<void> updatePathInfo(var arguments) async {
+    String fromCpIDValue = "";
+    String toCpIDValue = "";
+    try {
+      var res = await http.get(
+        Uri.parse(Api.getcheckpointList),
+      );
+
+      if (res.statusCode == 200) {
+        var resBodyOfLogin = jsonDecode(res.body);
+        if (resBodyOfLogin['success']) {
+          List<CheckpointModel> checkpoints =
+              await resBodyOfLogin["checkpointList"]
+                  .map<CheckpointModel>(
+                      (json) => CheckpointModel.fromJson(json))
+                  .toList();
+          for (CheckpointModel checkpoint in checkpoints) {
+            if (checkpoint.name.toString() == fromCpIDController.text.trim()) {
+              fromCpIDValue = checkpoint.id.toString();
+            }
+            if (checkpoint.name.toString() == toCpIDController.text.trim()) {
+              toCpIDValue = checkpoint.id.toString();
+            }
+          }
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
     // ! is null check operator
     final isValid = editPathInfoFormKey.currentState!.validate();
     if (!isValid) {
@@ -53,12 +85,12 @@ class EditPathInfoController extends GetxController {
           Uri.parse(Api.updatePathInfo),
           body: {
             'name': nameController.text.trim(),
+            'fromCpID': fromCpIDValue,
+            'toCpID': toCpIDValue,
             'distance': distanceController.text.trim(),
             'elevation': elevationController.text.trim(),
             'difficulty': difficultyController.text.trim(),
-            'points': pointsController.text.trim(),
-            'time_limit': timeLimitController.text.trim(),
-            'pathID': arguments.id.toString(),
+            'pathID': arguments.path_id.toString(),
           },
         );
         if (res.statusCode == 200) {

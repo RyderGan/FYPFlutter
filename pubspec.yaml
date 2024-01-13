@@ -44,7 +44,9 @@ dependencies:
   fluttertoast: ^8.2.2
   flutter_animate: 4.1.1+1
   flutter_cache_manager: ^3.3.0
+  flutter_map: ^6.1.0
   flutter_rating_bar: ^4.0.1
+  flutter_slidable: ^0.6.0-nullsafety.0
   flutter_svg: ^0.22.0
   font_awesome_flutter: ^10.1.0
   from_css_color: ^2.0.0
@@ -53,6 +55,10 @@ dependencies:
   go_router: ^7.1.1
   google_fonts: ^4.0.3
   http: ^1.0.0
+  latlong2: ^0.9.0
+  animated_list_plus: ^0.5.2
+  qr_flutter: ^4.1.0
+  screenshot: ^2.1.0
   intl: ^0.18.1
   json_path: ^0.6.2
   line_icons: ^2.0.3
@@ -63,6 +69,7 @@ dependencies:
   path_provider_platform_interface: ^2.0.6
   pedometer: ^4.0.1
   percent_indicator: ^4.2.2
+  permission_handler: ^11.1.0
   provider: ^6.0.4
   qr_code_scanner: ^1.0.1
   shared_preferences: ^2.2.2

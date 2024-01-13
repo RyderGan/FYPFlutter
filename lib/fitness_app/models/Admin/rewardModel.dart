@@ -3,14 +3,14 @@
 //     final userModel = userModelFromJson(jsonString);
 
 class RewardModel {
-  int reward_id;
+  int id;
   String title;
   String description;
   int required_pt;
   String createdAt;
 
-  RewardModel(this.reward_id, this.title, this.description, this.required_pt,
-      this.createdAt);
+  RewardModel(
+      this.id, this.title, this.description, this.required_pt, this.createdAt);
 
   factory RewardModel.fromJson(Map<String, dynamic> json) => RewardModel(
         int.parse(json["reward_id"]),
@@ -21,7 +21,7 @@ class RewardModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "reward_id": reward_id.toString(),
+        "reward_id": id.toString(),
         "reward_title": title,
         "reward_description": description,
         "required_pt": required_pt.toString(),

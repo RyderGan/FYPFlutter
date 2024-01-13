@@ -12,6 +12,8 @@ import 'package:line_icons/line_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/aboutUsModel.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
 
 class AboutUsAdminPage extends StatefulWidget {
@@ -22,37 +24,25 @@ class AboutUsAdminPage extends StatefulWidget {
 }
 
 class _AboutUsAdminPageState extends State<AboutUsAdminPage> {
-  AboutUsModel aboutUs = AboutUsModel(0, "", "", "", "", "", "", "", "", "");
-
-  Future getAboutUs() async {
-    try {
-      var res = await http.post(Uri.parse(Api.getAboutUs));
-      var resBodyOfLogin = jsonDecode(res.body);
-      if (resBodyOfLogin['success']) {
-        List<AboutUsModel> aboutUsInfo = await resBodyOfLogin["aboutUs"]
-            .map<AboutUsModel>((json) => AboutUsModel.fromJson(json))
-            .toList();
-        aboutUs = aboutUsInfo[0];
-      }
-    } catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
-    }
-  }
+  AboutUsModel aboutUs = Get.arguments;
+  LatLng coordinates = LatLng(Get.arguments.lat, Get.arguments.long);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return FutureBuilder(
-        future: Future.wait([getAboutUs()]),
-        builder: (context, constraints) {
-          return ResponsivePadding(
-            child: Scaffold(
-              backgroundColor: white,
-              body: SafeArea(child: getBody()),
-            ),
-          );
-        });
+    return ResponsivePadding(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () => Get.back(),
+          ),
+          title: const Text("About Us"),
+        ),
+        backgroundColor: white,
+        body: SafeArea(child: getBody()),
+      ),
+    );
   }
 
   Widget getBody() {
@@ -67,7 +57,7 @@ class _AboutUsAdminPageState extends State<AboutUsAdminPage> {
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               const Text(
-                "Who we are",
+                "Faculty:",
                 style: TextStylePreset.bigTitle,
               ),
               const SizedBox(
@@ -96,6 +86,41 @@ class _AboutUsAdminPageState extends State<AboutUsAdminPage> {
                 height: 15,
               ),
               otherRelatedLinks(),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                height: 300,
+                width: double.infinity,
+                child: FlutterMap(
+                  options: MapOptions(
+                    center: coordinates,
+                    zoom: 16,
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate:
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.app',
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: coordinates,
+                          alignment: Alignment.topLeft,
+                          width: 25,
+                          height: 25,
+                          child: Icon(
+                            Icons.location_on,
+                            color: Colors.red,
+                            size: 50.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(
                 height: 15,
               ),

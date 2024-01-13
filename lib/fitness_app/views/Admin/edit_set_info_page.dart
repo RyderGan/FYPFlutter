@@ -1,31 +1,34 @@
-import 'package:fitnessapp/fitness_app/controllers/Admin/editCheckpointInfoController.dart';
+import 'dart:convert';
+import 'package:fitnessapp/fitness_app/controllers/Admin/editSetInfoController.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:http/http.dart' as http;
 
-class EditCheckpointInfoPage extends StatefulWidget {
-  const EditCheckpointInfoPage({Key? key}) : super(key: key);
+class EditSetInfoPage extends StatefulWidget {
+  const EditSetInfoPage({Key? key}) : super(key: key);
 
   @override
-  _EditCheckpointInfoPageState createState() => _EditCheckpointInfoPageState();
+  _EditSetInfoPageState createState() => _EditSetInfoPageState();
 }
 
-class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
-  final _editCheckpointInfoController = Get.put(EditCheckpointInfoController());
+class _EditSetInfoPageState extends State<EditSetInfoPage> {
+  final _editSetInfoController = Get.put(EditSetInfoController());
+  List<String> checkpointList = [];
   var arguments = Get.arguments;
-  var types = [
-    'Select type',
-    'RFID',
-    'QR Code',
-  ];
-
   //methods
 
   @override
   Widget build(BuildContext context) {
-    _editCheckpointInfoController.setCheckpointDetails(arguments);
+    _editSetInfoController.setSetDetails(arguments);
+    // fromCpIDValue =
+    //     _editSetInfoController.getCheckpointName(arguments.fromCpID);
+    // toCpIDValue = _editSetInfoController.getCheckpointName(arguments.toCpID);
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
@@ -34,7 +37,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
-          title: const Text("Edit Checkpoint Information"),
+          title: const Text("Edit Set Information"),
         ),
         backgroundColor: white,
         body: SafeArea(child: getBody()),
@@ -53,13 +56,13 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               const Text(
-                "Edit Checkpoint info",
+                "Edit Set info",
                 style: TextStylePreset.bigTitle,
               ),
               const SizedBox(
                 height: 15,
               ),
-              checkpointInfoForm(),
+              setInfoForm(),
             ]),
           ),
         ),
@@ -67,9 +70,9 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
     });
   }
 
-  Form checkpointInfoForm() {
+  Form setInfoForm() {
     return Form(
-      key: _editCheckpointInfoController.editCheckpointInfoFormKey,
+      key: _editSetInfoController.editSetInfoFormKey,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
@@ -77,32 +80,24 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
           const SizedBox(
             height: 15,
           ),
-          descriptionField(),
-          const SizedBox(
-            height: 15,
-          ),
-          locationField(),
-          const SizedBox(
-            height: 15,
-          ),
-          typeField(),
+          bonusPointsField(),
           const SizedBox(
             height: 15,
           ),
           InkWell(
             onTap: () {
-              _editCheckpointInfoController.updateCheckpointInfo(arguments);
+              _editSetInfoController.updateSetInfo(arguments);
             },
-            child: updateCheckpointInfoButton(),
+            child: updateSetInfoButton(),
           ),
           const SizedBox(
             height: 15,
           ),
           InkWell(
             onTap: () {
-              _editCheckpointInfoController.deleteCheckpoint(arguments);
+              _editSetInfoController.deleteSet(arguments);
             },
-            child: deleteCheckpointButton(),
+            child: deleteSetButton(),
           )
         ],
       ),
@@ -132,7 +127,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
                 decoration: const InputDecoration(
                     hintText: "Name", border: InputBorder.none),
                 keyboardType: TextInputType.name,
-                controller: _editCheckpointInfoController.nameController,
+                controller: _editSetInfoController.nameController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return "Please enter name";
@@ -147,7 +142,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
     );
   }
 
-  Container descriptionField() {
+  Container bonusPointsField() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -168,12 +163,14 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
               child: TextFormField(
                 cursorColor: black.withOpacity(0.5),
                 decoration: const InputDecoration(
-                    hintText: "Description", border: InputBorder.none),
-                keyboardType: TextInputType.text,
-                controller: _editCheckpointInfoController.descriptionController,
+                    hintText: "Bonus Points", border: InputBorder.none),
+                keyboardType: TextInputType.number,
+                controller: _editSetInfoController.bonusPointsController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter description";
+                    return "Please enter bonus points";
+                  } else if (!value.isNum) {
+                    return "Please input a number";
                   }
                   return null;
                 },
@@ -185,82 +182,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
     );
   }
 
-  Container locationField() {
-    return Container(
-      height: 50,
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgTextField, borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Row(
-          children: [
-            Icon(
-              Icons.abc,
-              color: black.withOpacity(0.5),
-            ),
-            const SizedBox(
-              width: 15,
-            ),
-            Flexible(
-              child: TextFormField(
-                cursorColor: black.withOpacity(0.5),
-                decoration: const InputDecoration(
-                    hintText: "Location", border: InputBorder.none),
-                keyboardType: TextInputType.text,
-                controller: _editCheckpointInfoController.locationController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Please enter location";
-                  }
-                  return null;
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Container typeField() {
-    String typeValue = arguments.type;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
-        border: Border.all(color: black.withOpacity(0.1)),
-      ),
-      child: DropdownButtonFormField(
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.person),
-        ),
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        value: typeValue,
-        icon: const Icon(Icons.keyboard_arrow_down),
-        isExpanded: true,
-        items: types.map((String items) {
-          return DropdownMenuItem(
-            value: items,
-            child: Text(items),
-          );
-        }).toList(),
-        onChanged: (String? newValue) {
-          setState(() {
-            typeValue = newValue!;
-            arguments.type = typeValue;
-          });
-        },
-        validator: (checkpointTypeValue) {
-          if (checkpointTypeValue == "Select type") {
-            return "Please select a type";
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Container updateCheckpointInfoButton() {
+  Container updateSetInfoButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -278,7 +200,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
             width: 5,
           ),
           Text(
-            "Update Checkpoint Info",
+            "Update Set Info",
             style: TextStylePreset.btnSmallText,
           )
         ],
@@ -286,7 +208,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
     );
   }
 
-  Container deleteCheckpointButton() {
+  Container deleteSetButton() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -304,7 +226,7 @@ class _EditCheckpointInfoPageState extends State<EditCheckpointInfoPage> {
             width: 5,
           ),
           Text(
-            "Delete Checkpoint",
+            "Delete Set",
             style: TextStylePreset.btnSmallText,
           )
         ],

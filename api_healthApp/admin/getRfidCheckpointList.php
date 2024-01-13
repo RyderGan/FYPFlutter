@@ -13,7 +13,7 @@ if ($result->num_rows > 0) {
     }
     echo json_encode(array(
         "success" => true,
-        "rfidCheckpointList" => $allCheckpoints,  //row number
+        "checkpointList" => $allCheckpoints,  //row number
     ));
 } else {
     echo json_encode(array("success" => false));

@@ -1,3 +1,5 @@
+import 'package:fitnessapp/fitness_app/views/Admin/path_search_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/send_notification_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/about_us_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/blood_pressure_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/bmi_page.dart';
@@ -28,8 +30,17 @@ import 'package:fitnessapp/fitness_app/views/Admin/add_checkpoint_info_page.dart
 import 'package:fitnessapp/fitness_app/views/Admin/path_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/edit_path_info_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/add_path_info_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/edit_path_checkpoints_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/set_list_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/edit_set_info_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/add_set_info_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/edit_set_paths_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/checkpoint_search_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/checkpoint_qr_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/view_feedback_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/feedback_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/view_claim_reward_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/claim_reward_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/app_info_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/about_us_admin_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/edit_about_us_info_page.dart';
@@ -49,6 +60,9 @@ class Routes {
   static String edit_user_info = '/edit_user_info';
   static String feedback = '/feedback';
   static String view_feedback = '/view_feedback';
+  static String send_notification = '/send_notification';
+  static String claim_reward = '/feedback';
+  static String view_claim_reward = '/view_claim_reward';
   static String rewards = '/rewards';
   static String edit_reward_info = '/edit_reward_info';
   static String add_reward_info = '/add_reward_info';
@@ -58,6 +72,14 @@ class Routes {
   static String path = '/path';
   static String edit_path_info = '/edit_path_info';
   static String add_path_info = '/add_path_info';
+  static String edit_path_checkpoints = '/edit_path_checkpoints';
+  static String checkpoint_search = '/checkpoint_search';
+  static String checkpoint_qr = '/checkpoint_qr';
+  static String set = '/set';
+  static String edit_set_info = '/edit_set_info';
+  static String add_set_info = '/add_set_info';
+  static String edit_set_paths = '/edit_set_paths';
+  static String path_search = '/path_search';
   static String app_info_page = '/app_info_page';
   static String about_us_admin = '/about_us_admin';
   static String about_us_user = '/about_us_user';
@@ -112,6 +134,14 @@ final getPages = [
     page: () => const ViewFeedbackPage(),
   ),
   GetPage(
+    name: Routes.claim_reward,
+    page: () => const ClaimRewardPage(),
+  ),
+  GetPage(
+    name: Routes.view_claim_reward,
+    page: () => const ViewClaimRewardPage(),
+  ),
+  GetPage(
     name: Routes.rewards,
     page: () => const RewardsListPage(),
   ),
@@ -146,6 +176,38 @@ final getPages = [
   GetPage(
     name: Routes.add_path_info,
     page: () => const AddPathInfoPage(),
+  ),
+  GetPage(
+    name: Routes.edit_path_checkpoints,
+    page: () => const EditPathCheckpointsPage(),
+  ),
+  GetPage(
+    name: Routes.checkpoint_search,
+    page: () => const CheckpointSearchPage(),
+  ),
+  GetPage(
+    name: Routes.checkpoint_qr,
+    page: () => const CheckpointQrPage(),
+  ),
+  GetPage(
+    name: Routes.set,
+    page: () => const SetListPage(),
+  ),
+  GetPage(
+    name: Routes.edit_set_info,
+    page: () => const EditSetInfoPage(),
+  ),
+  GetPage(
+    name: Routes.add_set_info,
+    page: () => const AddSetInfoPage(),
+  ),
+  GetPage(
+    name: Routes.edit_set_paths,
+    page: () => const EditSetPathsPage(),
+  ),
+  GetPage(
+    name: Routes.path_search,
+    page: () => const PathSearchPage(),
   ),
   GetPage(
     name: Routes.app_info_page,
@@ -210,6 +272,10 @@ final getPages = [
   GetPage(
     name: Routes.send_feedback,
     page: () => const SendFeedbackPage(),
+  ),
+  GetPage(
+    name: Routes.send_notification,
+    page: () => const SendNotificationPage(),
   ),
   GetPage(
     name: Routes.change_userInfo,

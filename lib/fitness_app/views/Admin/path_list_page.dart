@@ -1,10 +1,15 @@
+import 'dart:convert';
 import 'package:fitnessapp/fitness_app/controllers/Admin/pathListController.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:http/http.dart' as http;
 
 class PathListPage extends StatefulWidget {
   const PathListPage({Key? key}) : super(key: key);
@@ -82,31 +87,52 @@ class _PathListPageState extends State<PathListPage> {
                     style: TextStylePreset.normalText,
                   ),
                   trailing: SizedBox(
+                    height: 150,
                     width: 125,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "${_pathListController.pathList[index].path_id}",
+                            "${_pathListController.pathList[index].id}",
                             style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.edit_path_info, arguments: [
-                                _pathListController.pathList[index],
-                                _pathListController.getCheckpointName(
-                                    _pathListController
-                                        .pathList[index].fromCpID),
-                                _pathListController.getCheckpointName(
-                                    _pathListController.pathList[index].toCpID)
-                              ]);
-                            },
-                            child: editButton(),
-                          ),
-                        ),
+                        SizedBox(
+                            width: 100,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.edit_path_info,
+                                          arguments: _pathListController
+                                              .pathList[index]);
+                                    },
+                                    child: editButton(),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.edit_path_checkpoints,
+                                          arguments: [
+                                            _pathListController.pathList[index],
+                                            _pathListController
+                                                .getCurrentCheckpoints(
+                                                    _pathListController
+                                                        .pathList[index])
+                                          ]);
+                                    },
+                                    child: editCheckpointOrderButton(),
+                                  ),
+                                ),
+                              ],
+                            ))
                       ],
                     ),
                   ),
@@ -119,8 +145,8 @@ class _PathListPageState extends State<PathListPage> {
 
   Container editButton() {
     return Container(
-      height: 40,
-      width: 50,
+      height: 80,
+      width: 100,
       decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
@@ -129,6 +155,25 @@ class _PathListPageState extends State<PathListPage> {
         children: [
           Text(
             "Edit",
+            style: TextStylePreset.btnSmallText,
+          )
+        ],
+      ),
+    );
+  }
+
+  Container editCheckpointOrderButton() {
+    return Container(
+      height: 80,
+      width: 100,
+      decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          borderRadius: BorderRadius.circular(30)),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "CP",
             style: TextStylePreset.btnSmallText,
           )
         ],
