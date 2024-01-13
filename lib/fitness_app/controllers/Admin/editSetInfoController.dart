@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 class EditSetInfoController extends GetxController {
   GlobalKey<FormState> editSetInfoFormKey = GlobalKey<FormState>();
   late TextEditingController nameController, bonusPointsController;
+  RxString type = ''.obs;
 
   @override
   void onClose() {
@@ -23,6 +24,7 @@ class EditSetInfoController extends GetxController {
     nameController.text = arguments.name;
     bonusPointsController = TextEditingController();
     bonusPointsController.text = arguments.bonus_points.toString();
+    type.value = arguments.type;
   }
 
   Future<void> updateSetInfo(var arguments) async {
@@ -37,6 +39,7 @@ class EditSetInfoController extends GetxController {
           body: {
             'name': nameController.text.trim(),
             'bonus_points': bonusPointsController.text.trim(),
+            'type': type.value,
             'setID': arguments.id.toString(),
           },
         );

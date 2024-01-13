@@ -11,6 +11,7 @@ class PathModel {
   int path_difficulty;
   int time_limit;
   int path_points;
+  String path_type;
 
   PathModel(
       this.path_id,
@@ -20,21 +21,24 @@ class PathModel {
       this.path_elevation,
       this.path_difficulty,
       this.time_limit,
-      this.path_points);
+      this.path_points,
+      this.path_type);
 
   factory PathModel.fromJson(Map<String, dynamic> json) => PathModel(
-      int.parse(json["path_id"]),
-      json["path_name"],
-      json["path_checkpoint_list"]
-          .split(",")
-          .map(int.parse)
-          .toList()
-          .cast<int>(),
-      int.parse(json["path_distance"]),
-      int.parse(json["path_elevation"]),
-      int.parse(json["path_difficulty"]),
-      int.parse(json["time_limit"]),
-      int.parse(json["path_points"]));
+        int.parse(json["path_id"]),
+        json["path_name"],
+        json["path_checkpoint_list"]
+            .split(",")
+            .map(int.parse)
+            .toList()
+            .cast<int>(),
+        int.parse(json["path_distance"]),
+        int.parse(json["path_elevation"]),
+        int.parse(json["path_difficulty"]),
+        int.parse(json["time_limit"]),
+        int.parse(json["path_points"]),
+        json["path_type"],
+      );
 
   Map<String, dynamic> toJson() => {
         "path_id": path_id.toString(),
@@ -44,6 +48,7 @@ class PathModel {
         "path_elevation": path_elevation.toString(),
         "path_difficulty": path_difficulty.toString(),
         "time_limit": time_limit.toString(),
-        "path_points": path_points.toString()
+        "path_points": path_points.toString(),
+        "path_type": path_type,
       };
 }

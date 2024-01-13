@@ -245,7 +245,7 @@ class _EditSetPathsPageState extends State<EditSetPathsPage>
         final result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const PathSearchPage(),
+            builder: (context) => PathSearchPage(type: arguments[0].type),
           ),
         );
 

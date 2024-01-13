@@ -90,6 +90,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Users",
@@ -98,14 +99,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.userCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.userCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -134,6 +142,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "RFID Bands",
@@ -142,14 +151,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.rfidBandCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.rfidBandCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -178,6 +194,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Feedbacks",
@@ -186,14 +203,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.feedbackCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.feedbackCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -222,6 +246,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Checkpoints",
@@ -230,14 +255,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.checkpointCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.checkpointCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -266,6 +298,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Paths",
@@ -274,14 +307,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.pathCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.pathCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -310,6 +350,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Rewards",
@@ -318,14 +359,21 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Obx(() {
-                    return Text(
-                      "${_adminHomeScreenController.rewardCount.value}",
-                      style: TextStylePreset.bigText,
-                    );
-                  }),
-                  const SizedBox(
-                    height: 10,
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Obx(() {
+                        return Text(
+                          "${_adminHomeScreenController.rewardCount.value}",
+                          style: TextStylePreset.bigText,
+                        );
+                      }),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -76,10 +76,23 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          _workoutController.allSets[index].set_name,
-                          style: TextStylePreset.bigWhiteText,
-                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _workoutController.allSets[index].set_name,
+                                style: TextStylePreset.bigWhiteText,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "(" +
+                                    _workoutController.allSets[index].set_type +
+                                    ")",
+                                style: TextStylePreset.normalWhiteText,
+                              ),
+                            ]),
                         Align(
                             alignment: Alignment.topRight,
                             child: Text(

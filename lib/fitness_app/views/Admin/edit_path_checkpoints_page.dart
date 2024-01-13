@@ -247,7 +247,7 @@ class _EditPathCheckpointsPageState extends State<EditPathCheckpointsPage>
         final result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const CheckpointSearchPage(),
+            builder: (context) => CheckpointSearchPage(type: arguments[0].type),
           ),
         );
 

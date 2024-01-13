@@ -19,6 +19,11 @@ class AddSetInfoPage extends StatefulWidget {
 
 class _AddSetInfoPageState extends State<AddSetInfoPage> {
   final _addSetInfoController = Get.put(addSetInfoController());
+  var types = [
+    'Select type',
+    'RFID',
+    'QR Code',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +82,10 @@ class _AddSetInfoPageState extends State<AddSetInfoPage> {
           const SizedBox(
             height: 15,
           ),
+          typeField(),
+          const SizedBox(
+            height: 15,
+          ),
           InkWell(
             onTap: () {
               _addSetInfoController.addSet();
@@ -84,6 +93,43 @@ class _AddSetInfoPageState extends State<AddSetInfoPage> {
             child: addSetButton(),
           ),
         ],
+      ),
+    );
+  }
+
+  Container typeField() {
+    String typeValue = types[0];
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        border: Border.all(color: black.withOpacity(0.1)),
+      ),
+      child: DropdownButtonFormField(
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.person),
+        ),
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        value: typeValue,
+        icon: const Icon(Icons.keyboard_arrow_down),
+        isExpanded: true,
+        items: types.map((String items) {
+          return DropdownMenuItem(
+            value: items,
+            child: Text(items),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          setState(() {
+            typeValue = newValue!;
+            _addSetInfoController.typeController.text = typeValue;
+          });
+        },
+        validator: (checkpointTypeValue) {
+          if (checkpointTypeValue == "Select type") {
+            return "Please select a type";
+          }
+          return null;
+        },
       ),
     );
   }

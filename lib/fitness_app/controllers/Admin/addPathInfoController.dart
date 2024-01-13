@@ -15,7 +15,8 @@ class addPathInfoController extends GetxController {
       elevationController,
       difficultyController,
       pointsController,
-      timeLimitController;
+      timeLimitController,
+      typeController;
 
   @override
   void onInit() {
@@ -25,6 +26,7 @@ class addPathInfoController extends GetxController {
     difficultyController = TextEditingController();
     pointsController = TextEditingController();
     timeLimitController = TextEditingController();
+    typeController = TextEditingController();
     super.onInit();
   }
 
@@ -36,6 +38,7 @@ class addPathInfoController extends GetxController {
     difficultyController.dispose();
     pointsController.dispose();
     timeLimitController.dispose();
+    typeController.dispose();
     super.dispose();
   }
 
@@ -55,16 +58,9 @@ class addPathInfoController extends GetxController {
             'difficulty': difficultyController.text.trim(),
             'points': pointsController.text.trim(),
             'time_limit': timeLimitController.text.trim(),
+            'type': typeController.text.trim(),
           },
         );
-        print({
-          'name': nameController.text.trim(),
-          'distance': distanceController.text.trim(),
-          'elevation': elevationController.text.trim(),
-          'difficulty': difficultyController.text.trim(),
-          'points': pointsController.text.trim(),
-          'time_limit': timeLimitController.text.trim(),
-        }.toString());
         if (res.statusCode == 200) {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
