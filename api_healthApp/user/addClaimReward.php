@@ -5,10 +5,10 @@ include '../connection.php';
 //GET retrieve/read data
 
 $userID = $_POST['userID'];
-$msg = $_POST['msg'];
-$hasRead = 0;
+$rewardID = $_POST['rewardID'];
 
-$sqlQuery = "INSERT INTO notifications SET user_id = '$userID', msg = '$msg', hasRead = '$hasRead'";
+$sqlQuery = "INSERT INTO claim_rewards SET reward_id = '$rewardID', 
+user_id = '$userID', claim_reward_status = 'new'";
 $result = $connectNow->query($sqlQuery);
 
 if($result){
