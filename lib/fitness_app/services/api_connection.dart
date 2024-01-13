@@ -2,6 +2,20 @@
 //port 51036 for web
 class Api {
   // Use localhost:3000 for iOS and 10.0.2.2:3000 for Android
+
+  // void getPlatform() {
+  //   if (Platform.isAndroid) {
+  //     // Android-specific connection
+  //     hostConnect = "10.0.2.2:3000/api_healthApp";
+  //   } else if (Platform.isIOS) {
+  //     // iOS-specific connection
+  //     hostConnect = "http://localhost/api_healthApp";
+  //   } else {
+  //     // Website connection
+  //     hostConnect = "http://192.168.0.208:51036/api_healthApp";
+  //   }
+  // }
+
   static const hostConnect = "http://localhost/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
 
