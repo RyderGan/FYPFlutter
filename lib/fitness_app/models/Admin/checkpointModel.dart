@@ -3,25 +3,29 @@
 //     final userModel = userModelFromJson(jsonString);
 
 class CheckpointModel {
-  int cp_id;
-  int check_point;
-  int road_id;
-  String createdAt;
+  int id;
+  String name;
+  String description;
+  String location;
+  String type;
 
-  CheckpointModel(this.cp_id, this.check_point, this.road_id, this.createdAt);
+  CheckpointModel(
+      this.id, this.name, this.description, this.location, this.type);
 
   factory CheckpointModel.fromJson(Map<String, dynamic> json) =>
       CheckpointModel(
-        int.parse(json["cp_id"]),
-        int.parse(json["check_point"]),
-        int.parse(json["road_id"]),
-        json["created_at"],
+        int.parse(json["checkpoint_id"]),
+        json["checkpoint_name"],
+        json["checkpoint_description"],
+        json["checkpoint_location"],
+        json["checkpoint_type"],
       );
 
   Map<String, dynamic> toJson() => {
-        "cp_id": cp_id.toString(),
-        "check_point": check_point.toString(),
-        "road_id": road_id.toString(),
-        "created_at": createdAt,
+        "checkpoint_id": id,
+        "checkpoint_name": name,
+        "checkpoint_description": description,
+        "checkpoint_location": location,
+        "checkpoint_type": type,
       };
 }

@@ -1,7 +1,8 @@
 //port 8080 for app
 //port 51036 for web
 class Api {
-  static const hostConnect = "http://192.168.0.208:8080/api_healthApp";
+  // Use localhost:3000 for iOS and 10.0.2.2:3000 for Android
+  static const hostConnect = "http://localhost/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
 
   //signUp user
@@ -107,12 +108,77 @@ class Api {
   static const getAllRewards = "$hostConnect/user/getAllRewards.php";
   //claim reward
   static const claimReward = "$hostConnect/user/claimReward.php";
-
+  //get user list
+  static const getUserList = "$hostConnect/admin/getUserList.php";
+  //get feedback list
+  static const getFeedbackList = "$hostConnect/admin/getFeedbackList.php";
+  //get checkpoint list
+  static const getCheckpointList = "$hostConnect/admin/getCheckpointList.php";
+  //get reward list
+  static const getRewardList = "$hostConnect/admin/getRewardList.php";
+  //delete user
+  static const deleteUser = "$hostConnect/admin/deleteUser.php";
+  //delete feedback
+  static const deleteFeedback = "$hostConnect/admin/deleteFeedback.php";
+  //delete reward
+  static const deleteReward = "$hostConnect/admin/deleteReward.php";
+  //change reward info
+  static const updateRewardInfo = "$hostConnect/admin/updateRewardInfo.php";
+  //add reward
+  static const addReward = "$hostConnect/admin/addReward.php";
+  //get rfid checkpoint list
+  static const getcheckpointList = "$hostConnect/admin/getcheckpointList.php";
+  //delete checkpoint
+  static const deleteCheckpoint = "$hostConnect/admin/deleteCheckpoint.php";
+  //change checkpoint info
+  static const updateCheckpointInfo =
+      "$hostConnect/admin/updateCheckpointInfo.php";
+  //add checkpoint
+  static const addCheckpoint = "$hostConnect/admin/addCheckpoint.php";
+  //get path list
+  static const getPathList = "$hostConnect/admin/getPathList.php";
+  //delete path heckpoint
+  static const deletePath = "$hostConnect/admin/deletePath.php";
+  //update path info
+  static const updatePathInfo = "$hostConnect/admin/updatePathInfo.php";
+  //update path checkpoint info
+  static const updatePathCheckpoints =
+      "$hostConnect/admin/updatePathCheckpoints.php";
+  //add path
+  static const addSet = "$hostConnect/admin/addSet.php";
+  //get set list
+  static const getSetList = "$hostConnect/admin/getSetList.php";
+  //delete set
+  static const deleteSet = "$hostConnect/admin/deleteSet.php";
+  //update set info
+  static const updateSetInfo = "$hostConnect/admin/updateSetInfo.php";
+  //update set checkpoint info
+  static const updateSetPaths = "$hostConnect/admin/updateSetPaths.php";
+  //add set
+  static const addPath = "$hostConnect/admin/addPath.php";
+  //get about us
+  static const getAboutUs = "$hostConnect/admin/getAboutUs.php";
+  //update about us
+  static const updateAboutUsInfo = "$hostConnect/admin/updateAboutUsInfo.php";
+  //get rfid band list
+  static const getRfidBandList = "$hostConnect/admin/getRfidBandList.php";
+  //delete rfid band heckpoint
+  static const deleteRfidBand = "$hostConnect/admin/deleteRfidBand.php";
+  //change rfid band info
+  static const updateRfidBandInfo = "$hostConnect/admin/updateRfidBandInfo.php";
+  //add rfid band
+  static const addRfidBand = "$hostConnect/admin/addRfidBand.php";
+  //get claim rewards list
+  static const getClaimRewardList = "$hostConnect/admin/getClaimRewardList.php";
+  //delete claim reward
+  static const deleteClaimReward = "$hostConnect/admin/deleteClaimReward.php";
+  //admin claim reward
+  static const adminClaimReward = "$hostConnect/admin/adminClaimReward.php";
+  //send notification
+  static const addNotification = "$hostConnect/admin/addNotification.php";
   //get all notifications
   static const getAllUserNotifications =
       "$hostConnect/user/getUserAllNotifications.php";
-  //add notification
-  static const addNotification = "$hostConnect/user/addNotification.php";
   //mark notification as read
   static const markNotificationAsRead =
       "$hostConnect/user/markNotificationAsRead.php";

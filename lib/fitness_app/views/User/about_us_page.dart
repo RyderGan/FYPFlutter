@@ -22,7 +22,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("About Us"),
@@ -44,22 +44,22 @@ class _AboutUsPageState extends State<AboutUsPage> {
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(children: [
-              Text(
+              const Text(
                 "Who we are",
                 style: TextStylePreset.bigTitle,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               whoWeAre(),
-              SizedBox(
+              const SizedBox(
                 height: 45,
               ),
-              Text(
+              const Text(
                 "Our related links",
                 style: TextStylePreset.bigTitle,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               otherRelatedLinks(),
@@ -72,7 +72,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
 
   Container whoWeAre() {
     return Container(
-      child: Column(
+      child: const Column(
         children: [
           Text(
             "FSKTM students",
@@ -94,11 +94,11 @@ class _AboutUsPageState extends State<AboutUsPage> {
     return Container(
       child: Column(
         children: [
-          Text(
+          const Text(
             "Website",
             style: TextStylePreset.smallTitle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           RichText(
@@ -114,14 +114,14 @@ class _AboutUsPageState extends State<AboutUsPage> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
-          Text(
+          const Text(
             "Social Media",
             style: TextStylePreset.smallTitle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -131,17 +131,17 @@ class _AboutUsPageState extends State<AboutUsPage> {
                 onPressed: () async {
                   await goToWebPage("https://www.facebook.com");
                 },
-                icon: LineIcon.facebook(),
+                icon: const LineIcon.facebook(),
                 iconSize: 50,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               IconButton(
                 onPressed: () async {
                   await goToWebPage("https://www.facebook.com");
                 },
-                icon: LineIcon.instagram(),
+                icon: const LineIcon.instagram(),
                 iconSize: 50,
               ),
             ],
@@ -152,9 +152,9 @@ class _AboutUsPageState extends State<AboutUsPage> {
   }
 
   Future<void> goToWebPage(String urlString) async {
-    final Uri _url = Uri.parse(urlString);
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
+    final Uri url = Uri.parse(urlString);
+    if (!await launchUrl(url)) {
+      throw 'Could not launch $url';
     }
   }
 }

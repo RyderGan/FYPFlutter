@@ -91,7 +91,7 @@ class _EditRfidBandInfoPageState extends State<EditRfidBandInfoPage> {
             padding: const EdgeInsets.all(20),
             child: Column(children: [
               const Text(
-                "Edit RfidBand info",
+                "Edit Rfid Band info",
                 style: TextStylePreset.bigTitle,
               ),
               const SizedBox(
@@ -274,7 +274,7 @@ class _EditRfidBandInfoPageState extends State<EditRfidBandInfoPage> {
             width: 5,
           ),
           Text(
-            "Update RfidBand Info",
+            "Update Rfid Band Info",
             style: TextStylePreset.btnSmallText,
           )
         ],
@@ -300,7 +300,7 @@ class _EditRfidBandInfoPageState extends State<EditRfidBandInfoPage> {
             width: 5,
           ),
           Text(
-            "Delete RfidBand",
+            "Delete Rfid Band",
             style: TextStylePreset.btnSmallText,
           )
         ],

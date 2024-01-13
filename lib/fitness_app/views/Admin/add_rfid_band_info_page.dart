@@ -250,7 +250,7 @@ class _AddRfidBandInfoPageState extends State<AddRfidBandInfoPage> {
             width: 5,
           ),
           Text(
-            "Add RfidBand",
+            "Add Rfid Band",
             style: TextStylePreset.btnSmallText,
           )
         ],

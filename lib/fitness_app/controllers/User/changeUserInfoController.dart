@@ -16,7 +16,7 @@ class changeUserInfoController extends GetxController {
       genderController,
       dobController;
 
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   RxString gender = ''.obs;
 
   @override

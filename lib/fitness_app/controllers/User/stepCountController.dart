@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class stepCountController extends GetxController {
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
   int totalStepCount = 0;
   RxInt finalStepCount = 0.obs;
   int totalStepCountsBeforeToday = 0;
@@ -18,7 +18,7 @@ class stepCountController extends GetxController {
   @override
   void onInit() {
     getUserLastStepCount();
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       getUserStepCount();
     });
     getUserAllStepCounts();

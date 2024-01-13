@@ -11,13 +11,15 @@ class addCheckpointInfoController extends GetxController {
 
   late TextEditingController nameController,
       descriptionController,
-      locationController;
+      locationController,
+      typeController;
 
   @override
   void onInit() {
     nameController = TextEditingController();
     descriptionController = TextEditingController();
     locationController = TextEditingController();
+    typeController = TextEditingController();
     super.onInit();
   }
 
@@ -26,6 +28,7 @@ class addCheckpointInfoController extends GetxController {
     nameController.dispose();
     descriptionController.dispose();
     locationController.dispose();
+    typeController.dispose();
     super.dispose();
   }
 
@@ -37,11 +40,12 @@ class addCheckpointInfoController extends GetxController {
     } else {
       try {
         var res = await http.post(
-          Uri.parse(Api.addRfidCheckpoint),
+          Uri.parse(Api.addCheckpoint),
           body: {
             'name': nameController.text.trim(),
             'description': descriptionController.text.trim(),
             'location': locationController.text.trim(),
+            'type': typeController.text.trim(),
           },
         );
         if (res.statusCode == 200) {

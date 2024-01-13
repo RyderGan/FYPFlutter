@@ -50,24 +50,66 @@ class viewFeedbackController extends GetxController {
   }
 
   Future<void> deleteFeedback() async {
-    try {
-      // delete feedback
-      var res = await http.post(Uri.parse(Api.deleteFeedback), body: {
-        "feedbackID": feedbackID.toString(),
-      });
-      if (res.statusCode == 200) {
-        var resBodyOfLogin = jsonDecode(res.body);
-        if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "Feedback Deleted!");
-          //navigate to home page
-          Get.offAllNamed(Routes.admin_root_app);
-        } else {
-          Fluttertoast.showToast(msg: "Error occurred");
+    var resultResponse = await Get.dialog(
+      AlertDialog(
+        backgroundColor: Colors.grey,
+        title: const Text(
+          "Delete Feedback",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: const Text(
+          "Are you sure?\nThis cannot be undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back(result: "delete");
+            },
+            child: const Text(
+              "Yes",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text(
+              "No",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (resultResponse == 'delete') {
+      try {
+        // delete feedback
+        var res = await http.post(Uri.parse(Api.deleteFeedback), body: {
+          "feedbackID": feedbackID.toString(),
+        });
+        if (res.statusCode == 200) {
+          var resBodyOfLogin = jsonDecode(res.body);
+          if (resBodyOfLogin['success']) {
+            Fluttertoast.showToast(msg: "Feedback Deleted!");
+            //navigate to home page
+            Get.offAllNamed(Routes.admin_root_app);
+          } else {
+            Fluttertoast.showToast(msg: "Error occurred");
+          }
         }
+      } catch (e) {
+        print(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
       }
-    } catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
     }
   }
 }

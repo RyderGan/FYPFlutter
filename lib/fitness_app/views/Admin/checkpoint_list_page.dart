@@ -5,6 +5,7 @@ import 'package:fitnessapp/theme/text_style.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class CheckpointListPage extends StatefulWidget {
   const CheckpointListPage({Key? key}) : super(key: key);
@@ -82,26 +83,61 @@ class _CheckpointListPageState extends State<CheckpointListPage> {
                     style: TextStylePreset.normalText,
                   ),
                   trailing: SizedBox(
-                    width: 125,
+                    height: 150,
+                    width: 150,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "${_checkpointListController.checkpointList[index].rfid_checkpoint_id}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            "${_checkpointListController.checkpointList[index].type}",
+                            style: const TextStyle(height: 5, fontSize: 12),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () {
-                              Get.toNamed(Routes.edit_checkpoint_info,
-                                  arguments: _checkpointListController
-                                      .checkpointList[index]);
-                            },
-                            child: editButton(),
-                          ),
+                        const SizedBox(
+                          height: 5,
+                          width: 5,
                         ),
+                        SizedBox(
+                            width: 100,
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.toNamed(Routes.edit_checkpoint_info,
+                                            arguments: _checkpointListController
+                                                .checkpointList[index]);
+                                      },
+                                      child: editButton(),
+                                    ),
+                                  ),
+                                  if (_checkpointListController
+                                          .checkpointList[index].type ==
+                                      "QR Code")
+                                    const SizedBox(
+                                      height: 5,
+                                      width: 5,
+                                    ),
+                                  if (_checkpointListController
+                                          .checkpointList[index].type ==
+                                      "QR Code")
+                                    Expanded(
+                                      child: InkWell(
+                                        onTap: () {
+                                          Get.toNamed(Routes.checkpoint_qr,
+                                              arguments:
+                                                  _checkpointListController
+                                                      .checkpointList[index].id
+                                                      .toString());
+                                        },
+                                        child: qrButton(),
+                                      ),
+                                    ),
+                                ])),
                       ],
                     ),
                   ),
@@ -114,8 +150,8 @@ class _CheckpointListPageState extends State<CheckpointListPage> {
 
   Container editButton() {
     return Container(
-      height: 40,
-      width: 50,
+      height: 80,
+      width: 100,
       decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
           borderRadius: BorderRadius.circular(30)),
@@ -124,6 +160,25 @@ class _CheckpointListPageState extends State<CheckpointListPage> {
         children: [
           Text(
             "Edit",
+            style: TextStylePreset.btnSmallText,
+          )
+        ],
+      ),
+    );
+  }
+
+  Container qrButton() {
+    return Container(
+      height: 80,
+      width: 100,
+      decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [fourthColor, thirdColor]),
+          borderRadius: BorderRadius.circular(30)),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "QR",
             style: TextStylePreset.btnSmallText,
           )
         ],

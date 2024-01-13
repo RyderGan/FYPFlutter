@@ -60,11 +60,14 @@ function process($connectNow, $rfidUID, $rfidCheckpointID){
         $nextStep = validateCheckpointHistory($connectNow, $currentRfidCheckpointID,  $previousRfidCheckpointID, $previousCpTime);
 
     }
-
+    echo "Next Step: $nextStep\n";
     switch ($nextStep) {
         case "Calculate":
             //Get User Step Count
             $userStepCounts = getUserStepCount($connectNow, $userID, $previousCpTime);
+            echo "User Stepcount: $userStepCounts[0]";
+            //Get User Info
+            $userInfo = getUserInfo($connectNow, $userID);
 
             //Get User BMI
             $userBmi = getUserBmi($connectNow, $userID);
@@ -76,7 +79,7 @@ function process($connectNow, $rfidUID, $rfidCheckpointID){
             $difficulty = $pathInfo ['path_difficulty'];
 
             //Calculate Points
-            $pointsGained = calculatePoints($previousCpTime, $distance, $elevation, $difficulty, $userStepCounts, $userBmi);
+            $pointsGained = startCalculatePoints($previousCpTime, $distance, $elevation, $difficulty, $userStepCounts, $userBmi, $userInfo);
 
             //Insert Reward Points to DB
             $result = insertRewardPoint($connectNow, $pointsGained, $userID);
@@ -97,17 +100,6 @@ function process($connectNow, $rfidUID, $rfidCheckpointID){
             //Start New Activity
             $result = insertCheckpointHistory($connectNow, $rfidBandID, $rfidCheckpointID);
     }
-    // //Get Path Info
-    // $pathInfo = getPathInfo($connectNow, $fromCpID, $toCpID);
-    // $distance = $pathInfo ['path_distance'];
-    // $elevation = $pathInfo ['path_elevation'];
-    // $difficulty = $pathInfo ['path_difficulty'];
-
-    // //Calculate Points
-    // $pointsGained = calculatePoints($fromCpTime, $toCpTime, $distance, $elevation, $difficulty);
-
-    // //Insert Reward Points to DB
-    // $result = insertRewardPoint($connectNow, $pointsGained, $userID);
 
     if($result){
         echo json_encode(array("success"=>true));
@@ -116,15 +108,37 @@ function process($connectNow, $rfidUID, $rfidCheckpointID){
     }
 }
 
-function calculatePoints($previousCpTime, $distance, $elevation, $difficulty, $userStepCounts, $userBmi){
+function startCalculatePoints($previousCpTime, $distance, $elevation, $difficulty, $userStepCounts, $userBmi, $userInfo){
     $fromCpTime = strtotime($previousCpTime);
     $toCpTime = time();
+    $time = $toCpTime-$fromCpTime;
+    $height = $userBmi['user_height'];
+    $weight = $userBmi['user_weight'];
+    $dateOfBirth = $userInfo['dateOfBirth'];
+    $age = date("Y") - date("Y", strtotime($dateOfBirth));
+    $gender = $userInfo['gender'];
 
     //Algorithm to calculate the points
+    $points = calculatePointsAlgorithm($height, $weight, $age, $gender, $distance, 
+    $time, $elevation, $difficulty, $userStepCounts);
 
-    
-
+    echo "Points earned: $points\n";
     return 5;
+}
+
+function getUserInfo($connectNow, $userID){
+
+    $sqlQuery = "SELECT * FROM users WHERE id = '$userID'";
+    $result = $connectNow->query($sqlQuery);
+    
+    if ($result->num_rows > 0) {
+        while ($rowFound = $result->fetch_assoc()) {
+            $userDetails[] = $rowFound;
+        }
+        return $userDetails[0];
+    } else {
+        return [];
+    }
 }
 
 function getUserStepCount($connectNow, $userID, $previousCpTime){
@@ -285,3 +299,128 @@ function insertRewardPoint($connectNow, $rewardPt, $userID) {
 // }
 
 // echo json_encode(array("success"=>$sqlQuery));
+
+
+// Calculate Points Algorithm
+
+# Part 1: Calculate BMR
+function calculateBMR($height, $weight, $age, $gender) {
+    // Constants for Harris-Benedict equation
+   //  estimate an individual's basal metabolic rate (BMR).
+    $bmrConstants = [
+        'male' => ['A' => 88.362, 'B' => 13.397, 'C' => 4.799, 'D' => 5.677],
+        'female' => ['A' => 447.593, 'B' => 9.247, 'C' => 3.098, 'D' => 4.330]
+    ];
+
+    // Calculate BMR
+    if (!in_array(strtolower($gender), ['male', 'female'])) {
+        throw new InvalidArgumentException("Invalid gender. Please enter 'male' or 'female'.");
+    }
+
+    $genderConstants = $bmrConstants[strtolower($gender)];
+    $bmr = (
+        $genderConstants['A'] +
+        ($genderConstants['B'] * $weight) +
+        ($genderConstants['C'] * $height) -
+        ($genderConstants['D'] * $age)
+    );
+
+    return $bmr;
+}
+
+# Part 2: Calculate Work Done and Points
+function calculateWorkAndPoints($bmr, $distance, $time, $elevation, $difficulty, $stepCount) {
+    # User's speed
+    $speed = determineSpeed($stepCount, $distance, $time);
+
+    # MET for walking/running
+    $metWalkingRunning = determineMETWalkingRunning($speed, $difficulty);
+
+    # MET for going up/down stairs
+    $metStairs = determineMETStairs($elevation, $speed);
+
+    # Calculate total MET
+    $totalMET = $metWalkingRunning + $metStairs;
+
+    # Calculate total energy expenditure (TEE) using Harris-Benedict equation
+    $tee = $bmr * $totalMET;
+
+    # Calculate points based on power
+    $points = calculatePoints($tee);
+
+    return $points;
+}
+
+function determineSpeed($stepCount, $distance, $time) {
+    $speed = $distance / $time;
+    if ($speed > 10){
+        return 10;
+    }
+    else{
+        return $speed;
+    }
+}
+
+function determineMETWalkingRunning($speed, $difficulty) {
+    # MET increases with speed and difficulty
+    $baseMET = 2.0;
+    $speedMETFactor = 0.5;
+    $difficultyMETFactor = 1.0;
+
+    return $baseMET + $speedMETFactor * $speed + $difficultyMETFactor * $difficulty;
+}
+
+function determineMETStairs($elevation, $speed) {
+    # MET increases with elevation and speed
+    if(abs($elevation) == $elevation){
+        //Going up staircase
+        $elevationMETFactor = 3;  
+        $speedMETFactor = 0.5; 
+
+        return $elevationMETFactor * $elevation + $speedMETFactor * $speed;
+    }else{
+        //Going down staircase
+        $elevationMETFactor = 0.1;  
+        $speedMETFactor = 0.5;
+
+        return $elevationMETFactor * $elevation + $speedMETFactor * $speed;
+    }
+
+}
+
+function calculatePoints($tee) {
+    # Points increase with higher TEE
+    $basePoints = 5.0; 
+    $pointsFactor = 2.0; 
+    $teePoints = $basePoints + $pointsFactor * $tee;
+    echo "tee: $teePoints\n";
+    //Points Range from 40000 to 20000 (still calibrating)
+    if ($teePoints > 40000){
+        return 100;
+    }else if ($teePoints < 40000 && $teePoints > 35000){
+        return 80;
+    }else if ($teePoints < 35000 && $teePoints > 31000){
+        return 60;
+    }else if ($teePoints < 31000 && $teePoints > 29000){
+        return 40;
+    }else if ($teePoints < 29000 && $teePoints > 25000){
+        return 20;
+    }else if ($teePoints < 25000 && $teePoints > 20000){
+        return 10;
+    }else {
+        return 5;
+    }
+}
+
+
+function calculatePointsAlgorithm($height, $weight, $age, $gender, $distance, 
+    $time, $elevation, $difficulty, $stepCount){
+
+    # Part 1: Calculate BMR
+    $bmr = calculateBMR($height, $weight, $age, $gender);
+    # Part 2: Calculate Work Done and Points
+    $points = calculateWorkAndPoints($bmr, $distance, $time, $elevation, $difficulty, $stepCount);
+
+    # Display the result
+    return $points;
+}

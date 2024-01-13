@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:fitnessapp/fitness_app/controllers/User/scanQRController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
@@ -92,7 +91,7 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
 
   Widget buildResult() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.white24,
@@ -102,7 +101,7 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
             ? 'QR code scanned' //${_scanQRController.barcode!.code}, Result: QR code scanned
             : 'Scan a QR code',
         maxLines: 3,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

@@ -5,15 +5,15 @@ include '../connection.php';
 //GET retrieve/read data
 
 $name= $_POST['name'];
-$fromCpID = $_POST['fromCpID'];
-$toCpID = $_POST['toCpID'];
 $distance = $_POST['distance'];
 $elevation = $_POST['elevation'];
 $difficulty = $_POST['difficulty'];
+$points = $_POST['points'];
+$time_limit = $_POST['time_limit'];
 
-$sqlQuery = "INSERT INTO paths SET path_name = '$name', path_from_cp_id = '$fromCpID',
- path_to_cp_id = '$toCpID', path_distance = '$distance',
- path_elevation = '$elevation', path_difficulty = '$difficulty'";
+$sqlQuery = "INSERT INTO paths SET path_name = '$name', path_checkpoint_list = '[]',
+path_distance = '$distance', path_elevation = '$elevation', path_difficulty = '$difficulty', 
+ path_points = '$points', time_limit = '$time_limit'";
 $result = $connectNow->query($sqlQuery);
 
 if($result){

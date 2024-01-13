@@ -1,6 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/stepCountController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
-import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +23,7 @@ class _StepCountPageState extends State<StepCountPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Step Counts"),
@@ -47,14 +46,14 @@ class _StepCountPageState extends State<StepCountPage> {
               child: Column(
                 children: [
                   displayUserLatestStepCount(),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
-                  Text(
+                  const Text(
                     "Other records",
                     style: TextStylePreset.bigTitle,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   displayUserAllStepCounts(),
@@ -69,27 +68,27 @@ class _StepCountPageState extends State<StepCountPage> {
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             "Today",
             style: TextStylePreset.bigTitle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Obx(() {
             return Text(
-              _stepCountController.finalStepCount.toString() + "/10000 steps",
+              "${_stepCountController.finalStepCount}/10000 steps",
               style: TextStylePreset.bigText,
             );
           }),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Obx(() => (() {
@@ -101,11 +100,11 @@ class _StepCountPageState extends State<StepCountPage> {
                     animation: true,
                   );
                 } else {
-                  return Text(
+                  return const Text(
                       "Error: cannot show percent indicator for value < 0");
                 }
               }())),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
         ],
@@ -123,7 +122,7 @@ class _StepCountPageState extends State<StepCountPage> {
             return Card(
               color: primary,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: ListTile(
                   title: Text(
                     _stepCountController.allStepCounts[index].stepCount

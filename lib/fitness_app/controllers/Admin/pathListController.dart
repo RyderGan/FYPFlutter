@@ -1,6 +1,6 @@
 import 'dart:convert';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/pathModel.dart';
-import 'package:fitnessapp/fitness_app/models/Admin/rfidCheckpointModel.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class pathListController extends GetxController {
   List<PathModel> pathList = <PathModel>[].obs;
-  List<RfidCheckpointModel> checkpointModelList = <RfidCheckpointModel>[].obs;
+  List<CheckpointModel> checkpointModelList = <CheckpointModel>[].obs;
 
   @override
   void onInit() {
@@ -22,29 +22,62 @@ class pathListController extends GetxController {
     super.dispose();
   }
 
+  Future<List<CheckpointModel>> getCurrentCheckpoints(PathModel path) async {
+    List<CheckpointModel> currentCheckpointList = <CheckpointModel>[].obs;
+    List<int> checkpointsinpath = json.decode(path.checkpoint_list).cast<int>();
+    for (int checkpointID in checkpointsinpath) {
+      try {
+        var res = await http.get(
+          Uri.parse(Api.getcheckpointList),
+        );
+
+        if (res.statusCode == 200) {
+          var resBodyOfLogin = jsonDecode(res.body);
+          if (resBodyOfLogin['success']) {
+            List<CheckpointModel> checkpoints =
+                await resBodyOfLogin["checkpointList"]
+                    .map<CheckpointModel>(
+                        (json) => CheckpointModel.fromJson(json))
+                    .toList();
+            for (CheckpointModel checkpoint in checkpoints) {
+              if (checkpointID == checkpoint.id) {
+                currentCheckpointList.add(checkpoint);
+                break;
+              }
+            }
+          }
+        }
+      } catch (e) {
+        print(e.toString());
+        Fluttertoast.showToast(msg: e.toString());
+      }
+    }
+    return currentCheckpointList;
+  }
+
   Future<String> getCheckpointName(var checkpointID) async {
     try {
       var res = await http.get(
-        Uri.parse(Api.getRfidCheckpointList),
+        Uri.parse(Api.getcheckpointList),
       );
 
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          checkpointModelList = <RfidCheckpointModel>[].obs;
-          List<RfidCheckpointModel> checkpoints =
-              await resBodyOfLogin["rfidCheckpointList"]
-                  .map<RfidCheckpointModel>(
-                      (json) => RfidCheckpointModel.fromJson(json))
+          checkpointModelList = <CheckpointModel>[].obs;
+          List<CheckpointModel> checkpoints =
+              await resBodyOfLogin["checkpointList"]
+                  .map<CheckpointModel>(
+                      (json) => CheckpointModel.fromJson(json))
                   .toList();
           checkpointModelList.addAll(checkpoints);
-          for (RfidCheckpointModel checkpoint in checkpoints) {
-            if (checkpoint.rfid_checkpoint_id.toString() == checkpointID) {
+          for (CheckpointModel checkpoint in checkpoints) {
+            if (checkpoint.id.toString() == checkpointID) {
               return checkpoint.name.toString();
             }
           }
         } else {
-          List<RfidCheckpointModel> checkpoints = <RfidCheckpointModel>[];
+          List<CheckpointModel> checkpoints = <CheckpointModel>[];
           checkpointModelList.addAll(checkpoints);
         }
       }

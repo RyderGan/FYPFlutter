@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:fitnessapp/fitness_app/models/Admin/aboutUsModel.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:fitnessapp/fitness_app/services/api_connection.dart';
+import 'package:http/http.dart' as http;
 
 class AppInfoFragmentScreen extends StatefulWidget {
   const AppInfoFragmentScreen({Key? key}) : super(key: key);
@@ -12,6 +18,34 @@ class AppInfoFragmentScreen extends StatefulWidget {
 }
 
 class _AppInfoFragmentScreenState extends State<AppInfoFragmentScreen> {
+  AboutUsModel aboutUs =
+      AboutUsModel(0, "", "", "", "", "", "", "", "", "", 0, 0);
+
+  Future<AboutUsModel> getAboutUs() async {
+    AboutUsModel newAboutUs =
+        AboutUsModel(0, "", "", "", "", "", "", "", "", "", 0, 0);
+    try {
+      var res = await http.post(Uri.parse(Api.getAboutUs));
+      var resBodyOfLogin = jsonDecode(res.body);
+      if (resBodyOfLogin['success']) {
+        List<AboutUsModel> aboutUsInfo = await resBodyOfLogin["aboutUs"]
+            .map<AboutUsModel>((json) => AboutUsModel.fromJson(json))
+            .toList();
+        newAboutUs = aboutUsInfo[0];
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return newAboutUs;
+  }
+
+  @override
+  void initState() {
+    getAboutUs().then((value) => aboutUs = value);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ResponsivePadding(
@@ -42,7 +76,7 @@ class _AppInfoFragmentScreenState extends State<AppInfoFragmentScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  sendFeedbackButton(),
+                  sendNotificationButton(),
                   const SizedBox(
                     height: 75,
                   ),
@@ -75,20 +109,20 @@ class _AppInfoFragmentScreenState extends State<AppInfoFragmentScreen> {
       child: const Text('About Us',
           style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
-        Get.toNamed(Routes.about_us_admin);
+        Get.toNamed(Routes.about_us_admin, arguments: aboutUs);
       },
     );
   }
 
-  MaterialButton sendFeedbackButton() {
+  MaterialButton sendNotificationButton() {
     return MaterialButton(
       minWidth: double.infinity,
       height: 50,
       color: fourthColor,
-      child: const Text('Change App Icon',
+      child: const Text('Send Notification',
           style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
-        Get.toNamed(Routes.send_feedback);
+        Get.toNamed(Routes.send_notification);
       },
     );
   }

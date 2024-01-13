@@ -49,7 +49,7 @@ class _RfidBandListPageState extends State<RfidBandListPage> {
                         height: 30,
                       ),
                       const Text(
-                        "RfidBand List:",
+                        "Rfid Band List:",
                         style: TextStylePreset.bigTitle,
                       ),
                       const SizedBox(
@@ -89,7 +89,7 @@ class _RfidBandListPageState extends State<RfidBandListPage> {
                         Expanded(
                           child: Text(
                             "${_rfidBandListController.rfidBandList[index].rfid_band_id}",
-                            style: TextStyle(height: 5, fontSize: 10),
+                            style: const TextStyle(height: 5, fontSize: 10),
                           ),
                         ),
                         Expanded(
@@ -153,7 +153,7 @@ class _RfidBandListPageState extends State<RfidBandListPage> {
             width: 15,
           ),
           Text(
-            "Add RfidBand",
+            "Add Rfid Band",
             style: TextStylePreset.btnBigText,
           )
         ],

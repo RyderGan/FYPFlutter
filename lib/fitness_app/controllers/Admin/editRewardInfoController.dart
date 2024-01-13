@@ -15,11 +15,6 @@ class editRewardInfoController extends GetxController {
   RxString gender = ''.obs;
 
   @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     titleController.dispose();
     descriptionController.dispose();
@@ -49,7 +44,7 @@ class editRewardInfoController extends GetxController {
             'rewardTitle': titleController.text.trim(),
             'rewardDescription': descriptionController.text.trim(),
             'requiredPt': pointController.text.trim(),
-            'rewardId': arguments.reward_id.toString(),
+            'rewardId': arguments.id.toString(),
           },
         );
         if (res.statusCode == 200) {
@@ -122,7 +117,7 @@ class editRewardInfoController extends GetxController {
           var res = await http.post(
             Uri.parse(Api.deleteReward),
             body: {
-              'rewardID': arguments.reward_id.toString(),
+              'rewardID': arguments.id.toString(),
             },
           );
           if (res.statusCode == 200) {

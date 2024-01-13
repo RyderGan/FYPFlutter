@@ -13,13 +13,16 @@ $websiteName = $_POST['websiteName'];
 $websiteLink= $_POST['websiteLink'];
 $facebookLink = $_POST['facebookLink'];
 $instagramLink= $_POST['instagramLink'];
+$lat = $_POST['lat'];
+$long= $_POST['long'];
 $aboutUsID = $_POST['about_us_id'];
 
 $sqlQuery = "UPDATE about_us SET about_us_title = '$title', about_us_who = '$who',
  about_us_who_details = '$whoDetails', about_us_aim = '$aim', 
  about_us_aim_details = '$aimDetails',about_us_website_name = '$websiteName', 
  about_us_website_link = '$websiteLink', about_us_facebook_link = '$facebookLink',
- about_us_instagram_link = '$instagramLink' WHERE about_us_id = '$aboutUsID'";
+ about_us_instagram_link = '$instagramLink', about_us_lat = '$lat',
+ about_us_long = '$long' WHERE about_us_id = '$aboutUsID'";
 $result = $connectNow->query($sqlQuery);
 
 $sqlQuery2 = "SELECT * FROM about_us WHERE about_us_id = '$aboutUsID'";

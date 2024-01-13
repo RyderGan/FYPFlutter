@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:fitnessapp/fitness_app/models/Admin/rfidCheckpointModel.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
@@ -10,27 +10,20 @@ import 'package:http/http.dart' as http;
 class EditPathInfoController extends GetxController {
   GlobalKey<FormState> editPathInfoFormKey = GlobalKey<FormState>();
   late TextEditingController nameController,
-      fromCpIDController,
-      toCpIDController,
       distanceController,
       elevationController,
-      difficultyController;
-
-  @override
-  void onInit() {
-    fromCpIDController = TextEditingController();
-    toCpIDController = TextEditingController();
-    super.onInit();
-  }
+      difficultyController,
+      pointsController,
+      timeLimitController;
 
   @override
   void onClose() {
     nameController.dispose();
-    fromCpIDController.dispose();
-    toCpIDController.dispose();
     distanceController.dispose();
     elevationController.dispose();
     difficultyController.dispose();
+    pointsController.dispose();
+    timeLimitController.dispose();
     super.dispose();
   }
 
@@ -43,38 +36,13 @@ class EditPathInfoController extends GetxController {
     elevationController.text = arguments.elevation.toString();
     difficultyController = TextEditingController();
     difficultyController.text = arguments.difficulty.toString();
+    pointsController = TextEditingController();
+    pointsController.text = arguments.points.toString();
+    timeLimitController = TextEditingController();
+    timeLimitController.text = arguments.time_limit.toString();
   }
 
   Future<void> updatePathInfo(var arguments) async {
-    String fromCpIDValue = "";
-    String toCpIDValue = "";
-    try {
-      var res = await http.get(
-        Uri.parse(Api.getRfidCheckpointList),
-      );
-
-      if (res.statusCode == 200) {
-        var resBodyOfLogin = jsonDecode(res.body);
-        if (resBodyOfLogin['success']) {
-          List<RfidCheckpointModel> checkpoints =
-              await resBodyOfLogin["rfidCheckpointList"]
-                  .map<RfidCheckpointModel>(
-                      (json) => RfidCheckpointModel.fromJson(json))
-                  .toList();
-          for (RfidCheckpointModel checkpoint in checkpoints) {
-            if (checkpoint.name.toString() == fromCpIDController.text.trim()) {
-              fromCpIDValue = checkpoint.rfid_checkpoint_id.toString();
-            }
-            if (checkpoint.name.toString() == toCpIDController.text.trim()) {
-              toCpIDValue = checkpoint.rfid_checkpoint_id.toString();
-            }
-          }
-        }
-      }
-    } catch (e) {
-      print(e.toString());
-      Fluttertoast.showToast(msg: e.toString());
-    }
     // ! is null check operator
     final isValid = editPathInfoFormKey.currentState!.validate();
     if (!isValid) {
@@ -85,12 +53,12 @@ class EditPathInfoController extends GetxController {
           Uri.parse(Api.updatePathInfo),
           body: {
             'name': nameController.text.trim(),
-            'fromCpID': fromCpIDValue,
-            'toCpID': toCpIDValue,
             'distance': distanceController.text.trim(),
             'elevation': elevationController.text.trim(),
             'difficulty': difficultyController.text.trim(),
-            'pathID': arguments.path_id.toString(),
+            'points': pointsController.text.trim(),
+            'time_limit': timeLimitController.text.trim(),
+            'pathID': arguments.id.toString(),
           },
         );
         if (res.statusCode == 200) {

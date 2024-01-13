@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/pathModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/rfidBandModel.dart';
-import 'package:fitnessapp/fitness_app/models/Admin/rfidCheckpointModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/userModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/feedbackModel.dart';
 import 'package:fitnessapp/fitness_app/models/Admin/rewardModel.dart';
@@ -100,18 +100,17 @@ class AdminHomeController extends GetxController {
 
   void getCheckpointCount() async {
     try {
-      var res = await http.post(Uri.parse(Api.getRfidCheckpointList));
+      var res = await http.post(Uri.parse(Api.getcheckpointList));
 
       var resBodyOfLogin = jsonDecode(res.body);
       if (resBodyOfLogin['success']) {
-        List<RfidCheckpointModel> checkpoints =
-            await resBodyOfLogin["rfidCheckpointList"]
-                .map<RfidCheckpointModel>(
-                    (json) => RfidCheckpointModel.fromJson(json))
+        List<CheckpointModel> checkpoints =
+            await resBodyOfLogin["checkpointList"]
+                .map<CheckpointModel>((json) => CheckpointModel.fromJson(json))
                 .toList();
         checkpointCount.value = checkpoints.length;
       } else {
-        List<RfidCheckpointModel> checkpoints = <RfidCheckpointModel>[];
+        List<CheckpointModel> checkpoints = <CheckpointModel>[];
         checkpointCount.value = checkpoints.length;
       }
     } catch (e) {

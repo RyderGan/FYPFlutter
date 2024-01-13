@@ -15,7 +15,7 @@ class loginController extends GetxController {
   var email = '';
   var password = '';
   RxString userType = ''.obs;
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void onInit() {

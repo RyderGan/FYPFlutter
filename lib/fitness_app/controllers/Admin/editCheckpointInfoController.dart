@@ -12,11 +12,7 @@ class EditCheckpointInfoController extends GetxController {
   late TextEditingController nameController,
       descriptionController,
       locationController;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  RxString type = ''.obs;
 
   @override
   void onClose() {
@@ -33,6 +29,7 @@ class EditCheckpointInfoController extends GetxController {
     descriptionController.text = arguments.description;
     locationController = TextEditingController();
     locationController.text = arguments.location;
+    type.value = arguments.type;
   }
 
   Future<void> updateCheckpointInfo(var arguments) async {
@@ -43,12 +40,13 @@ class EditCheckpointInfoController extends GetxController {
     } else {
       try {
         var res = await http.post(
-          Uri.parse(Api.updateRfidCheckpointInfo),
+          Uri.parse(Api.updateCheckpointInfo),
           body: {
             'name': nameController.text.trim(),
             'description': descriptionController.text.trim(),
             'location': locationController.text.trim(),
-            'rfidCheckpointId': arguments.rfid_checkpoint_id.toString(),
+            'type': type.value,
+            'checkpointId': arguments.id.toString(),
           },
         );
         if (res.statusCode == 200) {
@@ -118,9 +116,9 @@ class EditCheckpointInfoController extends GetxController {
       } else {
         try {
           var res = await http.post(
-            Uri.parse(Api.deleteRfidCheckpoint),
+            Uri.parse(Api.deleteCheckpoint),
             body: {
-              'rfidCheckpointId': arguments.rfid_checkpoint_id.toString(),
+              'checkpointId': arguments.id.toString(),
             },
           );
           if (res.statusCode == 200) {
@@ -133,6 +131,7 @@ class EditCheckpointInfoController extends GetxController {
               Get.offAllNamed(Routes.admin_root_app);
             } else {
               Fluttertoast.showToast(msg: "Error occurred");
+              print(resBodyOfLogin);
             }
           }
         } catch (e) {

@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:fitnessapp/fitness_app/models/Admin/rfidCheckpointModel.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class checkpointListController extends GetxController {
-  List<RfidCheckpointModel> checkpointList = <RfidCheckpointModel>[].obs;
+  List<CheckpointModel> checkpointList = <CheckpointModel>[].obs;
 
   @override
   void onInit() {
@@ -23,20 +23,20 @@ class checkpointListController extends GetxController {
   void getCheckpointList() async {
     try {
       var res = await http.get(
-        Uri.parse(Api.getRfidCheckpointList),
+        Uri.parse(Api.getcheckpointList),
       );
 
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          List<RfidCheckpointModel> checkpoints =
-              await resBodyOfLogin["rfidCheckpointList"]
-                  .map<RfidCheckpointModel>(
-                      (json) => RfidCheckpointModel.fromJson(json))
+          List<CheckpointModel> checkpoints =
+              await resBodyOfLogin["checkpointList"]
+                  .map<CheckpointModel>(
+                      (json) => CheckpointModel.fromJson(json))
                   .toList();
           checkpointList.addAll(checkpoints);
         } else {
-          List<RfidCheckpointModel> checkpoints = <RfidCheckpointModel>[];
+          List<CheckpointModel> checkpoints = <CheckpointModel>[];
           checkpointList.addAll(checkpoints);
         }
       }

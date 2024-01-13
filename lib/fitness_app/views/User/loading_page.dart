@@ -13,7 +13,7 @@ class LoadingPage extends StatefulWidget {
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  CurrentUser _currentUser = Get.put(CurrentUser());
+  final CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   void initState() {
@@ -48,11 +48,11 @@ class _LoadingPageState extends State<LoadingPage> {
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Loading"),
+            title: const Text("Loading"),
           ),
           backgroundColor: Colors.white,
           body: Container(
-              child: Center(
+              child: const Center(
             child: CircularProgressIndicator(),
           )),
         );

@@ -5,11 +5,10 @@ include '../connection.php';
 //GET retrieve/read data
 
 $name= $_POST['name'];
-$description = $_POST['description'];
-$location = $_POST['location'];
+$bonus_points = $_POST['bonus_points'];
 
-$sqlQuery = "INSERT INTO rfid_checkpoint SET rfid_checkpoint_name = '$name', rfid_checkpoint_description = '$description',
- rfid_checkpoint_location = '$location'";
+$sqlQuery = "INSERT INTO sets SET set_name = '$name', set_path_list = '[]',
+set_bonus_points = '$bonus_points'";
 $result = $connectNow->query($sqlQuery);
 
 if($result){

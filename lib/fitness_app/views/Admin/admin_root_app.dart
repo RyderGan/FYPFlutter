@@ -2,12 +2,14 @@ import 'package:fitnessapp/fitness_app/controllers/Admin/adminHomeController.dar
 import 'package:fitnessapp/fitness_app/preferences/user_preferences.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/app_info_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/checkpoint_list_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/claim_reward_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/feedback_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/path_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/rewards_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/rfid_band_list_page.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/set_list_page.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/user_list_page.dart';
-import 'package:fitnessapp/fitness_app/views/User/drawer_header.dart';
+import 'package:fitnessapp/fitness_app/views/Admin/drawer_header.dart';
 import 'package:fitnessapp/fitness_app/views/Admin/admin_home_fragment_screen.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:flutter/material.dart';
@@ -55,13 +57,19 @@ class _AdminRootAppState extends State<AdminRootApp> {
         } else if (currentPage == DrawerSections.checkpoints) {
           container = const CheckpointListPage();
           appBarTitle = const Text("Checkpoints");
-        } else if (currentPage == DrawerSections.roads) {
+        } else if (currentPage == DrawerSections.sets) {
+          container = const SetListPage();
+          appBarTitle = const Text("Sets");
+        } else if (currentPage == DrawerSections.paths) {
           container = const PathListPage();
           appBarTitle = const Text("Paths");
         } else if (currentPage == DrawerSections.rewards) {
           container = const RewardsListPage();
           appBarTitle = const Text("Rewards");
-        } else if (currentPage == DrawerSections.about_us) {
+        } else if (currentPage == DrawerSections.claim_reward) {
+          container = const ClaimRewardPage();
+          appBarTitle = const Text("Claim Reward");
+        } else if (currentPage == DrawerSections.app_info) {
           container = const AppInfoFragmentScreen();
           appBarTitle = const Text("App Info");
         }
@@ -76,7 +84,7 @@ class _AdminRootAppState extends State<AdminRootApp> {
             child: SingleChildScrollView(
               child: Container(
                 child: Column(children: [
-                  HeaderDrawer(),
+                  const HeaderDrawer(),
                   DrawerList(),
                   signOutButton(),
                 ]),
@@ -103,12 +111,16 @@ class _AdminRootAppState extends State<AdminRootApp> {
               currentPage == DrawerSections.feedbacks ? true : false),
           menuItem(5, "Checkpoints", Icons.add_location,
               currentPage == DrawerSections.checkpoints ? true : false),
-          menuItem(6, "Paths", Icons.streetview,
-              currentPage == DrawerSections.roads ? true : false),
-          menuItem(7, "Rewards", Icons.monetization_on,
+          menuItem(6, "Sets", Icons.streetview,
+              currentPage == DrawerSections.sets ? true : false),
+          menuItem(7, "Paths", Icons.streetview,
+              currentPage == DrawerSections.paths ? true : false),
+          menuItem(8, "Rewards", Icons.monetization_on,
               currentPage == DrawerSections.rewards ? true : false),
-          menuItem(8, "App Info", Icons.question_mark,
-              currentPage == DrawerSections.about_us ? true : false),
+          menuItem(9, "Claim Reward", Icons.card_giftcard,
+              currentPage == DrawerSections.claim_reward ? true : false),
+          menuItem(10, "App Info", Icons.question_mark,
+              currentPage == DrawerSections.app_info ? true : false),
         ],
       ),
     );
@@ -132,11 +144,15 @@ class _AdminRootAppState extends State<AdminRootApp> {
             } else if (id == 5) {
               currentPage = DrawerSections.checkpoints;
             } else if (id == 6) {
-              currentPage = DrawerSections.roads;
+              currentPage = DrawerSections.sets;
             } else if (id == 7) {
-              currentPage = DrawerSections.rewards;
+              currentPage = DrawerSections.paths;
             } else if (id == 8) {
-              currentPage = DrawerSections.about_us;
+              currentPage = DrawerSections.rewards;
+            } else if (id == 9) {
+              currentPage = DrawerSections.claim_reward;
+            } else if (id == 10) {
+              currentPage = DrawerSections.app_info;
             }
           });
         },
@@ -246,7 +262,9 @@ enum DrawerSections {
   rfid_bands,
   feedbacks,
   checkpoints,
-  roads,
+  sets,
+  paths,
   rewards,
-  about_us,
+  claim_reward,
+  app_info,
 }

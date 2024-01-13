@@ -23,7 +23,7 @@ class _StudentRankingPageState extends State<StudentRankingPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Get.back(),
           ),
           title: const Text("Student Ranking"),
@@ -54,21 +54,21 @@ class _StudentRankingPageState extends State<StudentRankingPage> {
   Widget dataTable() {
     List<UserModel> students = _studentRankingsController.allStudents;
     return Obx(() => DataTable(
-          columns: [
+          columns: const [
             DataColumn(
-              label: Container(
+              label: SizedBox(
                 width: 25,
                 child: Text('Pos'),
               ),
             ),
             DataColumn(
-              label: Container(
+              label: SizedBox(
                 width: 145,
                 child: Text('Name'),
               ),
             ),
             DataColumn(
-              label: Container(
+              label: SizedBox(
                 width: 40,
                 child: Text('Points'),
               ),

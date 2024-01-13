@@ -18,7 +18,7 @@ class NotificationsFragmentScreen extends StatefulWidget {
 class _NotificationsFragmentScreenState
     extends State<NotificationsFragmentScreen> {
   final _notificationController = Get.put(notificationController());
-  CurrentUser _currentUser = Get.put(CurrentUser());
+CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   Widget build(BuildContext context) {

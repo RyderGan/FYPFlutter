@@ -43,7 +43,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                         height: 15,
                       ),
                       displayTopThreeStaffs(),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       displayTopThreeStudents(),
@@ -69,18 +69,18 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             "Staff Rankings",
             style: TextStylePreset.bigTitle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 45,
           ),
           Row(
@@ -92,10 +92,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -106,11 +106,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -123,7 +123,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -135,10 +135,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -149,11 +149,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -167,7 +167,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -179,10 +179,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -193,11 +193,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -210,7 +210,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           seeAllStaffsButton(),
@@ -224,8 +224,8 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: primary,
-      child: new Text('See all staffs',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('See all staffs',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.staff_ranking_page);
       },
@@ -236,18 +236,18 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
     return Container(
       alignment: Alignment.topLeft,
       width: double.infinity,
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             "Student Rankings",
             style: TextStylePreset.bigTitle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Row(
@@ -259,10 +259,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -273,11 +273,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -291,7 +291,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -303,10 +303,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -317,11 +317,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -335,7 +335,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Row(
@@ -347,10 +347,10 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                 width: 50,
                 fit: BoxFit.contain,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
-              Container(
+              SizedBox(
                 width: 185,
                 child: Obx(() {
                   return Text(
@@ -361,11 +361,11 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
                   );
                 }),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 15,
               ),
               Flexible(
-                  child: Container(
+                  child: SizedBox(
                 width: 45,
                 child: Obx(() {
                   return Text(
@@ -379,7 +379,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
               )),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           seeAllStudentsButton(),
@@ -393,8 +393,8 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
       minWidth: double.infinity,
       height: 50,
       color: secondary,
-      child: new Text('See all students',
-          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      child: const Text('See all students',
+          style: TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         Get.toNamed(Routes.student_ranking_page);
       },
