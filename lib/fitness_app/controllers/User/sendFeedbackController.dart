@@ -22,8 +22,6 @@ class sendFeedbackController extends GetxController {
 
   @override
   void onClose() {
-    titleController.dispose();
-    descriptionController.dispose();
     super.dispose();
   }
 
@@ -60,7 +58,7 @@ class sendFeedbackController extends GetxController {
           if (resBodyOfLogin['success']) {
             Fluttertoast.showToast(msg: "Your feedback has been sent.");
             //navigate to home page
-            Get.offAllNamed(Routes.root_app);
+            Get.offNamed(Routes.root_app);
           } else {
             Fluttertoast.showToast(msg: "Error occurred");
           }

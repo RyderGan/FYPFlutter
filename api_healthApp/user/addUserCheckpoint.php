@@ -11,37 +11,37 @@ include '../connection.php';
 
 //input data
 $userID = $_POST['userID'];
-$road = $_POST['road'];
+$setID = $_POST['setID'];
+$pathID = $_POST['path'];
 $checkpoint = $_POST['checkpoint'];
 
-//check if it's last checkpoint
-$sqlQuery2 = "SELECT * FROM checkpoints WHERE road_id = '$road' ORDER BY check_point DESC";
+
+$sqlQuery2 = "SELECT * FROM paths WHERE path_id = '$pathID'";
 $result2 = $connectNow->query($sqlQuery2);
 while ($rowFound = $result2->fetch_assoc()) {
-    $allCheckPoints[] = $rowFound;
+    $pathDetails[] = $rowFound;
 }
-$checkPointDetails = $allCheckPoints[0];
-$lastCheckpoint = $checkPointDetails['check_point'];
-
+$onepathDetails = $pathDetails[0];
+$allcheckPointDetails = $onepathDetails['path_checkpoint_list'];
+$allCheckPointsID = explode(",", $allcheckPointDetails);   //convert string to array
+$numberOfCheckpointsInPath = count($allCheckPointsID); // get number of checkpoints exist in this path
+$lastCheckpoint = $allCheckPointsID[$numberOfCheckpointsInPath - 1]; // get last checkpoint in this path
+//check if it's last checkpoint
 if ($checkpoint == $lastCheckpoint) {
     //add checkpoint to user_checkpoints table
-    $sqlQuery = "INSERT INTO user_checkpoints SET user_id = '$userID', check_point = '$checkpoint', road_id = '$road'";
+    $sqlQuery = "INSERT INTO checkpoint_history SET user_id = '$userID', set_id = '$setID', path_id = '$pathID', checkpoint_id = '$checkpoint', checkpoint_type = 'qrCode'";
     $result = $connectNow->query($sqlQuery);
-    if ($result) {
-        echo json_encode(array(
-            "success" => true,
-            "message" => "Completed Road " . $road . " Checkpoint " . $checkpoint,  //row number
-        ));
-    } else {
+    if (!$result) {
         echo json_encode(array("success" => false));
     }
     //check user has all checkpoints
-    $sqlQuery3 = "SELECT * FROM user_checkpoints WHERE road_id = '$road' AND created_at >= DATE_SUB(NOW(), INTERVAL 30 MINUTE);";
+    $sqlQuery3 = "SELECT * FROM checkpoint_history WHERE user_id = '$userID' AND set_id = '$setID' AND path_id = '$pathID' AND checkpoint_type = 'qrCode' ORDER BY checkpoint_time desc LIMIT $numberOfCheckpointsInPath";
     $result3 = $connectNow->query($sqlQuery3);
     while ($rowFound2 = $result3->fetch_assoc()) {
         $allRecords[] = $rowFound2;
     }
-    if ($result3->num_rows >= $lastCheckpoint) {
+
+    if ($result3->num_rows == $numberOfCheckpointsInPath) {
         //get user reward points
         $sqlQuery4 = "SELECT * FROM users WHERE id = '$userID'";
         $result4 = $connectNow->query($sqlQuery4);
@@ -54,21 +54,20 @@ if ($checkpoint == $lastCheckpoint) {
             $userPoints = $userDetails['reward_point'];
         }
         //add points
-        $sqlQuery5 = "SELECT * FROM roads WHERE road = '$road'";
+        $sqlQuery5 = "SELECT * FROM paths WHERE path_id = '$pathID'";
         $result5 = $connectNow->query($sqlQuery5);
         while ($rowFound4 = $result5->fetch_assoc()) {
-            $roadDetails[] = $rowFound4;
+            $pathDetails[] = $rowFound4;
         }
-        $roadDetails = $roadDetails[0];
-        $totalPoints = $userPoints + $roadDetails['reward_pt'];
-        print($totalPoints);
+        $onepathDetails = $pathDetails[0];
+        $totalPoints = $userPoints + $onepathDetails['path_points'];
         //update user points
         $sqlQuery6 = "UPDATE users SET reward_point = '$totalPoints' WHERE id = '$userID'";
         $result6 = $connectNow->query($sqlQuery6);
         if ($result6) {
             echo json_encode(array(
                 "success" => true,
-                "message" => "Completed " . $road . "!",
+                "message" => "Completed Path" . $pathID,
             ));
         } else {
             echo json_encode(array("success" => false));
@@ -80,28 +79,15 @@ if ($checkpoint == $lastCheckpoint) {
         ));
     }
 } else {
-    //check same checkpoint existed
-    $sqlQuery3 = "SELECT * FROM user_checkpoints WHERE road_id = '$road' AND check_point = '$checkpoint' AND created_at >= DATE_SUB(NOW(), INTERVAL 30 MINUTE);";
-    $result3 = $connectNow->query($sqlQuery3);
-    while ($rowFound2 = $result3->fetch_assoc()) {
-        $allRecords[] = $rowFound2;
-    }
-    if ($result3->num_rows > 0) {
+    //add checkpoint to user_checkpoints table
+    $sqlQuery = "INSERT INTO checkpoint_history SET user_id = '$userID', set_id = '$setID', path_id = '$pathID', checkpoint_id = '$checkpoint', checkpoint_type = 'qrCode'";
+    $result = $connectNow->query($sqlQuery);
+    if ($result) {
         echo json_encode(array(
             "success" => true,
-            "message" => "Checkpoint existed, please proceed to next checkpoint",  //row number
+            "message" => "Completed Path " . $pathID . " Checkpoint " . $checkpoint . "",  //row number
         ));
     } else {
-        //add checkpoint to user_checkpoints table
-        $sqlQuery = "INSERT INTO user_checkpoints SET user_id = '$userID', check_point = '$checkpoint', road_id = '$road'";
-        $result = $connectNow->query($sqlQuery);
-        if ($result) {
-            echo json_encode(array(
-                "success" => true,
-                "message" => "Completed Road " . $road . " Checkpoint " . $checkpoint,  //row number
-            ));
-        } else {
-            echo json_encode(array("success" => false));
-        }
+        echo json_encode(array("success" => false));
     }
 }
