@@ -6,10 +6,11 @@ include '../connection.php';
 
 $name= $_POST['name'];
 $bonus_points = $_POST['bonus_points'];
+$type = $_POST['type'];
 $setID = $_POST['setID'];
 
 $sqlQuery = "UPDATE sets SET set_name = '$name',
-set_bonus_points = '$bonus_points' WHERE set_id = '$setID'";
+set_bonus_points = '$bonus_points', set_type = '$type' WHERE set_id = '$setID'";
 $result = $connectNow->query($sqlQuery);
 
 $sqlQuery2 = "SELECT * FROM sets WHERE set_id = '$setID'";
