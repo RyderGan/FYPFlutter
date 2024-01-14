@@ -99,8 +99,9 @@ class _RewardsListPageState extends State<RewardsListPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            "${_rewardsListController.rewardsList[index].id}",
+                            "${_rewardsListController.rewardsList[index].required_pt}",
                             style: const TextStyle(height: 5, fontSize: 10),
+                            textAlign: TextAlign.left,
                           ),
                         ),
                         Expanded(
