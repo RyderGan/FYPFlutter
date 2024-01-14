@@ -54,6 +54,10 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
+                displayWorkoutProgress(),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
                   "Sets Available",
                   style: TextStylePreset.bigTitle,
@@ -66,6 +70,28 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             ),
           )));
     });
+  }
+
+  Obx displayWorkoutProgress() {
+    return Obx(() => ListView.builder(
+          shrinkWrap: true,
+          primary: false,
+          itemCount: _workoutController.onlyOne.value,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                (_workoutController.workOutInProgress == true &&
+                        _workoutController.workOutInProgressType == "RFID")
+                    ? displayNextCheckpoint()
+                    : Text(
+                        "Press Start to Begin!",
+                        style: TextStylePreset.smallTitle,
+                      )
+              ],
+            );
+          },
+        ));
   }
 
   Obx displayAllSets() {
@@ -146,6 +172,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
       onPressed: () async {
         _workoutController.clearWorkout();
         _workoutController.workOutInProgress = true;
+        _workoutController.workOutInProgressType = setType;
         _workoutController.currentSet = setID;
         for (int i = 0; i < paths.length; i++) {
           _workoutController.getPathCheckpoints(paths.elementAt(i));
@@ -167,6 +194,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
 
         if (setType == "RFID") {
           //Call function to store into workout db
+          print("Start Workout");
           _workoutController.startRFIDWorkout(
               setID,
               _workoutController.currentPaths.toString(),
@@ -179,6 +207,56 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
     );
   }
 
+  Container displayNextCheckpoint() {
+    return Container(
+      alignment: Alignment.topLeft,
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Next Checkpoint:",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        _workoutController.nextCheckpointName,
+                        style: TextStylePreset.bigText,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
+    );
+  }
+
   MaterialButton stopButton(int setID, String setType) {
     return MaterialButton(
       minWidth: double.infinity,
@@ -188,6 +266,8 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
           style: new TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         _workoutController.clearWorkout();
+        _workoutController.onlyOne.value = 2;
+        _workoutController.onlyOne.value = 1;
         if (setType == "RFID") {
           //Set RFID Workout as Completed
           _workoutController.stopRFIDWorkout(_currentUser.user.id);
@@ -282,16 +362,39 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
 
   setUpTimedFetch() {
     Timer.periodic(Duration(milliseconds: 5000), (timer) async {
-      if (_workoutController.workOutInProgress == true) {
+      if (_workoutController.workOutInProgress == true &&
+          _workoutController.workOutInProgressType == "RFID") {
         print("RFID Set Active!");
         setState(() {
           currentWorkout =
               _workoutController.getWorkoutInfo(_currentUser.user.id);
         });
         WorkoutModel currentWorkoutNow = await currentWorkout;
+        // get checkpoint passed list
+        List<List<int>> checkpointPassedList = [];
+        List<String> prepareCheckpointPassedList = currentWorkoutNow
+            .workout_passed_list
+            .replaceAll("],", "@")
+            .replaceAll("]", "")
+            .replaceAll("[", "")
+            .replaceAll(" ", "")
+            .split("@");
+        for (String miniList in prepareCheckpointPassedList) {
+          List<String> checkpointStringList = miniList.split(",");
+          List<int> checkpointMiniList =
+              checkpointStringList.map((data) => int.parse(data)).toList();
+          checkpointPassedList.add(checkpointMiniList);
+        }
+        _workoutController.checkpointsPassed = checkpointPassedList;
+
         if (currentWorkoutNow.workout_status == "Finished") {
           await _workoutController
               .completeWorkout(_workoutController.currentSet);
+          _workoutController.nextCheckpointName = "Finding Next Checkpoint";
+          _workoutController.stopRFIDWorkout(_currentUser.user.id);
+        } else {
+          //Update Next Checkpoint Value
+          await _workoutController.getNextCheckpoint(checkpointPassedList);
         }
         ;
       }

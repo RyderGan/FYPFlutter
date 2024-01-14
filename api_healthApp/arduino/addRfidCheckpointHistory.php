@@ -109,8 +109,8 @@ function process($connectNow, $rfidUID, $checkpointID){
             $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
 
             //Send Message
-            $msg = "Checkpoint($currentCheckpointName) Recorded! Please head to next checkpoint: $nextCheckpointName";
-            $result = addNotification($connectNow, $userID, $msg);
+            // $msg = "Checkpoint($currentCheckpointName) Recorded! Please head to next checkpoint: $nextCheckpointName";
+            // $result = addNotification($connectNow, $userID, $msg);
             break;
         case "Next Path":
             //Next Checkpoint
@@ -122,6 +122,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             //Path Info
             $pathInfo = getPathInfo($connectNow, $currentPathID);
             $pathName = $pathInfo['path_name'];
+            $pathName = $pathInfo['path_points'];
             
             //Insert Into Checkpoint History
             $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
@@ -133,7 +134,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             $result2 = completePath($connectNow, $userID, $currentPathID);
 
             //Send Message
-            $msg = "Completed Path($pathName)! Please head to next checkpoint: $nextCheckpointName";
+            $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
             $result = addNotification($connectNow, $userID, $msg);
             break;
         case "Wrong Checkpoint":
