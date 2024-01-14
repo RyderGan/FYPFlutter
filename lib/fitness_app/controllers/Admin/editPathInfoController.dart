@@ -133,7 +133,7 @@ class EditPathInfoController extends GetxController {
           var res = await http.post(
             Uri.parse(Api.deletePath),
             body: {
-              'pathID': arguments.path_id.toString(),
+              'pathID': arguments.id.toString(),
             },
           );
           if (res.statusCode == 200) {
