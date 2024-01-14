@@ -52,11 +52,13 @@ class editUserInfoController extends GetxController {
     } else {
       try {
         var res = await http.post(
-          Uri.parse(Api.updateUserInfo),
+          Uri.parse(Api.adminUpdateUserInfo),
           body: {
             'full_name': fullNameController.text.trim(),
+            'email': emailController.text.trim(),
             'gender': gender.value,
             'dob': dobController.text.trim(),
+            'rewardPoint': rewardPointsController.text.trim(),
             'userID': arguments.id.toString(),
           },
         );
