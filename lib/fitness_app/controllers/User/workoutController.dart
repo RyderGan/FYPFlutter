@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fitnessapp/fitness_app/controllers/User/notificationController.dart';
 import 'package:fitnessapp/fitness_app/models/User/pathModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/setModel.dart';
+import 'package:fitnessapp/fitness_app/models/User/workoutModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,8 @@ class workoutController extends GetxController {
   //Map<String, TextEditingController> bmiEditingControllers = {};
   final _notificationController = Get.put(notificationController());
   CurrentUser _currentUser = Get.put(CurrentUser());
+  WorkoutModel currentWorkoutDetails =
+      new WorkoutModel(0, 0, "", "", "", 0, "");
   List<SetModel> allSets = <SetModel>[].obs;
   List<PathModel> PathsResult = <PathModel>[];
   List<PathModel> currentPathsResult = <PathModel>[].obs;
@@ -42,6 +45,59 @@ class workoutController extends GetxController {
   void onClose() {
     allSets.clear();
     super.dispose();
+  }
+
+  Future<void> completeWorkout(int setID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.addSetBonusPoints),
+        body: {
+          'userID': _currentUser.user.id.toString(),
+          'setID': setID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          String message = resBody['message'];
+          Fluttertoast.showToast(msg: message);
+          _notificationController.addUserNotification(message);
+        } else {
+          Fluttertoast.showToast(msg: "Error occurred");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    clearWorkout();
+  }
+
+  Future<WorkoutModel> getWorkoutInfo(int userID) async {
+    //Get Workout Info
+    WorkoutModel workoutDetails = new WorkoutModel(0, 0, "", "", "", 0, "");
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          WorkoutModel workoutDetails =
+              WorkoutModel.fromJson(resBody["workoutData"]);
+          return workoutDetails;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return workoutDetails;
   }
 
   void getAllWorkoutSets() async {
@@ -127,6 +183,78 @@ class workoutController extends GetxController {
       }
     }
     return valid;
+  }
+
+  void startRFIDWorkout(int setID, String pathList, String checkpointList,
+      String passedList, int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.startRFIDWorkout),
+        body: {
+          'setID': setID.toString(),
+          'pathList': pathList,
+          'checkpointList': checkpointList,
+          'passedList': passedList,
+          'userID': userID.toString(),
+        },
+      );
+      print(res.statusCode);
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Workout Started!");
+        } else {
+          Fluttertoast.showToast(msg: "Error: Couldn't Start Workout!");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void stopRFIDWorkout(int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.stopRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Workout Stopped!");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void getRFIDWorkout(int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          WorkoutModel workoutDetails =
+              WorkoutModel.fromJson(resBody["workoutData"]);
+          currentWorkoutDetails = workoutDetails;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
   }
 
   bool updateNumberOfCheckpointsPassed(int path, int checkpoint) {

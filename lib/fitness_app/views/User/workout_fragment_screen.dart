@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:fitnessapp/fitness_app/controllers/User/rewardsController.dart';
 import 'package:fitnessapp/fitness_app/controllers/User/workoutController.dart';
 import 'package:fitnessapp/fitness_app/models/User/pathModel.dart';
+import 'package:fitnessapp/fitness_app/models/User/workoutModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -22,6 +23,13 @@ class WorkoutFragmentScreen extends StatefulWidget {
 class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
   final _workoutController = Get.put(workoutController());
   CurrentUser _currentUser = Get.put(CurrentUser());
+  late Future<WorkoutModel> currentWorkout;
+
+  @override
+  void initState() {
+    super.initState();
+    setUpTimedFetch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +117,16 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                       height: 10,
                     ),
                     (_workoutController.workOutInProgress == false)
-                        ? startButton(_workoutController.allSets[index].set_id,
-                            _workoutController.allSets[index].paths)
+                        ? startButton(
+                            _workoutController.allSets[index].set_id,
+                            _workoutController.allSets[index].paths,
+                            _workoutController.allSets[index].set_type)
                         : (_workoutController.currentSet ==
                                 _workoutController.allSets[index].set_id)
                             ? workOutPaths(
-                                _workoutController.allSets[index].paths)
+                                _workoutController.allSets[index].set_id,
+                                _workoutController.allSets[index].paths,
+                                _workoutController.allSets[index].set_type)
                             : Text("")
                   ],
                 ),
@@ -124,7 +136,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         ));
   }
 
-  MaterialButton startButton(int setID, List<int> paths) {
+  MaterialButton startButton(int setID, List<int> paths, String setType) {
     return MaterialButton(
       minWidth: double.infinity,
       height: 50,
@@ -152,11 +164,22 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         print("Path ${_workoutController.currentPaths}");
         print("Checkpoints ${_workoutController.currentCheckpoints}");
         print("Passed ${_workoutController.checkpointsPassed}");
+
+        if (setType == "RFID") {
+          //Call function to store into workout db
+          _workoutController.startRFIDWorkout(
+              setID,
+              _workoutController.currentPaths.toString(),
+              _workoutController.currentCheckpoints.toString(),
+              _workoutController.checkpointsPassed.toString(),
+              _currentUser.user.id);
+          //While true, continuously check db for status
+        }
       },
     );
   }
 
-  MaterialButton stopButton() {
+  MaterialButton stopButton(int setID, String setType) {
     return MaterialButton(
       minWidth: double.infinity,
       height: 50,
@@ -165,6 +188,10 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
           style: new TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         _workoutController.clearWorkout();
+        if (setType == "RFID") {
+          //Set RFID Workout as Completed
+          _workoutController.stopRFIDWorkout(_currentUser.user.id);
+        }
       },
     );
   }
@@ -176,7 +203,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
     }
   }
 
-  Container workOutPaths(List<int> paths) {
+  Container workOutPaths(int setID, List<int> paths, String setType) {
     return Container(
       height: 100,
       width: double.infinity,
@@ -187,7 +214,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
           // SizedBox(
           //   height: 15,
           // ),
-          stopButton(),
+          stopButton(setID, setType),
         ],
       ),
     );
@@ -234,12 +261,16 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                       height: 10,
                     ),
                     (_workoutController.workOutInProgress == false)
-                        ? startButton(_workoutController.allSets[index].set_id,
-                            _workoutController.allSets[index].paths)
+                        ? startButton(
+                            _workoutController.allSets[index].set_id,
+                            _workoutController.allSets[index].paths,
+                            _workoutController.allSets[index].set_type)
                         : (_workoutController.currentSet ==
                                 _workoutController.allSets[index].set_id)
                             ? workOutPaths(
-                                _workoutController.allSets[index].paths)
+                                _workoutController.allSets[index].set_id,
+                                _workoutController.allSets[index].paths,
+                                _workoutController.allSets[index].set_type)
                             : Text("")
                   ],
                 ),
@@ -247,5 +278,23 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             );
           },
         ));
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(milliseconds: 5000), (timer) async {
+      if (_workoutController.workOutInProgress == true) {
+        print("RFID Set Active!");
+        setState(() {
+          currentWorkout =
+              _workoutController.getWorkoutInfo(_currentUser.user.id);
+        });
+        WorkoutModel currentWorkoutNow = await currentWorkout;
+        if (currentWorkoutNow.workout_status == "Finished") {
+          await _workoutController
+              .completeWorkout(_workoutController.currentSet);
+        }
+        ;
+      }
+    });
   }
 }
