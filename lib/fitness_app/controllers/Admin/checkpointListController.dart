@@ -28,7 +28,7 @@ class checkpointListController extends GetxController {
   void getCheckpointList() async {
     try {
       var res = await http.get(
-        Uri.parse(Api.getcheckpointList),
+        Uri.parse(Api.getCheckpointList),
       );
 
       if (res.statusCode == 200) {

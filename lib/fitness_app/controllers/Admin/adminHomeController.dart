@@ -115,7 +115,7 @@ class AdminHomeController extends GetxController {
 
   void getCheckpointCount() async {
     try {
-      var res = await http.post(Uri.parse(Api.getcheckpointList));
+      var res = await http.post(Uri.parse(Api.getCheckpointList));
 
       var resBodyOfLogin = jsonDecode(res.body);
       if (resBodyOfLogin['success']) {

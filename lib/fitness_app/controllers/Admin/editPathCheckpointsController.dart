@@ -58,7 +58,7 @@ class editPathCheckpointsController extends GetxController {
   //   String toCpIDValue = "";
   //   try {
   //     var res = await http.get(
-  //       Uri.parse(Api.getcheckpointList),
+  //       Uri.parse(Api.getCheckpointList),
   //     );
 
   //     if (res.statusCode == 200) {
