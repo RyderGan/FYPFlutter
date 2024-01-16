@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$rfidBandID = $_POST['rfidBandID'];
+if (isset($_POST['rfidBandID'])) {
+    $rfidBandID = $_POST['rfidBandID'];
+} else {    
+    $rfidBandID = "";
+}
 
 $sqlQuery1 = "DELETE FROM rfid_bands WHERE  rfid_band_id = '$rfidBandID'";
 $result1 = $connectNow->query($sqlQuery1);

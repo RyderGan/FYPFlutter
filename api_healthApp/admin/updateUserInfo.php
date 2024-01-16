@@ -4,12 +4,42 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$name = $_POST['full_name'];
-$email = $_POST['email'];
-$gender = $_POST['gender'];
-$dob = $_POST['dob'];
-$rewardPoint = $_POST['rewardPoint'];
-$userID = $_POST['userID'];
+if (isset($_POST['full_name'])) {
+    $name = $_POST['full_name'];
+} else {    
+    $name = "";
+}
+
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+} else {    
+    $email = "";
+}
+
+if (isset($_POST['gender'])) {
+    $gender = $_POST['gender'];
+} else {    
+    $gender = "";
+}
+
+if (isset($_POST['dob'])) {
+    $dob = $_POST['dob'];
+} else {    
+    $dob = "";
+}
+
+if (isset($_POST['rewardPoint'])) {
+    $rewardPoint = $_POST['rewardPoint'];
+} else {    
+    $rewardPoint = "";
+}
+
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
 
 $sqlQuery = "UPDATE users SET full_name = '$name', email = '$email',gender = '$gender', dateOfBirth = '$dob', reward_point='$rewardPoint' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);

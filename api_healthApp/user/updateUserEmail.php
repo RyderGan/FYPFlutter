@@ -3,9 +3,16 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$email = $_POST['email'];
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+} else {    
+    $email = "";
+}
 
 $sqlQuery = "UPDATE users SET email = '$email' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);

@@ -4,9 +4,23 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$rewardTitle = $_POST['rewardTitle'];
-$rewardDescription = $_POST['rewardDescription'];
-$requiredPt = $_POST['requiredPt'];
+if (isset($_POST['rewardTitle'])) {
+    $rewardTitle = $_POST['rewardTitle'];
+} else {    
+    $rewardTitle = "";
+}
+
+if (isset($_POST['rewardDescription'])) {
+    $rewardDescription = $_POST['rewardDescription'];
+} else {    
+    $rewardDescription = "";
+}
+
+if (isset($_POST['requiredPt'])) {
+    $requiredPt = $_POST['requiredPt'];
+} else {    
+    $requiredPt = "";
+}
 
 $sqlQuery = "INSERT INTO rewards SET reward_title = '$rewardTitle', reward_description = '$rewardDescription',
  required_pt = '$requiredPt'";

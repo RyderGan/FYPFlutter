@@ -3,8 +3,12 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
+if (isset($_POST['checkpointId'])) {
+    $checkpointId = $_POST['checkpointId'];
+} else {    
+    $checkpointId = "";
+}
 
-$checkpointId = $_POST['checkpointId'];
 
 $sqlQuery1 = "DELETE FROM checkpoints WHERE  checkpoint_id = '$checkpointId'";
 $result1 = $connectNow->query($sqlQuery1);

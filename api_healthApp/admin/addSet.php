@@ -3,10 +3,21 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$name= $_POST['name'];
-$bonus_points = $_POST['bonus_points'];
-$type = $_POST['type'];
+if (isset($_POST['name'])) {
+    $name = $_POST['name'];
+} else {    
+    $name = "";
+}
+if (isset($_POST['bonus_points'])) {
+    $bonus_points = $_POST['bonus_points'];
+} else {    
+    $bonus_points = "";
+}
+if (isset($_POST['type'])) {
+    $type = $_POST['type'];
+} else {    
+    $type = "";
+}
 
 $sqlQuery = "INSERT INTO sets SET set_name = '$name', set_path_list = '0',
 set_bonus_points = '$bonus_points', set_type = '$type'";

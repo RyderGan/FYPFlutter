@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$checkpointID = $_POST['checkpointID'];
+if (isset($_POST['checkpointID'])) {
+    $checkpointID = $_POST['checkpointID'];
+} else {    
+    $checkpointID = "";
+}
 
 //Get Checkpoint Info
 $sqlQuery = "SELECT * FROM checkpoints WHERE checkpoint_id = '$checkpointID'";

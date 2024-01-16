@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$setID = $_POST['setID'];
+if (isset($_POST['setID'])) {
+    $setID = $_POST['setID'];
+} else {    
+    $setID = "";
+}
 
 $sqlQuery = "DELETE FROM sets WHERE  set_id = '$setID'";
 $result = $connectNow->query($sqlQuery);

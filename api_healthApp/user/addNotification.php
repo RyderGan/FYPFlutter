@@ -4,8 +4,18 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$msg = $_POST['msg'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['msg'])) {
+    $msg = $_POST['msg'];
+} else {    
+    $msg = "";
+}
+
 $hasRead = 0;
 
 $sqlQuery = "INSERT INTO notifications SET user_id = '$userID', msg = '$msg', hasRead = '$hasRead'";

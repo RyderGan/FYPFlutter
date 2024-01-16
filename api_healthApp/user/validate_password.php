@@ -1,8 +1,16 @@
 <?php
 include '../connection.php';
 
-$userPassword = md5($_POST['password']);
-$userID = $_POST['userID'];
+if (isset($_POST['password'])) {
+    $userPassword = md5($_POST['password']);
+} else {    
+    $userPassword = md5("");
+}
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "SELECT * FROM users WHERE id='$userID' AND user_password = '$userPassword'";
 

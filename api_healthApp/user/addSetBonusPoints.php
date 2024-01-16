@@ -10,8 +10,17 @@ include '../connection.php';
 //2.1. If yes, insert record, if no check previous user checkpoint records
 
 //input data
-$userID = $_POST['userID'];
-$setID = $_POST['setID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['setID'])) {
+    $setID = $_POST['setID'];
+} else {    
+    $setID = "";
+}
 
 //get user reward points
 $sqlQuery1 = "SELECT * FROM users WHERE id = '$userID'";

@@ -3,11 +3,26 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$name = $_POST['full_name'];
-$gender = $_POST['gender'];
-$dob = $_POST['dob'];
-$userID = $_POST['userID'];
+if (isset($_POST['full_name'])) {
+    $name = $_POST['full_name'];
+} else {    
+    $name = "";
+}
+if (isset($_POST['gender'])) {
+    $gender = $_POST['gender'];
+} else {    
+    $gender = "";
+}
+if (isset($_POST['dob'])) {
+    $dob = $_POST['dob'];
+} else {    
+    $dob = "";
+}
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "UPDATE users SET full_name = '$name', gender = '$gender', dateOfBirth = '$dob' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);

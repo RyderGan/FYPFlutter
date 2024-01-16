@@ -4,8 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$rewardID = $_POST['rewardID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['rewardID'])) {
+    $rewardID = $_POST['rewardID'];
+} else {    
+    $rewardID = "";
+}
 
 $sqlQuery = "INSERT INTO claim_rewards SET reward_id = '$rewardID', 
 user_id = '$userID', claim_reward_status = 'new'";

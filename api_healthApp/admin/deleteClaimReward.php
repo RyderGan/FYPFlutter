@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$claimRewardID = $_POST['claimRewardID'];
+if (isset($_POST['claimRewardID'])) {
+    $claimRewardID = $_POST['claimRewardID'];
+} else {    
+    $claimRewardID = "";
+}
 
 $sqlQuery = "DELETE FROM claim_rewards WHERE  claim_reward_id = '$claimRewardID'";
 $result = $connectNow->query($sqlQuery);

@@ -4,8 +4,16 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$password = md5($_POST['password']);
-$email = $_POST['email'];
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+} else {    
+    $email = "";
+}
+if (isset($_POST['password'])) {
+    $password = md5($_POST['password']);
+} else {    
+    $password = md5("");
+}
 
 $sqlQuery = "UPDATE users SET user_password = '$password' WHERE email = '$email'";
 $result = $connectNow->query($sqlQuery);

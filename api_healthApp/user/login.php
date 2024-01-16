@@ -3,10 +3,21 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$email = $_POST['email'];
-$password = md5($_POST['password']);
-$userType = $_POST['user_type'];
+if (isset($_POST['email'])) {
+    $email = $_POST['email'];
+} else {    
+    $email = "";
+}
+if (isset($_POST['password'])) {
+    $password = md5($_POST['password']);
+} else {    
+    $password = md5("");
+}
+if (isset($_POST['user_type'])) {
+    $userType = $_POST['user_type'];
+} else {    
+    $userType = "";
+}
 
 $sqlQuery = "SELECT * FROM users WHERE email = '$email' AND user_password = '$password' AND user_type = '$userType'";
 

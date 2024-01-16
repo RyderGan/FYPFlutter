@@ -4,8 +4,16 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$password = md5($_POST['password']);
-$userID = $_POST['userID'];
+if (isset($_POST['password'])) {
+    $password = md5($_POST['password']);
+} else {    
+    $password = md5("");
+}
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "UPDATE users SET user_password = '$password' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);

@@ -10,11 +10,29 @@ include '../connection.php';
 //2.1. If yes, insert record, if no check previous user checkpoint records
 
 //input data
-$userID = $_POST['userID'];
-$setID = $_POST['setID'];
-$pathID = $_POST['path'];
-$checkpoint = $_POST['checkpoint'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
+if (isset($_POST['setID'])) {
+    $setID = $_POST['setID'];
+} else {    
+    $setID = "";
+}
+
+if (isset($_POST['path'])) {
+    $path = $_POST['path'];
+} else {    
+    $path = "";
+}
+
+if (isset($_POST['checkpoint'])) {
+    $checkpoint = $_POST['checkpoint'];
+} else {    
+    $checkpoint = "";
+}
 
 $sqlQuery2 = "SELECT * FROM paths WHERE path_id = '$pathID'";
 $result2 = $connectNow->query($sqlQuery2);

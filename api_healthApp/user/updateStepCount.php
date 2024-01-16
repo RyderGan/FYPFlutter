@@ -4,9 +4,23 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$stepCount = $_POST['stepCount'];
-$actualStepCount = $_POST['actualStepCount'];
-$userID = $_POST['userID'];
+if (isset($_POST['stepCount'])) {
+    $stepCount = $_POST['stepCount'];
+} else {    
+    $stepCount = "";
+}
+
+if (isset($_POST['actualStepCount'])) {
+    $actualStepCount = $_POST['actualStepCount'];
+} else {    
+    $actualStepCount = "";
+}
+
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 //check previous record exist
 $sqlQuery = "SELECT * FROM stepcounts WHERE user_id = '$userID' ORDER BY created_at DESC";
