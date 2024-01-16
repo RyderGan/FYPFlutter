@@ -58,32 +58,38 @@ class _AppInfoFragmentScreenState extends State<AppInfoFragmentScreen> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  userAppInfoTitle(),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  aboutUsButton(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  sendNotificationButton(),
-                  const SizedBox(
-                    height: 75,
-                  ),
-                  appInfo(),
-                ],
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                // height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: [
+                    userAppInfoTitle(),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    aboutUsButton(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    sendNotificationButton(),
+                    const SizedBox(
+                      height: 75,
+                    ),
+                    appInfo(),
+                  ],
+                ),
               ),
-            ),
-          ));
+            );
+          },
+        ),
+      );
     });
   }
 

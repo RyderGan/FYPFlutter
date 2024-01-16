@@ -41,25 +41,31 @@ class _FeedbackPageState extends State<FeedbackPage> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Current Feedbacks:",
-                        style: TextStylePreset.bigTitle,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      dataTable(),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        const Text(
+                          "Current Feedbacks:",
+                          style: TextStylePreset.bigTitle,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        dataTable(),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 

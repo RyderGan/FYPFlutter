@@ -41,25 +41,31 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 15,
-                      ),
-                      displayTopThreeStaffs(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayTopThreeStudents(),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 15,
+                        ),
+                        displayTopThreeStaffs(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayTopThreeStudents(),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 

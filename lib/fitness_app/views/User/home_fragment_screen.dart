@@ -41,33 +41,39 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      displayStepCounts(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayBmi(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayBloodPressure(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayVisceralFat(),
-                      SizedBox(
-                        height: 15,
-                      ),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        displayStepCounts(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayBmi(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayBloodPressure(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayVisceralFat(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 

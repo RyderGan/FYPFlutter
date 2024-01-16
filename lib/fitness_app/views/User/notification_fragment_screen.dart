@@ -45,29 +45,35 @@ class _NotificationsFragmentScreenState
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minWidth: constraints.maxWidth,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-            padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                Text(
-                  "Notifications",
-                  style: TextStylePreset.bigTitle,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                displayUserNotifications(),
-              ],
-            ),
-          )));
+        constraints: BoxConstraints(
+          minWidth: constraints.maxWidth,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+              padding: const EdgeInsets.all(20),
+              // height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Text(
+                    "Notifications",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  displayUserNotifications(),
+                ],
+              ),
+            ));
+          },
+        ),
+      );
     });
   }
 
