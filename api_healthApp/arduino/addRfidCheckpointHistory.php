@@ -7,7 +7,7 @@ date_default_timezone_set("Asia/Kuala_Lumpur");
 if (isset($_POST['rfidUID'])) {
     $rfidUID= $_POST['rfidUID']; 
 } else {    
-    $rfidUID= "A9 73 40 59";
+    $rfidUID= "";
 }
 
 if (isset($_POST['checkpointID'])) {
@@ -70,33 +70,7 @@ function process($connectNow, $rfidUID, $checkpointID){
     }
     echo "Next Step: $nextStep\n";
     switch ($nextStep) {
-        case "Calculate":
-            // //Get User Step Count
-            // $userStepCounts = getUserStepCount($connectNow, $userID, $previousCpTime);
-            // echo "User Stepcount: $userStepCounts[0]";
-            // //Get User Info
-            // $userInfo = getUserInfo($connectNow, $userID);
-
-            // //Get User BMI
-            // $userBmi = getUserBmi($connectNow, $userID);
-
-            // //Get Path Info
-            // $pathInfo = getPathInfo($connectNow, $previousCpID, $currentCheckpointID);
-            // $distance = $pathInfo ['path_distance'];
-            // $elevation = $pathInfo ['path_elevation'];
-            // $difficulty = $pathInfo ['path_difficulty'];
-
-            // //Calculate Points
-            // $pointsGained = startCalculatePoints($previousCpTime, $distance, $elevation, $difficulty, $userStepCounts, $userBmi, $userInfo);
-
-            // //Insert Reward Points to DB
-            // $result = insertRewardPoint($connectNow, $pointsGained, $userID);
-
-            // //Insert current checkpoint Info
-            // insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-            break;
         case "Next Checkpoint":
-
             //Next Checkpoint
             $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
             $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
@@ -122,7 +96,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             //Path Info
             $pathInfo = getPathInfo($connectNow, $currentPathID);
             $pathName = $pathInfo['path_name'];
-            $pathName = $pathInfo['path_points'];
+            $path_points = $pathInfo['path_points'];
             
             //Insert Into Checkpoint History
             $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
@@ -176,7 +150,6 @@ function process($connectNow, $rfidUID, $checkpointID){
             //Send Message
             $msg = "You were inactive for too long! The Set will now restart again!";
             $result = addNotification($connectNow, $userID, $msg);
-
             break;
         case "No Workout":
             //Send Message
@@ -184,7 +157,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             $result = addNotification($connectNow, $userID, $msg);
             break;
         default:
-            //Next Checkpoint
+            //New Workout
             $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
             $nextCheckpointInfo = getCheckpointInfo($connectNow, $expectedCheckpointID);
             $nextCheckpointName = $expectedCheckpointInfo['checkpoint_name'];
@@ -194,29 +167,6 @@ function process($connectNow, $rfidUID, $checkpointID){
             $msg = "Please Go to this Checkpoint: $nextCheckpointName";
             $result = addNotification($connectNow, $userID, $msg);
     }
-
-    //Get Checkpoint History
-    $checkpointHistoryList = getCheckpointHistory($connectNow, $rfidBandID);
-    // $fromCpID = $checkpointHistoryList[1]['rfid_checkpoint_id'];
-    // $fromCpTime = $checkpointHistoryList[1]['checkpoint_time'];
-    // $toCpID = $checkpointHistoryList[0]['rfid_checkpoint_id'];
-    // $toCpTime = $checkpointHistoryList[0]['checkpoint_time'];
-
-    $nextStep = "";
-    // if ($checkpointHistoryList){
-    //     $previousCpID = $checkpointHistoryList[0]['rfid_checkpoint_id'];
-    //     $previousCpTime = $checkpointHistoryList[0]['checkpoint_time'];
-
-    //     //Get Previous Checkpoint Info
-    //     $previousRfidCheckpoint = getCheckpointInfo($connectNow, $previousCpID);
-    //     $previousRfidCheckpointID = $previousRfidCheckpoint['rfid_checkpoint_id'];
-    //     $previousRfidCheckpointName= $previousRfidCheckpoint['rfid_checkpoint_name'];
-    //     $previousRfidCheckpointDescription = $previousRfidCheckpoint['rfid_checkpoint_description'];
-    //     $previousRfidCheckpointLocation = $previousRfidCheckpoint['rfid_checkpoint_location'];
-      
-    //     $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID,  $previousRfidCheckpointID, $previousCpTime);
-
-    // }
 
     if($result){
         echo json_encode(array("success"=>true));
@@ -504,7 +454,7 @@ function getNextCheckpoint($connectNow, $workoutInfo){
             $passedPathIndex++;
         }
     }
-    // echo "Path: $pathLength + CP: $checkpointLength ";
+    
     if($passedCheckpointIndex==($checkpointLength-1)){
         //Last Checkpoint in path
         if($passedPathIndex==($pathLength-1)){
@@ -519,7 +469,7 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         //Go to next checkpoint
         $passedCheckpointIndex++;
     }
-    // echo "Location: $passedPathIndex + $passedCheckpointIndex ";
+    
     
     //Find expected checkpoint ID
     $expectedCheckpointID = 0;
@@ -583,8 +533,6 @@ function validateCheckpointHistory($connectNow, $currentCheckpointID,  $previous
                 $passedPathIndex++;
             }
         }
-        // echo "Path: $pathLength + CP: $checkpointLength ";
-
         if($expectedCheckpointID == $currentCheckpointID){
             if($passedCheckpointIndex==($checkpointLength-1)){
                 //Last Checkpoint in path
@@ -600,9 +548,9 @@ function validateCheckpointHistory($connectNow, $currentCheckpointID,  $previous
                 $action = 'Next Checkpoint';
             }
         }else{
+            //Not expected checkpoint
             $action = "Wrong Checkpoint";
         }
-
     }
     return $action;
 }
@@ -729,7 +677,6 @@ function updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutIn
 
     //Create New List
     $newPassedList = "[";
-
     $found = false;
     $expectedPathIndex = 0;
     $expectedCheckpointIndex = 0;
@@ -863,9 +810,9 @@ function finishWorkout($connectNow, $workoutID){
     $result = $connectNow->query($sqlQuery);
 
     if($result){
-        echo json_encode(array("success" => true));
+        return true;
     }else{
-        echo json_encode(array("success"=>false));
+        return false;
     }
 }
 

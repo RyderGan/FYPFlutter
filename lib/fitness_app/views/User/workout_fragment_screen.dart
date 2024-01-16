@@ -361,7 +361,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(milliseconds: 5000), (timer) async {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
       if (_workoutController.workOutInProgress == true &&
           _workoutController.workOutInProgressType == "RFID") {
         print("RFID Set Active!");

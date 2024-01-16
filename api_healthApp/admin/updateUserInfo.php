@@ -11,7 +11,7 @@ $dob = $_POST['dob'];
 $rewardPoint = $_POST['rewardPoint'];
 $userID = $_POST['userID'];
 
-$sqlQuery = "UPDATE users SET full_name = '$name', email = '$email ',gender = '$gender', dateOfBirth = '$dob', reward_point='$rewardPoint' WHERE id = '$userID'";
+$sqlQuery = "UPDATE users SET full_name = '$name', email = '$email',gender = '$gender', dateOfBirth = '$dob', reward_point='$rewardPoint' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);
 
 $sqlQuery2 = "SELECT * FROM users WHERE id = '$userID'";
