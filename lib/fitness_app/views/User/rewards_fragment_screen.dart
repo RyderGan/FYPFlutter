@@ -22,8 +22,19 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        backgroundColor: Colors.white,
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _rewardController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -37,9 +48,9 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
           child: SingleChildScrollView(
               child: Container(
             padding: const EdgeInsets.all(20),
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
-                refreshButton(),
                 SizedBox(
                   height: 15,
                 ),

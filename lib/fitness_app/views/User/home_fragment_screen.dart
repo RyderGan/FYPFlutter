@@ -21,8 +21,19 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
   Widget build(BuildContext context) {
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        backgroundColor: Colors.white,
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _homeScreenController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -36,6 +47,7 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
           child: SingleChildScrollView(
               child: Container(
                   padding: const EdgeInsets.all(20),
+                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
                       displayStepCounts(),
@@ -54,7 +66,6 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      refreshButton()
                     ],
                   ))));
     });

@@ -18,15 +18,26 @@ class NotificationsFragmentScreen extends StatefulWidget {
 class _NotificationsFragmentScreenState
     extends State<NotificationsFragmentScreen> {
   final _notificationController = Get.put(notificationController());
-CurrentUser _currentUser = Get.put(CurrentUser());
+  CurrentUser _currentUser = Get.put(CurrentUser());
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
-        body: SafeArea(child: getBody()),
+        backgroundColor: Colors.white,
+        body: RefreshIndicator(
+          child: SafeArea(child: getBody()),
+          onRefresh: () {
+            return Future.delayed(
+              Duration(seconds: 1),
+              () {
+                //Refresh List
+                _notificationController.refreshList();
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -40,6 +51,7 @@ CurrentUser _currentUser = Get.put(CurrentUser());
           child: SingleChildScrollView(
               child: Container(
             padding: const EdgeInsets.all(20),
+            height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Text(
@@ -49,7 +61,6 @@ CurrentUser _currentUser = Get.put(CurrentUser());
                 SizedBox(
                   height: 15,
                 ),
-                refreshButton(),
                 SizedBox(
                   height: 15,
                 ),

@@ -1,4 +1,3 @@
-
 import 'package:fitnessapp/fitness_app/controllers/User/scanQRController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
@@ -34,12 +33,12 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
       child: Scaffold(
         // appBar: AppBar(
         //   leading: IconButton(
-        //     icon: Icon(Icons.arrow_back, color: Colors.white),
+        //     icon: Icon(Icons.arrow_back, color: Colors.black),
         //     onPressed: () => Get.back(),
         //   ),
         //   title: const Text("Scan QR code"),
         // ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

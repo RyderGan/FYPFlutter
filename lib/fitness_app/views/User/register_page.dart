@@ -47,7 +47,7 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: AppBar(
           title: const Text("Register account"),
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

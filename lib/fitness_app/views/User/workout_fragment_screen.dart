@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:fitnessapp/fitness_app/controllers/User/rewardsController.dart';
 import 'package:fitnessapp/fitness_app/controllers/User/workoutController.dart';
@@ -36,7 +35,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );
