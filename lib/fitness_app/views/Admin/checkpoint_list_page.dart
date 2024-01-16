@@ -42,34 +42,40 @@ class _CheckpointListPageState extends State<CheckpointListPage> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(Routes.add_checkpoint_info);
-                        },
-                        child: addCheckpointButton(),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Text(
-                        "Checkpoint List:",
-                        style: TextStylePreset.bigTitle,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      dataTable(),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(Routes.add_checkpoint_info);
+                          },
+                          child: addCheckpointButton(),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        const Text(
+                          "Checkpoint List:",
+                          style: TextStylePreset.bigTitle,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        dataTable(),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 
