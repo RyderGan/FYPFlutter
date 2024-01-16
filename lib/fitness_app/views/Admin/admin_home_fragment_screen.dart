@@ -40,38 +40,44 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      displayUserCount(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayRfidBandCount(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayFeedbacks(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayCheckpoints(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayPaths(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      displayRewards(),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        displayUserCount(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayRfidBandCount(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayFeedbacks(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayCheckpoints(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayPaths(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        displayRewards(),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 

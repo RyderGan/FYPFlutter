@@ -42,33 +42,39 @@ class _RewardsFragmentScreenState extends State<RewardsFragmentScreen> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-            padding: const EdgeInsets.all(20),
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 15,
-                ),
-                displayUserPoint(),
-                const SizedBox(
-                  height: 30,
-                ),
-                const Text(
-                  "Rewards",
-                  style: TextStylePreset.bigTitle,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                displayAllRewards(),
-              ],
-            ),
-          )));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+              padding: const EdgeInsets.all(20),
+              // height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15,
+                  ),
+                  displayUserPoint(),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text(
+                    "Rewards",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  displayAllRewards(),
+                ],
+              ),
+            ));
+          },
+        ),
+      );
     });
   }
 

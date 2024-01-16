@@ -46,36 +46,42 @@ class _ClaimRewardPageState extends State<ClaimRewardPage> {
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
       return ConstrainedBox(
-          constraints: BoxConstraints(
-            minHeight: constraints.maxHeight,
-          ),
-          child: SingleChildScrollView(
-              child: Container(
-                  padding: const EdgeInsets.all(20),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: [
-                      Text(
-                        "Rewards to Give Out",
-                        style: TextStylePreset.bigTitle,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      newTable(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "Claimed Rewards",
-                        style: TextStylePreset.bigTitle,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      claimedTable(),
-                    ],
-                  ))));
+        constraints: BoxConstraints(
+          minHeight: constraints.maxHeight,
+        ),
+        child: ListView.builder(
+          itemCount: 1,
+          itemBuilder: (context, index) {
+            return SingleChildScrollView(
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    // height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: [
+                        Text(
+                          "Rewards to Give Out",
+                          style: TextStylePreset.bigTitle,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        newTable(),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Claimed Rewards",
+                          style: TextStylePreset.bigTitle,
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        claimedTable(),
+                      ],
+                    )));
+          },
+        ),
+      );
     });
   }
 
