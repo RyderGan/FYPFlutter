@@ -4,8 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$bmiID = $_POST['bmiID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['bmiID'])) {
+    $bmiID = $_POST['bmiID'];
+} else {    
+    $bmiID = "";
+}
 
 $sqlQuery = "DELETE FROM bmis WHERE user_id = '$userID' AND bmi_id = '$bmiID'";
 $result = $connectNow->query($sqlQuery);

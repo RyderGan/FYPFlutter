@@ -3,10 +3,23 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
+if (isset($_POST['update_bmiID'])) {
+    $bmiID = $_POST['update_bmiID'];
+} else {    
+    $bmiID = "";
+}
 
-$bmiID = $_POST['update_bmiID'];
-$weight = $_POST['update_weight'];
-$height = $_POST['update_height'];
+if (isset($_POST['update_weight'])) {
+    $weight = $_POST['update_weight'];
+} else {    
+    $weight = "";
+}
+
+if (isset($_POST['update_height'])) {
+    $height = $_POST['update_height'];
+} else {    
+    $height = "";
+}
 
 $sqlQuery = "UPDATE bmis SET user_weight = '$weight', user_height = '$height' WHERE bmi_id = '$bmiID'";
 $result = $connectNow->query($sqlQuery);

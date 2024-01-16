@@ -3,9 +3,16 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$vfID = $_POST['vfID'];
-$rating = $_POST['rating'];
+if (isset($_POST['vfID'])) {
+    $vfID = $_POST['vfID'];
+} else {    
+    $vfID = "";
+}
+if (isset($_POST['rating'])) {
+    $rating = $_POST['rating'];
+} else {    
+    $rating = "";
+}
 
 $sqlQuery = "UPDATE visceral_fats SET rating = '$rating' WHERE vf_id = '$vfID'";
 $result = $connectNow->query($sqlQuery);

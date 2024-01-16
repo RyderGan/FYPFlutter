@@ -4,8 +4,11 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "SELECT * FROM workout WHERE workout_user_id = '$userID' AND workout_status != 'Completed' ORDER BY created_at DESC";
 $result = $connectNow->query($sqlQuery);

@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery1 = "DELETE FROM users WHERE id = '$userID'";
 $result1 = $connectNow->query($sqlQuery1);

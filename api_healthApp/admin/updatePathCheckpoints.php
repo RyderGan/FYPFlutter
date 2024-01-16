@@ -3,9 +3,17 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
+if (isset($_POST['checkpoint_list'])) {
+    $checkpoint_list = $_POST['checkpoint_list'];
+} else {    
+    $checkpoint_list = "";
+}
 
-$checkpoint_list= $_POST['checkpoint_list'];
-$pathID = $_POST['pathID'];
+if (isset($_POST['pathID'])) {
+    $pathID = $_POST['pathID'];
+} else {    
+    $pathID = "";
+}
 
 $sqlQuery = "UPDATE paths SET path_checkpoint_list = '$checkpoint_list'
 WHERE path_id = '$pathID'";

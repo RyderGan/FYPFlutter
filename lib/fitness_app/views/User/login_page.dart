@@ -4,7 +4,6 @@ import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -47,7 +46,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget getBody() {
     TextStyle defaultStyle = const TextStyle(color: Colors.black);
     TextStyle linkStyle = const TextStyle(
-        color: Colors.blue, decoration: TextDecoration.underline);
+      color: Colors.blue,
+      decoration: TextDecoration.underline,
+      fontSize: 15,
+    );
     return LayoutBuilder(
       builder: (context, constraints) {
         return ConstrainedBox(
@@ -88,31 +90,13 @@ class _LoginPageState extends State<LoginPage> {
                             const SizedBox(
                               height: 20,
                             ),
-                            RichText(
-                              text: TextSpan(
-                                style: defaultStyle,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: 'Forgot your password?',
-                                      style: linkStyle,
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          Get.toNamed(Routes.reset_password);
-                                        }),
-                                ],
-                              ),
-                            ),
+                            userTypeField(),
                             const SizedBox(
                               height: 20,
                             ),
-                            userTypeField(),
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-
                       // login button and social login
                       Container(
                           //height: (size.height) * 0.5,
@@ -123,6 +107,23 @@ class _LoginPageState extends State<LoginPage> {
                               _loginController.loginProcess();
                             },
                             child: loginButton(),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              style: defaultStyle,
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: 'Forgot your password?',
+                                    style: linkStyle,
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.toNamed(Routes.reset_password);
+                                      }),
+                              ],
+                            ),
                           ),
                           const SizedBox(
                             height: 20,
@@ -151,51 +152,16 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(
                             height: 20,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color: black.withOpacity(0.1))),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    "assets/images/google_icon.svg",
-                                    width: 20,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Container(
-                                width: 50,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color: black.withOpacity(0.1))),
-                                child: Center(
-                                  child: SvgPicture.asset(
-                                    "assets/images/facebook_icon.svg",
-                                    width: 20,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
                           RichText(
                             text: TextSpan(
                               style: defaultStyle,
                               children: <TextSpan>[
                                 const TextSpan(
-                                    text: "Don't have account yet? "),
+                                  text: "Don't have account yet? ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
                                 TextSpan(
                                     text: 'Register now',
                                     style: linkStyle,
@@ -206,11 +172,19 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                             ),
                           ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           RichText(
                             text: TextSpan(
                               style: defaultStyle,
                               children: <TextSpan>[
-                                const TextSpan(text: "Others: "),
+                                const TextSpan(
+                                  text: "Others: ",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                  ),
+                                ),
                                 TextSpan(
                                     text: 'Admin Only',
                                     style: linkStyle,

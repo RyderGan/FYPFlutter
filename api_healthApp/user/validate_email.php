@@ -1,7 +1,11 @@
 <?php
 include '../connection.php';
 
-$userEmail = $_POST['email'];
+if (isset($_POST['email'])) {
+    $userEmail = $_POST['email'];
+} else {    
+    $userEmail = "";
+}
 
 $sqlQuery = "SELECT * FROM users WHERE email='$userEmail'";
 

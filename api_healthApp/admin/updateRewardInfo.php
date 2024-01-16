@@ -3,11 +3,29 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
+if (isset($_POST['rewardTitle'])) {
+    $rewardTitle = $_POST['rewardTitle'];
+} else {    
+    $rewardTitle = "";
+}
 
-$rewardTitle = $_POST['rewardTitle'];
-$rewardDescription = $_POST['rewardDescription'];
-$requiredPt = $_POST['requiredPt'];
-$rewardId = $_POST['rewardId'];
+if (isset($_POST['rewardDescription'])) {
+    $rewardDescription = $_POST['rewardDescription'];
+} else {    
+    $rewardDescription = "";
+}
+
+if (isset($_POST['requiredPt'])) {
+    $requiredPt = $_POST['requiredPt'];
+} else {    
+    $requiredPt = "";
+}
+
+if (isset($_POST['rewardId'])) {
+    $rewardId = $_POST['rewardId'];
+} else {    
+    $rewardId = "";
+}
 
 $sqlQuery = "UPDATE rewards SET reward_title = '$rewardTitle', reward_description = '$rewardDescription',
  required_pt = '$requiredPt' WHERE reward_id = '$rewardId'";

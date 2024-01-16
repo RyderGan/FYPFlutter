@@ -3,8 +3,12 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
+if (isset($_POST['feedbackID'])) {
+    $feedbackID = $_POST['feedbackID'];
+} else {    
+    $feedbackID = "";
+}
 
-$feedbackID = $_POST['feedbackID'];
 
 $sqlQuery = "DELETE FROM feedbacks WHERE  feedback_id = '$feedbackID'";
 $result = $connectNow->query($sqlQuery);

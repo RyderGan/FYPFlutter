@@ -3,7 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 //$sqlQuery = "SELECT SUM(stepCount) AS TotalStepCounts FROM stepcounts WHERE user_id = '$userID' AND DATE(created_at) < CURDATE()";
 $sqlQuery = "SELECT stepCount AS LastStepCount FROM stepcounts WHERE user_id = '$userID' AND DATE(created_at) < CURDATE() ORDER BY created_at DESC LIMIT 1";

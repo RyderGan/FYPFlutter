@@ -3,8 +3,11 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$pathID = $_POST['pathID'];
+if (isset($_POST['pathID'])) {
+    $pathID = $_POST['pathID'];
+} else {    
+    $pathID = "";
+}
 
 $sqlQuery = "SELECT * FROM paths WHERE path_id = '$pathID'";
 $result = $connectNow->query($sqlQuery);

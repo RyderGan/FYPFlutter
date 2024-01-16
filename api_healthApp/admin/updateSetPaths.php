@@ -3,9 +3,16 @@ include '../connection.php';
 
 //POST = send/save data
 //GET retrieve/read data
-
-$path_list= $_POST['path_list'];
-$setID = $_POST['setID'];
+if (isset($_POST['path_list'])) {
+    $path_list = $_POST['path_list'];
+} else {    
+    $path_list = "";
+}
+if (isset($_POST['setID'])) {
+    $setID = $_POST['setID'];
+} else {    
+    $setID = "";
+}
 
 $sqlQuery = "UPDATE sets SET set_path_list = '$path_list'
 WHERE set_id = '$setID'";

@@ -4,9 +4,23 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$rewardID = $_POST['rewardID'];
-$rewardPt = $_POST['rewardPoints'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['rewardID'])) {
+    $rewardID = $_POST['rewardID'];
+} else {    
+    $rewardID = "";
+}
+
+if (isset($_POST['rewardPoints'])) {
+    $rewardPt = $_POST['rewardPoints'];
+} else {    
+    $rewardPt = "";
+}
 
 //get user reward points
 $sqlQuery = "SELECT * FROM users WHERE id = '$userID'";

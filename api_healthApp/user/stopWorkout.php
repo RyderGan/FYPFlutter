@@ -4,7 +4,11 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "UPDATE workout SET workout_status = 'Completed'
 WHERE workout_user_id = '$userID'";

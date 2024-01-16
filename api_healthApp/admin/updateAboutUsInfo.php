@@ -4,18 +4,77 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$title= $_POST['title'];
-$who = $_POST['who'];
-$whoDetails = $_POST['whoDetails'];
-$aim= $_POST['aim'];
-$aimDetails = $_POST['aimDetails'];
-$websiteName = $_POST['websiteName'];
-$websiteLink= $_POST['websiteLink'];
-$facebookLink = $_POST['facebookLink'];
-$instagramLink= $_POST['instagramLink'];
-$lat = $_POST['lat'];
-$long= $_POST['long'];
-$aboutUsID = $_POST['about_us_id'];
+if (isset($_POST['title'])) {
+    $title = $_POST['title'];
+} else {    
+    $title = "";
+}
+
+if (isset($_POST['who'])) {
+    $who = $_POST['who'];
+} else {    
+    $who = "";
+}
+
+if (isset($_POST['whoDetails'])) {
+    $whoDetails = $_POST['whoDetails'];
+} else {    
+    $whoDetails = "";
+}
+
+if (isset($_POST['aim'])) {
+    $aim = $_POST['aim'];
+} else {    
+    $aim = "";
+}
+
+if (isset($_POST['aimDetails'])) {
+    $aimDetails = $_POST['aimDetails'];
+} else {    
+    $aimDetails = "";
+}
+
+if (isset($_POST['websiteName'])) {
+    $websiteName = $_POST['websiteName'];
+} else {    
+    $websiteName = "";
+}
+
+if (isset($_POST['websiteLink'])) {
+    $websiteLink = $_POST['websiteLink'];
+} else {    
+    $websiteLink = "";
+}
+
+if (isset($_POST['facebookLink'])) {
+    $facebookLink = $_POST['facebookLink'];
+} else {    
+    $facebookLink = "";
+}
+
+if (isset($_POST['instagramLink'])) {
+    $instagramLink = $_POST['instagramLink'];
+} else {    
+    $instagramLink = "";
+}
+
+if (isset($_POST['lat'])) {
+    $lat = $_POST['lat'];
+} else {    
+    $lat = "";
+}
+
+if (isset($_POST['long'])) {
+    $long = $_POST['long'];
+} else {    
+    $long = "";
+}
+
+if (isset($_POST['about_us_id'])) {
+    $aboutUsID = $_POST['about_us_id'];
+} else {    
+    $aboutUsID = "";
+}
 
 $sqlQuery = "UPDATE about_us SET about_us_title = '$title', about_us_who = '$who',
  about_us_who_details = '$whoDetails', about_us_aim = '$aim', 

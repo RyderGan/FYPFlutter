@@ -4,8 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$notifyID = $_POST['notifyID'];
-$userID = $_POST['userID'];
+if (isset($_POST['notifyID'])) {
+    $notifyID = $_POST['notifyID'];
+} else {    
+    $notifyID = "";
+}
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
 $hasRead = 0;
 
 $sqlQuery = "UPDATE notifications SET hasRead = '$hasRead' WHERE notify_id = '$notifyID' AND user_id = '$userID'";

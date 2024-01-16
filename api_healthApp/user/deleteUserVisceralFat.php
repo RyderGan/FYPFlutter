@@ -4,8 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$vfID = $_POST['vfID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['vfID'])) {
+    $vfID = $_POST['vfID'];
+} else {    
+    $vfID = "";
+}
 
 $sqlQuery = "DELETE FROM visceral_fats WHERE user_id = '$userID' AND vf_id = '$vfID'";
 $result = $connectNow->query($sqlQuery);

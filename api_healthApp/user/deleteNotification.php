@@ -4,8 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
-$notifyID = $_POST['notifyID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
+
+if (isset($_POST['notifyID'])) {
+    $notifyID = $_POST['notifyID'];
+} else {    
+    $notifyID = "";
+}
 
 $sqlQuery = "DELETE FROM notifications WHERE user_id = '$userID' AND notify_id = '$notifyID'";
 $result = $connectNow->query($sqlQuery);

@@ -4,7 +4,11 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$userID = $_POST['userID'];
+if (isset($_POST['userID'])) {
+    $userID = $_POST['userID'];
+} else {    
+    $userID = "";
+}
 
 $sqlQuery = "SELECT * FROM bmis WHERE user_id = '$userID' ORDER BY created_at DESC";
 $result = $connectNow->query($sqlQuery);
