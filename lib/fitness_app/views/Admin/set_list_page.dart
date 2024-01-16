@@ -190,7 +190,7 @@ class _SetListPageState extends State<SetListPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "CP",
+            "Path",
             style: TextStylePreset.btnSmallText,
           )
         ],
