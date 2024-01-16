@@ -10,12 +10,15 @@ import 'package:http/http.dart' as http;
 class addSetInfoController extends GetxController {
   GlobalKey<FormState> addSetInfoFormKey = GlobalKey<FormState>();
 
-  late TextEditingController nameController, bonusPointsController;
+  late TextEditingController nameController,
+      bonusPointsController,
+      typeController;
 
   @override
   void onInit() {
     nameController = TextEditingController();
     bonusPointsController = TextEditingController();
+    typeController = TextEditingController();
     super.onInit();
   }
 
@@ -23,6 +26,7 @@ class addSetInfoController extends GetxController {
   void onClose() {
     nameController.dispose();
     bonusPointsController.dispose();
+    typeController.dispose();
     super.dispose();
   }
 
@@ -38,6 +42,7 @@ class addSetInfoController extends GetxController {
           body: {
             'name': nameController.text.trim(),
             'bonus_points': bonusPointsController.text.trim(),
+            'type': typeController.text.trim(),
           },
         );
         print(res.statusCode);

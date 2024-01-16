@@ -10,7 +10,8 @@ import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:http/http.dart' as http;
 
 class CheckpointSearchPage extends StatefulWidget {
-  const CheckpointSearchPage({Key? key}) : super(key: key);
+  final String type;
+  const CheckpointSearchPage({Key? key, required this.type}) : super(key: key);
 
   @override
   _CheckpointSearchPageState createState() => _CheckpointSearchPageState();
@@ -37,8 +38,10 @@ class _CheckpointSearchPageState extends State<CheckpointSearchPage> {
                       (json) => CheckpointModel.fromJson(json))
                   .toList();
           for (CheckpointModel checkpoint in checkpoints) {
-            allCheckpointList.add(checkpoint);
-            currentCheckpointList.add(checkpoint);
+            if (checkpoint.type == widget.type) {
+              allCheckpointList.add(checkpoint);
+              currentCheckpointList.add(checkpoint);
+            }
           }
         }
       }
@@ -78,8 +81,8 @@ class _CheckpointSearchPageState extends State<CheckpointSearchPage> {
     final query = text.toLowerCase();
     for (final checkpoint in allCheckpointList) {
       final name = checkpoint.name.toLowerCase();
-      final location = checkpoint.location.toLowerCase();
-      final startsWith = name.startsWith(query) || location.startsWith(query);
+      final type = checkpoint.type.toLowerCase();
+      final startsWith = name.startsWith(query) || type.startsWith(query);
 
       if (startsWith) {
         currentCheckpointList.add(checkpoint);
@@ -88,8 +91,8 @@ class _CheckpointSearchPageState extends State<CheckpointSearchPage> {
 
     for (final checkpoint in allCheckpointList) {
       final name = checkpoint.name.toLowerCase();
-      final location = checkpoint.location.toLowerCase();
-      final contains = name.contains(query) || location.contains(query);
+      final type = checkpoint.type.toLowerCase();
+      final contains = name.contains(query) || type.contains(query);
 
       if (contains && !currentCheckpointList.contains(checkpoint)) {
         currentCheckpointList.add(checkpoint);
@@ -124,7 +127,7 @@ class _CheckpointSearchPageState extends State<CheckpointSearchPage> {
         ),
         subtitle: HighlightText(
           query: text,
-          text: checkpoint.location,
+          text: checkpoint.type,
           style: textTheme.bodyText1?.copyWith(
             fontSize: 15,
           ),

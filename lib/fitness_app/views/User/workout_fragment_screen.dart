@@ -4,6 +4,7 @@ import 'dart:ffi';
 import 'package:fitnessapp/fitness_app/controllers/User/rewardsController.dart';
 import 'package:fitnessapp/fitness_app/controllers/User/workoutController.dart';
 import 'package:fitnessapp/fitness_app/models/User/pathModel.dart';
+import 'package:fitnessapp/fitness_app/models/User/workoutModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -22,6 +23,13 @@ class WorkoutFragmentScreen extends StatefulWidget {
 class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
   final _workoutController = Get.put(workoutController());
   CurrentUser _currentUser = Get.put(CurrentUser());
+  late Future<WorkoutModel> currentWorkout;
+
+  @override
+  void initState() {
+    super.initState();
+    setUpTimedFetch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +54,10 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
+                displayWorkoutProgress(),
+                SizedBox(
+                  height: 15,
+                ),
                 Text(
                   "Sets Available",
                   style: TextStylePreset.bigTitle,
@@ -58,6 +70,28 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             ),
           )));
     });
+  }
+
+  Obx displayWorkoutProgress() {
+    return Obx(() => ListView.builder(
+          shrinkWrap: true,
+          primary: false,
+          itemCount: _workoutController.onlyOne.value,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                (_workoutController.workOutInProgress == true &&
+                        _workoutController.workOutInProgressType == "RFID")
+                    ? displayNextCheckpoint()
+                    : Text(
+                        "Press Start to Begin!",
+                        style: TextStylePreset.smallTitle,
+                      )
+              ],
+            );
+          },
+        ));
   }
 
   Obx displayAllSets() {
@@ -76,10 +110,23 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          _workoutController.allSets[index].set_name,
-                          style: TextStylePreset.bigWhiteText,
-                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _workoutController.allSets[index].set_name,
+                                style: TextStylePreset.bigWhiteText,
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              Text(
+                                "(" +
+                                    _workoutController.allSets[index].set_type +
+                                    ")",
+                                style: TextStylePreset.normalWhiteText,
+                              ),
+                            ]),
                         Align(
                             alignment: Alignment.topRight,
                             child: Text(
@@ -96,12 +143,16 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                       height: 10,
                     ),
                     (_workoutController.workOutInProgress == false)
-                        ? startButton(_workoutController.allSets[index].set_id,
-                            _workoutController.allSets[index].paths)
+                        ? startButton(
+                            _workoutController.allSets[index].set_id,
+                            _workoutController.allSets[index].paths,
+                            _workoutController.allSets[index].set_type)
                         : (_workoutController.currentSet ==
                                 _workoutController.allSets[index].set_id)
                             ? workOutPaths(
-                                _workoutController.allSets[index].paths)
+                                _workoutController.allSets[index].set_id,
+                                _workoutController.allSets[index].paths,
+                                _workoutController.allSets[index].set_type)
                             : Text("")
                   ],
                 ),
@@ -111,7 +162,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         ));
   }
 
-  MaterialButton startButton(int setID, List<int> paths) {
+  MaterialButton startButton(int setID, List<int> paths, String setType) {
     return MaterialButton(
       minWidth: double.infinity,
       height: 50,
@@ -121,6 +172,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
       onPressed: () async {
         _workoutController.clearWorkout();
         _workoutController.workOutInProgress = true;
+        _workoutController.workOutInProgressType = setType;
         _workoutController.currentSet = setID;
         for (int i = 0; i < paths.length; i++) {
           _workoutController.getPathCheckpoints(paths.elementAt(i));
@@ -139,11 +191,73 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         print("Path ${_workoutController.currentPaths}");
         print("Checkpoints ${_workoutController.currentCheckpoints}");
         print("Passed ${_workoutController.checkpointsPassed}");
+
+        if (setType == "RFID") {
+          //Call function to store into workout db
+          print("Start Workout");
+          _workoutController.startRFIDWorkout(
+              setID,
+              _workoutController.currentPaths.toString(),
+              _workoutController.currentCheckpoints.toString(),
+              _workoutController.checkpointsPassed.toString(),
+              _currentUser.user.id);
+          //While true, continuously check db for status
+        }
       },
     );
   }
 
-  MaterialButton stopButton() {
+  Container displayNextCheckpoint() {
+    return Container(
+      alignment: Alignment.topLeft,
+      width: double.infinity,
+      padding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Next Checkpoint:",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        _workoutController.nextCheckpointName,
+                        style: TextStylePreset.bigText,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+        ],
+      ),
+    );
+  }
+
+  MaterialButton stopButton(int setID, String setType) {
     return MaterialButton(
       minWidth: double.infinity,
       height: 50,
@@ -152,6 +266,12 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
           style: new TextStyle(fontSize: 20, color: Colors.white)),
       onPressed: () {
         _workoutController.clearWorkout();
+        _workoutController.onlyOne.value = 2;
+        _workoutController.onlyOne.value = 1;
+        if (setType == "RFID") {
+          //Set RFID Workout as Completed
+          _workoutController.stopRFIDWorkout(_currentUser.user.id);
+        }
       },
     );
   }
@@ -163,7 +283,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
     }
   }
 
-  Container workOutPaths(List<int> paths) {
+  Container workOutPaths(int setID, List<int> paths, String setType) {
     return Container(
       height: 100,
       width: double.infinity,
@@ -174,7 +294,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
           // SizedBox(
           //   height: 15,
           // ),
-          stopButton(),
+          stopButton(setID, setType),
         ],
       ),
     );
@@ -221,12 +341,16 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                       height: 10,
                     ),
                     (_workoutController.workOutInProgress == false)
-                        ? startButton(_workoutController.allSets[index].set_id,
-                            _workoutController.allSets[index].paths)
+                        ? startButton(
+                            _workoutController.allSets[index].set_id,
+                            _workoutController.allSets[index].paths,
+                            _workoutController.allSets[index].set_type)
                         : (_workoutController.currentSet ==
                                 _workoutController.allSets[index].set_id)
                             ? workOutPaths(
-                                _workoutController.allSets[index].paths)
+                                _workoutController.allSets[index].set_id,
+                                _workoutController.allSets[index].paths,
+                                _workoutController.allSets[index].set_type)
                             : Text("")
                   ],
                 ),
@@ -234,5 +358,46 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             );
           },
         ));
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(milliseconds: 1000), (timer) async {
+      if (_workoutController.workOutInProgress == true &&
+          _workoutController.workOutInProgressType == "RFID") {
+        print("RFID Set Active!");
+        setState(() {
+          currentWorkout =
+              _workoutController.getWorkoutInfo(_currentUser.user.id);
+        });
+        WorkoutModel currentWorkoutNow = await currentWorkout;
+        // get checkpoint passed list
+        List<List<int>> checkpointPassedList = [];
+        List<String> prepareCheckpointPassedList = currentWorkoutNow
+            .workout_passed_list
+            .replaceAll("],", "@")
+            .replaceAll("]", "")
+            .replaceAll("[", "")
+            .replaceAll(" ", "")
+            .split("@");
+        for (String miniList in prepareCheckpointPassedList) {
+          List<String> checkpointStringList = miniList.split(",");
+          List<int> checkpointMiniList =
+              checkpointStringList.map((data) => int.parse(data)).toList();
+          checkpointPassedList.add(checkpointMiniList);
+        }
+        _workoutController.checkpointsPassed = checkpointPassedList;
+
+        if (currentWorkoutNow.workout_status == "Finished") {
+          await _workoutController
+              .completeWorkout(_workoutController.currentSet);
+          _workoutController.nextCheckpointName = "Finding Next Checkpoint";
+          _workoutController.stopRFIDWorkout(_currentUser.user.id);
+        } else {
+          //Update Next Checkpoint Value
+          await _workoutController.getNextCheckpoint(checkpointPassedList);
+        }
+        ;
+      }
+    });
   }
 }

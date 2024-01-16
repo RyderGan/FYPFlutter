@@ -6,9 +6,10 @@ include '../connection.php';
 
 $name= $_POST['name'];
 $bonus_points = $_POST['bonus_points'];
+$type = $_POST['type'];
 
-$sqlQuery = "INSERT INTO sets SET set_name = '$name', set_path_list = '[]',
-set_bonus_points = '$bonus_points'";
+$sqlQuery = "INSERT INTO sets SET set_name = '$name', set_path_list = '0',
+set_bonus_points = '$bonus_points', set_type = '$type'";
 $result = $connectNow->query($sqlQuery);
 
 if($result){

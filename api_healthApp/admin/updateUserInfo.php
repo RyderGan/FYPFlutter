@@ -4,21 +4,17 @@ include '../connection.php';
 //POST = send/save data
 //GET retrieve/read data
 
-$name= $_POST['name'];
-$distance = $_POST['distance'];
-$elevation = $_POST['elevation'];
-$difficulty = $_POST['difficulty'];
-$points = $_POST['points'];
-$time_limit = $_POST['time_limit'];
-$type = $_POST['type'];
-$pathID = $_POST['pathID'];
+$name = $_POST['full_name'];
+$email = $_POST['email'];
+$gender = $_POST['gender'];
+$dob = $_POST['dob'];
+$rewardPoint = $_POST['rewardPoint'];
+$userID = $_POST['userID'];
 
-$sqlQuery = "UPDATE paths SET path_name = '$name', path_distance = '$distance',
- path_elevation = '$elevation', path_difficulty = '$difficulty',
-path_points = '$points', time_limit = '$time_limit', path_type = '$type' WHERE path_id = '$pathID'";
+$sqlQuery = "UPDATE users SET full_name = '$name', email = '$email',gender = '$gender', dateOfBirth = '$dob', reward_point='$rewardPoint' WHERE id = '$userID'";
 $result = $connectNow->query($sqlQuery);
 
-$sqlQuery2 = "SELECT * FROM paths WHERE path_id = '$pathID'";
+$sqlQuery2 = "SELECT * FROM users WHERE id = '$userID'";
 $result2 = $connectNow->query($sqlQuery2);
 
 if($result){

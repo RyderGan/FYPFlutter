@@ -188,7 +188,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.checkpoint_search,
-    page: () => const CheckpointSearchPage(),
+    page: () => const CheckpointSearchPage(type: "RFID"),
   ),
   GetPage(
     name: Routes.checkpoint_qr,
@@ -212,7 +212,7 @@ final getPages = [
   ),
   GetPage(
     name: Routes.path_search,
-    page: () => const PathSearchPage(),
+    page: () => const PathSearchPage(type: "RFID"),
   ),
   GetPage(
     name: Routes.app_info_page,

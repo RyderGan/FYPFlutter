@@ -15,6 +15,7 @@ class EditPathInfoController extends GetxController {
       difficultyController,
       pointsController,
       timeLimitController;
+  RxString type = ''.obs;
 
   @override
   void onClose() {
@@ -40,6 +41,7 @@ class EditPathInfoController extends GetxController {
     pointsController.text = arguments.points.toString();
     timeLimitController = TextEditingController();
     timeLimitController.text = arguments.time_limit.toString();
+    type.value = arguments.type;
   }
 
   Future<void> updatePathInfo(var arguments) async {
@@ -58,6 +60,7 @@ class EditPathInfoController extends GetxController {
             'difficulty': difficultyController.text.trim(),
             'points': pointsController.text.trim(),
             'time_limit': timeLimitController.text.trim(),
+            'type': type.value,
             'pathID': arguments.id.toString(),
           },
         );
@@ -130,7 +133,7 @@ class EditPathInfoController extends GetxController {
           var res = await http.post(
             Uri.parse(Api.deletePath),
             body: {
-              'pathID': arguments.path_id.toString(),
+              'pathID': arguments.id.toString(),
             },
           );
           if (res.statusCode == 200) {

@@ -206,4 +206,14 @@ class Api {
   //delete notification
   static const deleteOneNotification =
       "$hostConnect/user/deleteNotification.php";
+  //start workout
+  static const startRFIDWorkout = "$hostConnect/user/startWorkout.php";
+  //stop workout
+  static const stopRFIDWorkout = "$hostConnect/user/stopWorkout.php";
+  //get current workout
+  static const getRFIDWorkout = "$hostConnect/user/getWorkout.php";
+  //get checkpoint info
+  static const getCheckpointInfo = "$hostConnect/user/getCheckpointInfo.php";
+  //change user info
+  static const adminUpdateUserInfo = "$hostConnect/admin/updateUserInfo.php";
 }

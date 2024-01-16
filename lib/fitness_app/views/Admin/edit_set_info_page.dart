@@ -21,6 +21,11 @@ class _EditSetInfoPageState extends State<EditSetInfoPage> {
   final _editSetInfoController = Get.put(EditSetInfoController());
   List<String> checkpointList = [];
   var arguments = Get.arguments;
+  var types = [
+    'Select type',
+    'RFID',
+    'QR Code',
+  ];
   //methods
 
   @override
@@ -84,6 +89,10 @@ class _EditSetInfoPageState extends State<EditSetInfoPage> {
           const SizedBox(
             height: 15,
           ),
+          typeField(),
+          const SizedBox(
+            height: 15,
+          ),
           InkWell(
             onTap: () {
               _editSetInfoController.updateSetInfo(arguments);
@@ -100,6 +109,43 @@ class _EditSetInfoPageState extends State<EditSetInfoPage> {
             child: deleteSetButton(),
           )
         ],
+      ),
+    );
+  }
+
+  Container typeField() {
+    String typeValue = arguments.type;
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        border: Border.all(color: black.withOpacity(0.1)),
+      ),
+      child: DropdownButtonFormField(
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.person),
+        ),
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        value: typeValue,
+        icon: const Icon(Icons.keyboard_arrow_down),
+        isExpanded: true,
+        items: types.map((String items) {
+          return DropdownMenuItem(
+            value: items,
+            child: Text(items),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          setState(() {
+            typeValue = newValue!;
+            arguments.type = typeValue;
+          });
+        },
+        validator: (checkpointTypeValue) {
+          if (checkpointTypeValue == "Select type") {
+            return "Please select a type";
+          }
+          return null;
+        },
       ),
     );
   }

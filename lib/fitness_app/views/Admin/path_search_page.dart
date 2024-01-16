@@ -10,7 +10,8 @@ import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:http/http.dart' as http;
 
 class PathSearchPage extends StatefulWidget {
-  const PathSearchPage({Key? key}) : super(key: key);
+  final String type;
+  const PathSearchPage({Key? key, required this.type}) : super(key: key);
 
   @override
   _PathSearchPageState createState() => _PathSearchPageState();
@@ -35,8 +36,10 @@ class _PathSearchPageState extends State<PathSearchPage> {
               .map<PathModel>((json) => PathModel.fromJson(json))
               .toList();
           for (PathModel path in paths) {
-            allPathList.add(path);
-            currentPathList.add(path);
+            if (path.type == widget.type) {
+              allPathList.add(path);
+              currentPathList.add(path);
+            }
           }
         }
       }

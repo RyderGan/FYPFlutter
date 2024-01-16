@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:fitnessapp/fitness_app/controllers/User/notificationController.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/pathModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/setModel.dart';
+import 'package:fitnessapp/fitness_app/models/User/workoutModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ class workoutController extends GetxController {
   //Map<String, TextEditingController> bmiEditingControllers = {};
   final _notificationController = Get.put(notificationController());
   CurrentUser _currentUser = Get.put(CurrentUser());
+  WorkoutModel currentWorkoutDetails =
+      new WorkoutModel(0, 0, "", "", "", 0, "");
   List<SetModel> allSets = <SetModel>[].obs;
   List<PathModel> PathsResult = <PathModel>[];
   List<PathModel> currentPathsResult = <PathModel>[].obs;
@@ -28,13 +32,17 @@ class workoutController extends GetxController {
   int currentSet = 0;
   int totalCheckpointsPassed = 0;
   int totalPointsEarned = 0;
+  RxInt onlyOne = 1.obs;
   bool workOutInProgress = false;
+  String nextCheckpointName = "Finding Next Checkpoint";
+  String workOutInProgressType = "";
 
   @override
   void onInit() {
     if (currentSet < 1) {
       super.onInit();
     }
+    onlyOne.value = 1;
     getAllWorkoutSets();
   }
 
@@ -42,6 +50,110 @@ class workoutController extends GetxController {
   void onClose() {
     allSets.clear();
     super.dispose();
+  }
+
+  Future<void> getNextCheckpoint(List<List<int>> checkpointsPassedList) async {
+    int nextCheckpointID = 0;
+    //Find Next Checkpoint ID
+    bool found = false;
+    bool notFinished = true;
+    int pathIndex = 0;
+    int checkpointIndex = 0;
+    for (var i = 0; i < currentPaths.length; i++) {
+      //check if the path is finished
+      for (int k = 0; k < checkpointsPassedList[i].length; k++) {
+        //if the path is not yet finished
+        if (checkpointsPassedList[i][k] == 0) {
+          found = true;
+          pathIndex = i;
+          checkpointIndex = k;
+          break;
+        }
+      }
+      if (found) {
+        break;
+      }
+    }
+
+    nextCheckpointID = currentCheckpoints[pathIndex][checkpointIndex];
+    nextCheckpointName = await getCheckpointName(nextCheckpointID);
+  }
+
+  Future<void> completeWorkout(int setID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.addSetBonusPoints),
+        body: {
+          'userID': _currentUser.user.id.toString(),
+          'setID': setID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          String message = resBody['message'];
+          Fluttertoast.showToast(msg: message);
+          _notificationController.addUserNotification(message);
+        } else {
+          Fluttertoast.showToast(msg: "Error occurred");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    clearWorkout();
+  }
+
+  Future<String> getCheckpointName(int checkpointID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getCheckpointInfo),
+        body: {
+          'checkpointID': checkpointID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          CheckpointModel checkpointDetails =
+              CheckpointModel.fromJson(resBody["checkpointData"]);
+          return checkpointDetails.name;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return "Checkpoint Not Found";
+  }
+
+  Future<WorkoutModel> getWorkoutInfo(int userID) async {
+    //Get Workout Info
+    WorkoutModel workoutDetails = new WorkoutModel(0, 0, "", "", "", 0, "");
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          WorkoutModel workoutDetails =
+              WorkoutModel.fromJson(resBody["workoutData"]);
+          return workoutDetails;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+    return workoutDetails;
   }
 
   void getAllWorkoutSets() async {
@@ -129,6 +241,78 @@ class workoutController extends GetxController {
     return valid;
   }
 
+  void startRFIDWorkout(int setID, String pathList, String checkpointList,
+      String passedList, int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.startRFIDWorkout),
+        body: {
+          'setID': setID.toString(),
+          'pathList': pathList,
+          'checkpointList': checkpointList,
+          'passedList': passedList,
+          'userID': userID.toString(),
+        },
+      );
+      print(res.statusCode);
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Workout Started!");
+        } else {
+          Fluttertoast.showToast(msg: "Error: Couldn't Start Workout!");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void stopRFIDWorkout(int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.stopRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          Fluttertoast.showToast(msg: "Workout Stopped!");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void getRFIDWorkout(int userID) async {
+    try {
+      var res = await http.post(
+        Uri.parse(Api.getRFIDWorkout),
+        body: {
+          'userID': userID.toString(),
+        },
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          WorkoutModel workoutDetails =
+              WorkoutModel.fromJson(resBody["workoutData"]);
+          currentWorkoutDetails = workoutDetails;
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
   bool updateNumberOfCheckpointsPassed(int path, int checkpoint) {
     bool valid = false;
     int currentPath = 0;
@@ -209,6 +393,8 @@ class workoutController extends GetxController {
     currentSet = 0;
     totalPointsEarned = 0;
     totalCheckpointsPassed = 0;
+    onlyOne.value = 2;
+    onlyOne.value = 1;
     refreshList();
   }
 }

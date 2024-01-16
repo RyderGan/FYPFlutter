@@ -99,15 +99,19 @@ class _PathListPageState extends State<PathListPage> {
                   ),
                   trailing: SizedBox(
                     height: 150,
-                    width: 125,
+                    width: 180,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
-                            "${_pathListController.pathList[index].id}",
+                            "${_pathListController.pathList[index].type}",
                             style: const TextStyle(height: 5, fontSize: 10),
+                            textAlign: TextAlign.left,
                           ),
+                        ),
+                        const SizedBox(
+                          width: 2,
                         ),
                         SizedBox(
                             width: 100,
