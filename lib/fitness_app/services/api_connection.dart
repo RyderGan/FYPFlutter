@@ -15,8 +15,8 @@ class Api {
   //     hostConnect = "http://192.168.0.208:51036/api_healthApp";
   //   }
   // }
-
-  static const hostConnect = "http://localhost/api_healthApp";
+  static const hostConnect = "https://fsktm-iot-tracker.000webhostapp.com";
+  // static const hostConnect = "http://localhost/api_healthApp";
   static const hostConnectUser = "$hostConnect/user";
 
   //signUp user
@@ -142,8 +142,6 @@ class Api {
   static const updateRewardInfo = "$hostConnect/admin/updateRewardInfo.php";
   //add reward
   static const addReward = "$hostConnect/admin/addReward.php";
-  //get rfid checkpoint list
-  static const getcheckpointList = "$hostConnect/admin/getcheckpointList.php";
   //delete checkpoint
   static const deleteCheckpoint = "$hostConnect/admin/deleteCheckpoint.php";
   //change checkpoint info

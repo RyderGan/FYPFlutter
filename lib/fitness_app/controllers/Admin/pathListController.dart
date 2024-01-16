@@ -33,7 +33,7 @@ class pathListController extends GetxController {
     for (int checkpointID in checkpointsinpath) {
       try {
         var res = await http.get(
-          Uri.parse(Api.getcheckpointList),
+          Uri.parse(Api.getCheckpointList),
         );
 
         if (res.statusCode == 200) {
@@ -63,7 +63,7 @@ class pathListController extends GetxController {
   Future<String> getCheckpointName(var checkpointID) async {
     try {
       var res = await http.get(
-        Uri.parse(Api.getcheckpointList),
+        Uri.parse(Api.getCheckpointList),
       );
 
       if (res.statusCode == 200) {
