@@ -68,7 +68,6 @@ class registerController extends GetxController {
           Uri.parse(Api.validateEmail),
           body: {'email': emailController.text.trim()},
         );
-
         if (res.statusCode == 200) {
           var resBody = jsonDecode(res.body);
           if (resBody['emailFound']) {
@@ -88,26 +87,17 @@ class registerController extends GetxController {
   }
 
   void registerUser() async {
-    print(userTypeValue.value);
-    UserModel userModel = UserModel(
-      1,
-      emailController.text.trim(),
-      passwordController.text.trim(),
-      nameController.text.trim(),
-      userTypeValue.value.trim(),
-      gender.toString(),
-      dobController.text.trim(),
-      0,
-      "",
-    );
-
     try {
-      var res = await http.post(
-        Uri.parse(Api.signUp),
-        body: userModel.toJson(),
-      );
-
+      var res = await http.post(Uri.parse(Api.signUp), body: {
+        "full_name": nameController.text.trim(),
+        "email": emailController.text.trim(),
+        "user_password": passwordController.text.trim(),
+        "user_type": userTypeValue.value.trim(),
+        "gender": gender.toString(),
+        "dateOfBirth": dobController.text.trim(),
+      });
       if (res.statusCode == 200) {
+        print(jsonDecode(res.body));
         var resBodyOfSignUp = jsonDecode(res.body);
         if (resBodyOfSignUp['success']) {
           Fluttertoast.showToast(msg: "SignUp Successfully.");
