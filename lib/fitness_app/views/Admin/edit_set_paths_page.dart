@@ -62,12 +62,12 @@ class _EditSetPathsPageState extends State<EditSetPathsPage>
             child: Scaffold(
               appBar: AppBar(
                 leading: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () => Get.back(),
                 ),
                 title: const Text("Edit Set Information"),
               ),
-              backgroundColor: white,
+              backgroundColor: Colors.white,
               body: ListView(
                 controller: scrollController,
                 // Prevent the ListView from scrolling when an item is

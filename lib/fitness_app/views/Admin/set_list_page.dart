@@ -26,7 +26,7 @@ class _SetListPageState extends State<SetListPage> {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: RefreshIndicator(
           child: SafeArea(child: getBody()),
           onRefresh: () {

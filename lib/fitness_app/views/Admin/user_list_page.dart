@@ -21,7 +21,7 @@ class _UserListPageState extends State<UserListPage> {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: RefreshIndicator(
           child: SafeArea(child: getBody()),
           onRefresh: () {

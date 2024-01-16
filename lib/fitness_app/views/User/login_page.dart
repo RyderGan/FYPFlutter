@@ -38,7 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

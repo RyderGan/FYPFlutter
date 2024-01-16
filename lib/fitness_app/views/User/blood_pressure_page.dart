@@ -24,12 +24,12 @@ class _BloodPressurePageState extends State<BloodPressurePage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Get.offNamed(Routes.root_app),
           ),
           title: const Text("Blood Pressure"),
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

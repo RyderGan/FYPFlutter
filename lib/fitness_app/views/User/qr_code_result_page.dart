@@ -1,4 +1,3 @@
-
 import 'package:fitnessapp/fitness_app/controllers/User/scanQRController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
@@ -33,12 +32,12 @@ class _QRCodeResultPageState extends State<QRCodeResultPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Get.back(),
           ),
           title: const Text("QR code result"),
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

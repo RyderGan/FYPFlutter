@@ -21,7 +21,7 @@ class _RfidBandListPageState extends State<RfidBandListPage> {
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: RefreshIndicator(
           child: SafeArea(child: getBody()),
           onRefresh: () {

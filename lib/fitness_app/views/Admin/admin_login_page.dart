@@ -34,12 +34,12 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Get.back(),
           ),
           title: const Text("Admin Login Page"),
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

@@ -24,12 +24,12 @@ class _VisceralFatPageState extends State<VisceralFatPage> {
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Get.offNamed(Routes.root_app),
           ),
           title: const Text("Visceral Fat"),
         ),
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: SafeArea(child: getBody()),
       ),
     );

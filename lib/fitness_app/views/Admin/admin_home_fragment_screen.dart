@@ -20,7 +20,7 @@ class _AdminHomeFragmentScreenState extends State<AdminHomeFragmentScreen> {
   Widget build(BuildContext context) {
     return ResponsivePadding(
       child: Scaffold(
-        backgroundColor: white,
+        backgroundColor: Colors.white,
         body: RefreshIndicator(
           child: SafeArea(child: getBody()),
           onRefresh: () {
