@@ -45,8 +45,8 @@ class homeController extends GetxController {
     getUserVisceralFat();
 
     //update step count every x seconds
-    timer = Timer.periodic(
-        const Duration(seconds: 10), (Timer t) => updateUserStepCount(stepCount));
+    timer = Timer.periodic(const Duration(seconds: 10),
+        (Timer t) => updateUserStepCount(stepCount));
   }
 
   @override
@@ -182,7 +182,7 @@ class homeController extends GetxController {
       var res = await http.post(
         Uri.parse(Api.getUserBmi),
         body: {
-          'user_id': _currentUser.user.id.toString(),
+          'userID': _currentUser.user.id.toString(),
         },
       );
 
@@ -234,7 +234,7 @@ class homeController extends GetxController {
       var res = await http.post(
         Uri.parse(Api.getUserVisceralFat),
         body: {
-          'user_id': _currentUser.user.id.toString(),
+          'userID': _currentUser.user.id.toString(),
         },
       );
 
