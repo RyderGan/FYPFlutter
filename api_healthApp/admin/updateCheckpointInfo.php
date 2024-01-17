@@ -43,7 +43,7 @@ $result2 = $connectNow->query($sqlQuery2);
 if($result){
     if ($result2->num_rows > 0) {
         while ($rowFound = $result2->fetch_assoc()) {
-            $userDetails[] = $rowFound;
+            $checkpointData[] = $rowFound;
         }
         echo json_encode(array(
             "success" => true,

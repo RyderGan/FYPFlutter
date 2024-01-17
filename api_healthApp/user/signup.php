@@ -34,7 +34,7 @@ if (isset($_POST['dateOfBirth'])) {
     $dob = "";
 }
 
-$sqlQuery = "INSERT INTO users SET full_name = '$fullName', email = '$email', user_password = '$password', user_type = '$userType', gender = '$gender', dateOfBirth = '$dob'";
+$sqlQuery = "INSERT INTO users SET full_name = '$fullName', email = '$email', user_password = '$password', user_type = '$userType', gender = '$gender', dateOfBirth = '$dob', reward_point='0'";
 
 $result = $connectNow->query($sqlQuery);
 

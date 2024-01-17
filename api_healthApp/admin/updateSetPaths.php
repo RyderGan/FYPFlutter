@@ -14,6 +14,10 @@ if (isset($_POST['setID'])) {
     $setID = "";
 }
 
+if($path_list == ""){
+    $path_list = "0";
+}
+
 $sqlQuery = "UPDATE sets SET set_path_list = '$path_list'
 WHERE set_id = '$setID'";
 $result = $connectNow->query($sqlQuery);
