@@ -191,7 +191,7 @@ class _RankingsFragmentScreenState extends State<RankingsFragmentScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Image.asset(
-                "assets/icons/silver_trophy.png",
+                "assets/icons/bronze_trophy.png",
                 height: 50,
                 width: 50,
                 fit: BoxFit.contain,
