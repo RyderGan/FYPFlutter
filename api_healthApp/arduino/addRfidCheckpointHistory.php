@@ -40,11 +40,11 @@ function process($connectNow, $rfidUID, $checkpointID){
 
     //Get Workout Info
     $workoutInfo = getWorkoutInfo($connectNow, $userID);
-    $setID = $workoutInfo['workout_set_id'];
-    $workoutID = $workoutInfo['workout_id'];
-    $pathID= 0;
-    $checkpointID = 0;
     if($workoutInfo){
+        $setID = $workoutInfo['workout_set_id'];
+        $workoutID = $workoutInfo['workout_id'];
+        $pathID= 0;
+        $checkpointID = 0;
         //Get Checkpoint History
         $checkpointHistoryList = getCheckpointHistory($connectNow, $rfidBandID);
 
