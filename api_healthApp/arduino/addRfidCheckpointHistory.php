@@ -1,6 +1,5 @@
 <?php
 include '../connection.php';
-date_default_timezone_set("Asia/Kuala_Lumpur");
 //POST = send/save data
 //GET retrieve/read data
 
@@ -13,7 +12,7 @@ if (isset($_POST['rfidUID'])) {
 if (isset($_POST['checkpointID'])) {
     $checkpointID= $_POST['checkpointID']; 
 } else {    
-    $checkpointID= "1";
+    $checkpointID= "";
 }
 
 process($connectNow, $rfidUID, $checkpointID);
@@ -51,15 +50,8 @@ function process($connectNow, $rfidUID, $checkpointID){
         if ($checkpointHistoryList){
             $previousCpID = $checkpointHistoryList[0]['checkpoint_id'];
             $previousCpTime = $checkpointHistoryList[0]['checkpoint_time'];
-
-            //Get Previous Checkpoint Info
-            $previousRfidCheckpoint = getCheckpointInfo($connectNow, $previousCpID);
-            $previousRfidCheckpointID = $previousRfidCheckpoint['checkpoint_id'];
-            $previousRfidCheckpointName= $previousRfidCheckpoint['checkpoint_name'];
-            $previousRfidCheckpointDescription = $previousRfidCheckpoint['checkpoint_description'];
-            $previousRfidCheckpointLocation = $previousRfidCheckpoint['checkpoint_location'];
         
-            $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID,  $previousRfidCheckpointID, $previousCpTime, $workoutInfo);
+            $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID, $previousCpTime, $workoutInfo);
 
         }else{
             $nextStep = "Default";
@@ -123,11 +115,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             $result = addNotification($connectNow, $userID, $msg);
             break;
         case "Finished":
-            //Next Checkpoint
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $expectedCheckpointID);
-            $nextCheckpointName = $expectedCheckpointInfo['checkpoint_name'];
-
+            $currentPathID = getCurrentPath($connectNow, $workoutInfo);
             //Path Info
             $pathInfo = getPathInfo($connectNow, $currentPathID);
             $pathName = $pathInfo['path_name'];
@@ -172,8 +160,8 @@ function process($connectNow, $rfidUID, $checkpointID){
         default:
             //New Workout
             $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $expectedCheckpointID);
-            $nextCheckpointName = $expectedCheckpointInfo['checkpoint_name'];
+            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
             //Start New Activity
             $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
             //Update Workout Table
@@ -478,13 +466,12 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         }else{
             //Go to next path
             $passedPathIndex++;
-            $passedCheckpointIndex==0;
+            $passedCheckpointIndex=0;
         }
     }else{
         //Go to next checkpoint
         $passedCheckpointIndex++;
     }
-    
     
     //Find expected checkpoint ID
     $expectedCheckpointID = 0;
@@ -505,12 +492,13 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         }
         $expectedPathIndex++;
     }
+    echo $expectedCheckpointID;
 
     return $expectedCheckpointID;
 }
 
-function validateCheckpointHistory($connectNow, $currentCheckpointID,  $previousRfidCheckpointID, $previousRfidCheckpointTime, $workoutInfo){
-    $action = "Restart";
+function validateCheckpointHistory($connectNow, $currentCheckpointID, $previousRfidCheckpointTime, $workoutInfo){
+    $action = "Default";
     $fromCpTime = strtotime($previousRfidCheckpointTime);
     $toCpTime = time();
     $timeDifference = $toCpTime-$fromCpTime;
@@ -576,6 +564,9 @@ function validateCheckpointHistory($connectNow, $currentCheckpointID,  $previous
             }
         }else{
             //Over Time Limit
+            echo $timeDifference;
+            echo "hi";
+            echo $timeLimit;
             $action = "Restart";
         }
     }
