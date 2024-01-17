@@ -15,6 +15,10 @@ if (isset($_POST['pathID'])) {
     $pathID = "";
 }
 
+if($checkpoint_list == ""){
+    $checkpoint_list = "0";
+}
+
 $sqlQuery = "UPDATE paths SET path_checkpoint_list = '$checkpoint_list'
 WHERE path_id = '$pathID'";
 $result = $connectNow->query($sqlQuery);

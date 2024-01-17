@@ -1,6 +1,5 @@
 <?php
 include '../connection.php';
-date_default_timezone_set("Asia/Kuala_Lumpur");
 //POST = send/save data
 //GET retrieve/read data
 
@@ -13,7 +12,7 @@ if (isset($_POST['rfidUID'])) {
 if (isset($_POST['checkpointID'])) {
     $checkpointID= $_POST['checkpointID']; 
 } else {    
-    $checkpointID= "1";
+    $checkpointID= "";
 }
 
 process($connectNow, $rfidUID, $checkpointID);
@@ -40,29 +39,22 @@ function process($connectNow, $rfidUID, $checkpointID){
 
     //Get Workout Info
     $workoutInfo = getWorkoutInfo($connectNow, $userID);
-    $setID = $workoutInfo['workout_set_id'];
-    $workoutID = $workoutInfo['workout_id'];
-    $pathID= 0;
-    $checkpointID = 0;
     if($workoutInfo){
+        $setID = $workoutInfo['workout_set_id'];
+        $workoutID = $workoutInfo['workout_id'];
+        $pathID= 0;
+        $checkpointID = 0;
         //Get Checkpoint History
         $checkpointHistoryList = getCheckpointHistory($connectNow, $rfidBandID);
 
         if ($checkpointHistoryList){
             $previousCpID = $checkpointHistoryList[0]['checkpoint_id'];
             $previousCpTime = $checkpointHistoryList[0]['checkpoint_time'];
-
-            //Get Previous Checkpoint Info
-            $previousRfidCheckpoint = getCheckpointInfo($connectNow, $previousCpID);
-            $previousRfidCheckpointID = $previousRfidCheckpoint['checkpoint_id'];
-            $previousRfidCheckpointName= $previousRfidCheckpoint['checkpoint_name'];
-            $previousRfidCheckpointDescription = $previousRfidCheckpoint['checkpoint_description'];
-            $previousRfidCheckpointLocation = $previousRfidCheckpoint['checkpoint_location'];
         
-            $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID,  $previousRfidCheckpointID, $previousCpTime, $workoutInfo);
+            $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID, $previousCpTime, $workoutInfo);
 
         }else{
-            $nextStep = "Restart";
+            $nextStep = "Default";
         }
     }else{
         //Send Message
@@ -93,6 +85,7 @@ function process($connectNow, $rfidUID, $checkpointID){
             $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
 
             $currentPathID = getCurrentPath($connectNow, $workoutInfo);
+
             //Path Info
             $pathInfo = getPathInfo($connectNow, $currentPathID);
             $pathName = $pathInfo['path_name'];
@@ -122,10 +115,11 @@ function process($connectNow, $rfidUID, $checkpointID){
             $result = addNotification($connectNow, $userID, $msg);
             break;
         case "Finished":
-            //Next Checkpoint
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $expectedCheckpointID);
-            $nextCheckpointName = $expectedCheckpointInfo['checkpoint_name'];
+            $currentPathID = getCurrentPath($connectNow, $workoutInfo);
+            //Path Info
+            $pathInfo = getPathInfo($connectNow, $currentPathID);
+            $pathName = $pathInfo['path_name'];
+            $path_points = $pathInfo['path_points'];
 
             //Insert Into Checkpoint History
             $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
@@ -133,8 +127,15 @@ function process($connectNow, $rfidUID, $checkpointID){
             //Update Workout Table
             $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
 
+            //Add Path Points
+            $result2 = completePath($connectNow, $userID, $currentPathID);
+
             //Finish Workout
             $result2 = finishWorkout($connectNow, $workoutID);
+
+            //Send Message
+            $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
+            $result = addNotification($connectNow, $userID, $msg);
             
             //Send Message
             $msg = "Congratulations on finishing the Set!";
@@ -159,10 +160,12 @@ function process($connectNow, $rfidUID, $checkpointID){
         default:
             //New Workout
             $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $expectedCheckpointID);
-            $nextCheckpointName = $expectedCheckpointInfo['checkpoint_name'];
+            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
             //Start New Activity
             $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+            //Update Workout Table
+            $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
             //Send Message
             $msg = "Please Go to this Checkpoint: $nextCheckpointName";
             $result = addNotification($connectNow, $userID, $msg);
@@ -463,13 +466,12 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         }else{
             //Go to next path
             $passedPathIndex++;
-            $passedCheckpointIndex==0;
+            $passedCheckpointIndex=0;
         }
     }else{
         //Go to next checkpoint
         $passedCheckpointIndex++;
     }
-    
     
     //Find expected checkpoint ID
     $expectedCheckpointID = 0;
@@ -490,66 +492,82 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         }
         $expectedPathIndex++;
     }
+    echo $expectedCheckpointID;
 
     return $expectedCheckpointID;
 }
 
-function validateCheckpointHistory($connectNow, $currentCheckpointID,  $previousRfidCheckpointID, $previousRfidCheckpointTime, $workoutInfo){
-    $action = "Restart";
+function validateCheckpointHistory($connectNow, $currentCheckpointID, $previousRfidCheckpointTime, $workoutInfo){
+    $action = "Default";
     $fromCpTime = strtotime($previousRfidCheckpointTime);
     $toCpTime = time();
-    //Check Timestamp between current and previous exceed 30 min
-    if(($toCpTime-$fromCpTime) < 1800) {     // 1800 seconds = 30 minutes
-        //Check if workoutInfo is followed
+    $timeDifference = $toCpTime-$fromCpTime;
+    //Check if workoutInfo is followed
 
-        //Find current checkpoint position
-        $expectedCheckpointID = getCurrentCheckpoint($connectNow, $workoutInfo);
-        $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
+    //Find current checkpoint position
+    $expectedCheckpointID = getCurrentCheckpoint($connectNow, $workoutInfo);
+    $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
 
-        $pathList = explode(",", str_replace("]","",str_replace("[","",$workoutInfo['workout_path_list'])));
-        $checkpointList = explode("$", str_replace(" ","",str_replace("[","",str_replace("]","",str_replace("],","$",$workoutInfo['workout_checkpoint_list'])))));
-        $passedList = explode("$", str_replace(" ","",str_replace("[","",str_replace("]","",str_replace("],","$",$workoutInfo['workout_passed_list'])))));
+    $pathList = explode(",", str_replace("]","",str_replace("[","",$workoutInfo['workout_path_list'])));
+    $checkpointList = explode("$", str_replace(" ","",str_replace("[","",str_replace("]","",str_replace("],","$",$workoutInfo['workout_checkpoint_list'])))));
+    $passedList = explode("$", str_replace(" ","",str_replace("[","",str_replace("]","",str_replace("],","$",$workoutInfo['workout_passed_list'])))));
 
-        //Find current checkpoint position
-        $found = false;
-        $passedPathIndex = 0;
+    //Find current checkpoint position
+    $found = false;
+    $passedPathIndex = 0;
+    $passedCheckpointIndex = 0;
+    $pathLength = count($pathList);
+    $checkpointLength = 0;
+    foreach ($passedList as $passedMiniLists) {
+        $passedMiniList = explode(",", $passedMiniLists);
+        $checkpointLength = count($passedMiniList);
         $passedCheckpointIndex = 0;
-        $pathLength = count($pathList);
-        $checkpointLength = 0;
-        foreach ($passedList as $passedMiniLists) {
-            $passedMiniList = explode(",", $passedMiniLists);
-            $checkpointLength = count($passedMiniList);
-            $passedCheckpointIndex = 0;
-            foreach ($passedMiniList as $passedPoint) {
-                if($passedPoint == 0){
-                    $found = true;
-                    break;
-                }
-                $passedCheckpointIndex++;
-            }
-            if($found){
+        foreach ($passedMiniList as $passedPoint) {
+            if($passedPoint == 0){
+                $found = true;
                 break;
-            }else{
-                $passedPathIndex++;
             }
+            $passedCheckpointIndex++;
         }
-        if($expectedCheckpointID == $currentCheckpointID){
-            if($passedCheckpointIndex==($checkpointLength-1)){
-                //Last Checkpoint in path
-                if($passedPathIndex==($pathLength-1)){
-                    //Last Path
-                    $action = 'Finished';
+        if($found){
+            break;
+        }else{
+            $passedPathIndex++;
+        }
+    }
+    if($passedCheckpointIndex == 0 && $passedPathIndex==0){
+        //New Set
+        $action = "Default";
+    }else{
+        //Path Info
+        $currentPathID = $pathList[$passedPathIndex];
+        $pathInfo = getPathInfo($connectNow, $currentPathID);
+        $timeLimit = $pathInfo['time_limit'];
+        if(($timeDifference) < $timeLimit) {    
+            if($expectedCheckpointID == $currentCheckpointID){
+                if($passedCheckpointIndex==($checkpointLength-1)){
+                    //Last Checkpoint in path
+                    if($passedPathIndex==($pathLength-1)){
+                        //Last Path
+                        $action = 'Finished';
+                    }else{
+                        //Go to next path
+                        $action = 'Next Path';
+                    }
                 }else{
-                    //Go to next path
-                    $action = 'Next Path';
+                    //Go to next checkpoint
+                    $action = 'Next Checkpoint';
                 }
             }else{
-                //Go to next checkpoint
-                $action = 'Next Checkpoint';
+                //Not expected checkpoint
+                $action = "Wrong Checkpoint";
             }
         }else{
-            //Not expected checkpoint
-            $action = "Wrong Checkpoint";
+            //Over Time Limit
+            echo $timeDifference;
+            echo "hi";
+            echo $timeLimit;
+            $action = "Restart";
         }
     }
     return $action;
