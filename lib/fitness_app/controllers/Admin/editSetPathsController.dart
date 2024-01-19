@@ -39,7 +39,7 @@ class editSetPathsController extends GetxController {
         print(resBodyOfLogin);
         if (resBodyOfLogin['success']) {
           print(resBodyOfLogin);
-          Fluttertoast.showToast(msg: "Your set paths is updated.");
+          Fluttertoast.showToast(msg: "The set paths is has been updated.");
           //change set info to local storage using Shared Preferences
           //navigate to home page
           Get.offAllNamed(Routes.admin_root_app);
@@ -103,7 +103,7 @@ class editSetPathsController extends GetxController {
   //         var resBodyOfLogin = jsonDecode(res.body);
   //         if (resBodyOfLogin['success']) {
   //           print(resBodyOfLogin);
-  //           Fluttertoast.showToast(msg: "Your set info updated.");
+  //           Fluttertoast.showToast(msg: "The set info has been updated.");
   //           //change set info to local storage using Shared Preferences
   //           //navigate to home page
   //           Get.offAllNamed(Routes.admin_root_app);

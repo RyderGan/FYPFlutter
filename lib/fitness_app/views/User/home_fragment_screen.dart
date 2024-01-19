@@ -16,6 +16,7 @@ class HomeFragmentScreen extends StatefulWidget {
 
 class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
   final _homeScreenController = Get.put(homeController());
+  bool isWeb = GetPlatform.isWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +54,11 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                     // height: MediaQuery.of(context).size.height,
                     child: Column(
                       children: [
-                        displayStepCounts(),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                        if (!isWeb) displayStepCounts(),
+                        if (!isWeb)
+                          const SizedBox(
+                            height: 15,
+                          ),
                         displayBmi(),
                         const SizedBox(
                           height: 15,

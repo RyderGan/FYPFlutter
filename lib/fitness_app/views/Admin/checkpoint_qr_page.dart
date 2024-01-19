@@ -16,6 +16,7 @@ class CheckpointQrPage extends StatefulWidget {
 }
 
 class _CheckpointQrPageState extends State<CheckpointQrPage> {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController controller = TextEditingController();
   String checkpointID = Get.arguments;
   List<String> pathList = [];
@@ -51,27 +52,44 @@ class _CheckpointQrPageState extends State<CheckpointQrPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter + QR code'),
+        title: const Text('QR code Generator'),
         centerTitle: true,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            margin: const EdgeInsets.all(20),
-            child: pathField(),
-          ),
           //This button when pressed navigates to QR code generation
+          setInfoForm(),
+        ],
+      ),
+    );
+  }
+
+  Form setInfoForm() {
+    return Form(
+      key: formKey,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      child: Column(
+        children: [
+          pathField(),
+          const SizedBox(
+            height: 15,
+          ),
           ElevatedButton(
               onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: ((context) {
-                      return QRImage(controller, checkpointID);
-                    }),
-                  ),
-                );
+                final isValid = formKey.currentState!.validate();
+                if (!isValid) {
+                  return;
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) {
+                        return QRImage(controller, checkpointID);
+                      }),
+                    ),
+                  );
+                }
               },
               child: const Text('GENERATE QR CODE')),
         ],
@@ -108,7 +126,7 @@ class _CheckpointQrPageState extends State<CheckpointQrPage> {
               },
               validator: (pathTypeValue) {
                 if (pathTypeValue == null) {
-                  return "Please select a path ID";
+                  return "Please select a path";
                 }
                 return null;
               },

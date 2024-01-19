@@ -78,7 +78,7 @@ class sendNotificationController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "Your message has been sent.");
+            Fluttertoast.showToast(msg: "The message has been sent.");
             //change rfidBand info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

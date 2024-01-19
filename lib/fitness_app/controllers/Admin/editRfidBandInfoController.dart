@@ -79,7 +79,8 @@ class EditRfidBandInfoController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "Your RFID Band info is updated.");
+            Fluttertoast.showToast(
+                msg: "The RFID Band info is has been updated.");
             //change rfidBand info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

@@ -48,7 +48,7 @@ class addRewardInfoController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "Your reward info has been added.");
+            Fluttertoast.showToast(msg: "The reward info has been added.");
             //change reward info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

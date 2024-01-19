@@ -44,7 +44,7 @@ class changeUserInfoController extends GetxController {
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "Your user info updated.");
+          Fluttertoast.showToast(msg: "Your user info has been updated.");
           UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
           fullNameController.text = userInfo.fullName;
           gender.value = userInfo.gender;
@@ -79,7 +79,7 @@ class changeUserInfoController extends GetxController {
         if (res.statusCode == 200) {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
-            Fluttertoast.showToast(msg: "Your user info updated.");
+            Fluttertoast.showToast(msg: "Your user info has been updated.");
             UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
             //change user info to local storage using Shared Preferences
             await RememberUserPrefs.storeUserData(userInfo);
