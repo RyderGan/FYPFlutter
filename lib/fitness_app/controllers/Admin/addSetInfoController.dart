@@ -50,7 +50,7 @@ class addSetInfoController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "Your set info has been added.");
+            Fluttertoast.showToast(msg: "The set info has been added.");
             //change set info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

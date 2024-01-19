@@ -43,7 +43,7 @@ class changeUserLoginDetailsController extends GetxController {
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "Your user info updated.");
+          Fluttertoast.showToast(msg: "Your user info has been updated.");
           UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
           emailController.text = _currentUser.user.email;
         } else {
@@ -120,7 +120,7 @@ class changeUserLoginDetailsController extends GetxController {
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "Your email updated.");
+          Fluttertoast.showToast(msg: "Your email has been updated.");
           UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
           //change user info to local storage using Shared Preferences
           await RememberUserPrefs.storeUserData(userInfo);
@@ -178,7 +178,7 @@ class changeUserLoginDetailsController extends GetxController {
       if (res.statusCode == 200) {
         var resBodyOfLogin = jsonDecode(res.body);
         if (resBodyOfLogin['success']) {
-          Fluttertoast.showToast(msg: "Your password updated.");
+          Fluttertoast.showToast(msg: "Your password has been updated.");
           UserModel userInfo = UserModel.fromJson(resBodyOfLogin["userData"]);
           //change user info to local storage using Shared Preferences
           await RememberUserPrefs.storeUserData(userInfo);

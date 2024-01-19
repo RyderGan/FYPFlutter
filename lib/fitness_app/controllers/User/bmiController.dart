@@ -134,7 +134,7 @@ class bmiController extends GetxController {
         if (res.statusCode == 200) {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
-            Fluttertoast.showToast(msg: "Your bmi info updated.");
+            Fluttertoast.showToast(msg: "Your bmi info has been updated.");
             //refresh page
             clearFormContents();
             allBmis.clear();

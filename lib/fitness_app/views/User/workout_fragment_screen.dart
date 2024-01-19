@@ -23,6 +23,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
   final _workoutController = Get.put(workoutController());
   CurrentUser _currentUser = Get.put(CurrentUser());
   late Future<WorkoutModel> currentWorkout;
+  bool isWeb = GetPlatform.isWeb;
 
   @override
   void initState() {
@@ -53,22 +54,43 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                displayWorkoutProgress(),
-                SizedBox(
-                  height: 15,
-                ),
-                Text(
-                  "Sets Available",
-                  style: TextStylePreset.bigTitle,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                displayAllSets(),
+                if (!isWeb) displayWorkoutProgress(),
+                if (!isWeb)
+                  SizedBox(
+                    height: 15,
+                  ),
+                if (!isWeb)
+                  Text(
+                    "Sets Available",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                if (!isWeb)
+                  SizedBox(
+                    height: 15,
+                  ),
+                if (!isWeb) displayAllSets(),
+                if (isWeb) displayNotAvailable(),
               ],
             ),
           )));
     });
+  }
+
+  Container displayNotAvailable() {
+    return Container(
+      child: SingleChildScrollView(
+          child: Container(
+              padding: const EdgeInsets.all(20),
+              // height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Text(
+                    "Workout Module is only available inside the App",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                ],
+              ))),
+    );
   }
 
   Obx displayWorkoutProgress() {

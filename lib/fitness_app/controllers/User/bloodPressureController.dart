@@ -135,7 +135,8 @@ class bloodPressureController extends GetxController {
         if (res.statusCode == 200) {
           var resBody = jsonDecode(res.body);
           if (resBody['success']) {
-            Fluttertoast.showToast(msg: "Your blood pressure info updated.");
+            Fluttertoast.showToast(
+                msg: "Your blood pressure info has been updated.");
             //refresh page
             clearFormContents();
             allBloodPressures.clear();

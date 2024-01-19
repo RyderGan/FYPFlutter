@@ -52,7 +52,7 @@ class addCheckpointInfoController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "Your checkpoint info has been added.");
+            Fluttertoast.showToast(msg: "The checkpoint info has been added.");
             //change checkpoint info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

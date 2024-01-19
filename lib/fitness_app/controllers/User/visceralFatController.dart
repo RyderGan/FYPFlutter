@@ -116,7 +116,8 @@ class visceralFatController extends GetxController {
         if (res.statusCode == 200) {
           var resBody = jsonDecode(res.body);
           if (resBody['success']) {
-            Fluttertoast.showToast(msg: "Your visceral fat info updated.");
+            Fluttertoast.showToast(
+                msg: "Your visceral fat info has been updated.");
             //refresh page
             clearFormContents();
             allVisceralFats.clear();
