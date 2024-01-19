@@ -187,8 +187,10 @@ class _SendNotificationPageState extends State<SendNotificationPage> {
                 maxLines: 10, // and this
                 controller: _sendNotificationController.messageController,
                 validator: (value) {
-                  return _sendNotificationController
-                      .validateDescription(value!);
+                  if (value!.isEmpty) {
+                    return "Please enter message";
+                  }
+                  return null;
                 },
               ),
             ),

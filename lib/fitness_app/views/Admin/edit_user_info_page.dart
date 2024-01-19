@@ -3,6 +3,7 @@ import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
@@ -24,10 +25,14 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   var arguments = Get.arguments;
 
   //methods
+  @override
+  initState() {
+    super.initState();
+    _editUserInfoController.setUserDetails(arguments);
+  }
 
   @override
   Widget build(BuildContext context) {
-    _editUserInfoController.setUserDetails(arguments);
     // TODO: implement build
     return ResponsivePadding(
       child: Scaffold(
@@ -216,8 +221,8 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
           });
         },
         validator: (userTypeValue) {
-          if (userTypeValue == "Select user") {
-            return "Please select a user";
+          if (userTypeValue == "Select gender") {
+            return "Please select a gender";
           }
           return null;
         },
@@ -255,9 +260,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
+                      firstDate: DateTime(1900),
                       //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2100));
+                      lastDate: DateTime.now());
 
                   if (pickedDate != null) {
                     print(
@@ -309,6 +314,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                 decoration: const InputDecoration(
                     hintText: "Points", border: InputBorder.none),
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                ],
                 controller: _editUserInfoController.rewardPointsController,
                 validator: (value) {
                   if (value!.isEmpty) {

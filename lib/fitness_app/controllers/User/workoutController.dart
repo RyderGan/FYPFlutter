@@ -386,6 +386,7 @@ class workoutController extends GetxController {
   }
 
   void clearWorkout() {
+    nextCheckpointName = "Finding Next Checkpoint";
     workOutInProgress = false;
     currentPaths.clear();
     currentCheckpoints.clear();

@@ -44,35 +44,49 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
 
   Widget getBody() {
     return LayoutBuilder(builder: (context, constraints) {
-      return ConstrainedBox(
+      if (!isWeb) {
+        return ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+              //minWidth: constraints.maxWidth,
+            ),
+            child: SingleChildScrollView(
+                child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  if (!isWeb) displayWorkoutProgress(),
+                  if (!isWeb)
+                    SizedBox(
+                      height: 15,
+                    ),
+                  if (!isWeb)
+                    Text(
+                      "Sets Available",
+                      style: TextStylePreset.bigTitle,
+                    ),
+                  if (!isWeb)
+                    SizedBox(
+                      height: 15,
+                    ),
+                  if (!isWeb) displayAllSets(),
+                ],
+              ),
+            )));
+      } else {
+        return ConstrainedBox(
           constraints: BoxConstraints(
             minHeight: constraints.maxHeight,
-            //minWidth: constraints.maxWidth,
+            minWidth: double.infinity,
           ),
-          child: SingleChildScrollView(
-              child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                if (!isWeb) displayWorkoutProgress(),
-                if (!isWeb)
-                  SizedBox(
-                    height: 15,
-                  ),
-                if (!isWeb)
-                  Text(
-                    "Sets Available",
-                    style: TextStylePreset.bigTitle,
-                  ),
-                if (!isWeb)
-                  SizedBox(
-                    height: 15,
-                  ),
-                if (!isWeb) displayAllSets(),
-                if (isWeb) displayNotAvailable(),
-              ],
-            ),
-          )));
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (isWeb) displayNotAvailable(),
+            ],
+          ),
+        );
+      }
     });
   }
 

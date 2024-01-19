@@ -54,11 +54,10 @@ class _HomeFragmentScreenState extends State<HomeFragmentScreen> {
                     // height: MediaQuery.of(context).size.height,
                     child: Column(
                       children: [
-                        if (!isWeb) displayStepCounts(),
-                        if (!isWeb)
-                          const SizedBox(
-                            height: 15,
-                          ),
+                        displayStepCounts(),
+                        const SizedBox(
+                          height: 15,
+                        ),
                         displayBmi(),
                         const SizedBox(
                           height: 15,

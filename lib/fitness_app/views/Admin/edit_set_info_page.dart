@@ -5,6 +5,7 @@ import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:fitnessapp/fitness_app/services/api_connection.dart';
@@ -211,6 +212,9 @@ class _EditSetInfoPageState extends State<EditSetInfoPage> {
                 decoration: const InputDecoration(
                     hintText: "Bonus Points", border: InputBorder.none),
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                ],
                 controller: _editSetInfoController.bonusPointsController,
                 validator: (value) {
                   if (value!.isEmpty) {

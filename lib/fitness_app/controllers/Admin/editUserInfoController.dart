@@ -67,7 +67,7 @@ class editUserInfoController extends GetxController {
           var resBodyOfLogin = jsonDecode(res.body);
           if (resBodyOfLogin['success']) {
             print(resBodyOfLogin);
-            Fluttertoast.showToast(msg: "The user info has been updated.");
+            Fluttertoast.showToast(msg: "Your user info has been updated.");
             //change user info to local storage using Shared Preferences
             //navigate to home page
             Get.offAllNamed(Routes.admin_root_app);

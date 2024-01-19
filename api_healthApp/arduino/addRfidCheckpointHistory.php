@@ -12,7 +12,7 @@ if (isset($_POST['rfidUID'])) {
 if (isset($_POST['checkpointID'])) {
     $checkpointID= $_POST['checkpointID']; 
 } else {    
-    $checkpointID= "";
+    $checkpointID= "1";
 }
 
 process($connectNow, $rfidUID, $checkpointID);
@@ -25,152 +25,163 @@ process($connectNow, $rfidUID, $checkpointID);
 function process($connectNow, $rfidUID, $checkpointID){
     //Get Checkpoint Info
     $currentCheckpoint = getCheckpointInfo($connectNow, $checkpointID);
-    $currentCheckpointID = $checkpointID;
-    $currentCheckpointName= $currentCheckpoint['checkpoint_name'];
-    $currentCheckpointDescription = $currentCheckpoint['checkpoint_description'];
-    $currentCheckpointLocation = $currentCheckpoint['checkpoint_location'];
 
     //Get RFID Band Info
     $rfidBand = getRfidBandInfo($connectNow, $rfidUID);
-    $rfidBandID = $rfidBand['rfid_band_id'];
-    $rfidBandUID = $rfidBand['rfid_band_uid'];
-    $rfidBandName = $rfidBand['rfid_band_name'];
-    $userID = $rfidBand['user_id'];
+    
+    if ($rfidBand && $currentCheckpoint){
+        $currentCheckpointID = $checkpointID;
+        $currentCheckpointName= $currentCheckpoint['checkpoint_name'];
+        $currentCheckpointDescription = $currentCheckpoint['checkpoint_description'];
+        $currentCheckpointLocation = $currentCheckpoint['checkpoint_location'];
 
-    //Get Workout Info
-    $workoutInfo = getWorkoutInfo($connectNow, $userID);
-    if($workoutInfo){
-        $setID = $workoutInfo['workout_set_id'];
-        $workoutID = $workoutInfo['workout_id'];
-        $pathID= 0;
-        $checkpointID = 0;
-        //Get Checkpoint History
-        $checkpointHistoryList = getCheckpointHistory($connectNow, $rfidBandID);
+        $rfidBandID = $rfidBand['rfid_band_id'];
+        $rfidBandUID = $rfidBand['rfid_band_uid'];
+        $rfidBandName = $rfidBand['rfid_band_name'];
+        $userID = $rfidBand['user_id'];
 
-        if ($checkpointHistoryList){
-            $previousCpID = $checkpointHistoryList[0]['checkpoint_id'];
-            $previousCpTime = $checkpointHistoryList[0]['checkpoint_time'];
-        
-            $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID, $previousCpTime, $workoutInfo);
+        //Get Workout Info
+        $workoutInfo = getWorkoutInfo($connectNow, $userID);
+        if($workoutInfo){
+            $setID = $workoutInfo['workout_set_id'];
+            $workoutID = $workoutInfo['workout_id'];
+            $pathID= 0;
+            $checkpointID = 0;
+            //Get Checkpoint History
+            $checkpointHistoryList = getCheckpointHistory($connectNow, $rfidBandID);
 
+            if ($checkpointHistoryList){
+                $previousCpID = $checkpointHistoryList[0]['checkpoint_id'];
+                $previousCpTime = $checkpointHistoryList[0]['checkpoint_time'];
+            
+                $nextStep = validateCheckpointHistory($connectNow, $currentCheckpointID, $previousCpTime, $workoutInfo);
+
+            }else{
+                $nextStep = "Default";
+            }
         }else{
-            $nextStep = "Default";
+            //Send Message
+            $nextStep = "No Workout";
+        }
+        echo "Next Step: $nextStep\n";
+        switch ($nextStep) {
+            case "Next Checkpoint":
+                //Next Checkpoint
+                $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
+                $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+                $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
+
+                //Insert Into Checkpoint History
+                $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+
+                //Update Workout Table
+                $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
+
+                //Send Message
+                // $msg = "Checkpoint($currentCheckpointName) Recorded! Please head to next checkpoint: $nextCheckpointName";
+                // $result = addNotification($connectNow, $userID, $msg);
+                break;
+            case "Next Path":
+                //Next Checkpoint
+                $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
+                $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+                $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
+
+                $currentPathID = getCurrentPath($connectNow, $workoutInfo);
+
+                //Path Info
+                $pathInfo = getPathInfo($connectNow, $currentPathID);
+                $pathName = $pathInfo['path_name'];
+                $path_points = $pathInfo['path_points'];
+                
+                //Insert Into Checkpoint History
+                $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+                
+                //Update Workout Table
+                $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
+
+                //Add Path Points
+                $result2 = completePath($connectNow, $userID, $currentPathID);
+
+                //Send Message
+                $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+            case "Wrong Checkpoint":
+                //Next Checkpoint
+                $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
+                $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+                $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
+
+                //Send Message
+                $msg = "This is the Wrong Checkpoint! Please head to Checkpoint: $nextCheckpointName";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+            case "Finished":
+                $currentPathID = getCurrentPath($connectNow, $workoutInfo);
+                //Path Info
+                $pathInfo = getPathInfo($connectNow, $currentPathID);
+                $pathName = $pathInfo['path_name'];
+                $path_points = $pathInfo['path_points'];
+
+                //Insert Into Checkpoint History
+                $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+
+                //Update Workout Table
+                $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
+
+                //Add Path Points
+                $result2 = completePath($connectNow, $userID, $currentPathID);
+
+                //Finish Workout
+                $result2 = finishWorkout($connectNow, $workoutID);
+
+                //Send Message
+                $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
+                $result = addNotification($connectNow, $userID, $msg);
+                
+                //Send Message
+                $msg = "Congratulations on finishing the Set!";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+            case "Restart":
+                //Restart Activity
+                $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+
+                //Clear Workout Table
+                $result1 = clearWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
+
+                //Send Message
+                $msg = "You were inactive for too long! The Set will now restart again!";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+            case "No Workout":
+                //Send Message
+                $msg = "Workout not Active. Please start a workout!";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+                case "No Workout":
+                //Send Message
+                $msg = "Workout not Active. Please start a workout!";
+                $result = addNotification($connectNow, $userID, $msg);
+                break;
+            default:
+                //New Workout
+                $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
+                $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
+                $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
+                //Start New Activity
+                $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
+                //Update Workout Table
+                $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
+                //Send Message
+                $msg = "Please Go to this Checkpoint: $nextCheckpointName";
+                $result = addNotification($connectNow, $userID, $msg);
         }
     }else{
-        //Send Message
-        $nextStep = "No Workout";
+        //No checkpoint or user for RFID Band
+        echo "No Checkpoint for Checkpoint ID or No User Found for RFID Band ID";
     }
-    echo "Next Step: $nextStep\n";
-    switch ($nextStep) {
-        case "Next Checkpoint":
-            //Next Checkpoint
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
-            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
-
-            //Insert Into Checkpoint History
-            $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-
-            //Update Workout Table
-            $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
-
-            //Send Message
-            // $msg = "Checkpoint($currentCheckpointName) Recorded! Please head to next checkpoint: $nextCheckpointName";
-            // $result = addNotification($connectNow, $userID, $msg);
-            break;
-        case "Next Path":
-            //Next Checkpoint
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
-            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
-
-            $currentPathID = getCurrentPath($connectNow, $workoutInfo);
-
-            //Path Info
-            $pathInfo = getPathInfo($connectNow, $currentPathID);
-            $pathName = $pathInfo['path_name'];
-            $path_points = $pathInfo['path_points'];
-            
-            //Insert Into Checkpoint History
-            $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-            
-            //Update Workout Table
-            $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
-
-            //Add Path Points
-            $result2 = completePath($connectNow, $userID, $currentPathID);
-
-            //Send Message
-            $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
-            $result = addNotification($connectNow, $userID, $msg);
-            break;
-        case "Wrong Checkpoint":
-            //Next Checkpoint
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
-            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
-
-            //Send Message
-            $msg = "This is the Wrong Checkpoint! Please head to Checkpoint: $nextCheckpointName";
-            $result = addNotification($connectNow, $userID, $msg);
-            break;
-        case "Finished":
-            $currentPathID = getCurrentPath($connectNow, $workoutInfo);
-            //Path Info
-            $pathInfo = getPathInfo($connectNow, $currentPathID);
-            $pathName = $pathInfo['path_name'];
-            $path_points = $pathInfo['path_points'];
-
-            //Insert Into Checkpoint History
-            $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-
-            //Update Workout Table
-            $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
-
-            //Add Path Points
-            $result2 = completePath($connectNow, $userID, $currentPathID);
-
-            //Finish Workout
-            $result2 = finishWorkout($connectNow, $workoutID);
-
-            //Send Message
-            $msg = "Congratulations on completing Path($pathName)! You have recieved $path_points pts";
-            $result = addNotification($connectNow, $userID, $msg);
-            
-            //Send Message
-            $msg = "Congratulations on finishing the Set!";
-            $result = addNotification($connectNow, $userID, $msg);
-            break;
-        case "Restart":
-            //Restart Activity
-            $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-
-            //Clear Workout Table
-            $result1 = clearWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
-
-            //Send Message
-            $msg = "You were inactive for too long! The Set will now restart again!";
-            $result = addNotification($connectNow, $userID, $msg);
-            break;
-        case "No Workout":
-            //Send Message
-            $msg = "Workout not Active. Please start a workout!";
-            $result = addNotification($connectNow, $userID, $msg);
-            break;
-        default:
-            //New Workout
-            $nextCheckpointID = getNextCheckpoint($connectNow, $workoutInfo);
-            $nextCheckpointInfo = getCheckpointInfo($connectNow, $nextCheckpointID);
-            $nextCheckpointName = $nextCheckpointInfo['checkpoint_name'];
-            //Start New Activity
-            $result = insertCheckpointHistory($connectNow, $userID, $setID, $pathID,$checkpointID, $rfidBandID);
-            //Update Workout Table
-            $result1 = updateWorkout($connectNow, $currentCheckpointID, $workoutID, $workoutInfo);
-            //Send Message
-            $msg = "Please Go to this Checkpoint: $nextCheckpointName";
-            $result = addNotification($connectNow, $userID, $msg);
-    }
-
     if($result){
         echo json_encode(array("success"=>true));
     }else{
@@ -289,7 +300,7 @@ function getRfidBandInfo($connectNow, $rfidUID) {
             return $rfidBand;
         }
     } else {
-        return [];
+        return false;
     }
 }
 
@@ -564,9 +575,6 @@ function validateCheckpointHistory($connectNow, $currentCheckpointID, $previousR
             }
         }else{
             //Over Time Limit
-            echo $timeDifference;
-            echo "hi";
-            echo $timeLimit;
             $action = "Restart";
         }
     }
