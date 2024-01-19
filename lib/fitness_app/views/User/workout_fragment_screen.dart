@@ -210,8 +210,8 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         _workoutController.workOutInProgressType = setType;
         _workoutController.currentSet = setID;
         for (int i = 0; i < paths.length; i++) {
-          _workoutController.getPathCheckpoints(paths.elementAt(i));
-          await Future.delayed(const Duration(milliseconds: 500));
+          await _workoutController.getPathCheckpoints(paths.elementAt(i));
+          // await Future.delayed(const Duration(milliseconds: 1000));
         }
         for (int i = 0; i < _workoutController.currentCheckpoints.length; i++) {
           for (int j = 0;

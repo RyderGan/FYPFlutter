@@ -28,7 +28,7 @@ function process($connectNow, $rfidUID, $checkpointID){
 
     //Get RFID Band Info
     $rfidBand = getRfidBandInfo($connectNow, $rfidUID);
-    
+
     if ($rfidBand && $currentCheckpoint){
         $currentCheckpointID = $checkpointID;
         $currentCheckpointName= $currentCheckpoint['checkpoint_name'];
@@ -503,7 +503,6 @@ function getNextCheckpoint($connectNow, $workoutInfo){
         }
         $expectedPathIndex++;
     }
-    echo $expectedCheckpointID;
 
     return $expectedCheckpointID;
 }
