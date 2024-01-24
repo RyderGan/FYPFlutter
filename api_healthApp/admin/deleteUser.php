@@ -27,15 +27,19 @@ $result5 = $connectNow->query($sqlQuery5);
 $sqlQuery6 = "DELETE FROM stepcounts WHERE user_id = '$userID'";
 $result6 = $connectNow->query($sqlQuery6);
 
-$sqlQuery7 = "DELETE FROM user_checkpoints WHERE user_id = '$userID'";
+$sqlQuery7 = "DELETE FROM checkpoint_history WHERE user_id = '$userID'";
 $result7 = $connectNow->query($sqlQuery7);
 
 $sqlQuery8 = "DELETE FROM visceral_fats WHERE user_id = '$userID'";
 $result8 = $connectNow->query($sqlQuery8);
 
-//set rfid band value to 0
+$sqlQuery9 = "UPDATE rfid_bands SET user_id = '0' WHERE user_id = '$userID'";
+$result9 = $connectNow->query($sqlQuery9);
 
-if($result1 && $result2 && $result4 && $result4 && $result5 && $result6 && $result7 && $result8){
+$sqlQuery10 = "DELETE FROM claim_rewards WHERE user_id = '$userID'";
+$result10 = $connectNow->query($sqlQuery10);
+
+if($result1 && $result2 && $result4 && $result4 && $result5 && $result6 && $result7 && $result8 && $result9 && $result10){
     echo json_encode(array("success"=>true));
 }else{
     echo json_encode(array("success"=>false));
