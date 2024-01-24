@@ -2,6 +2,7 @@ import 'package:fitnessapp/fitness_app/controllers/User/scanQRController.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/routes.dart';
 import 'package:fitnessapp/theme/colors.dart';
+import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -15,6 +16,7 @@ class ScanQRFragmentScreen extends StatefulWidget {
 
 class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
   final _scanQRController = Get.put(scanQRController());
+  bool isWeb = GetPlatform.isWeb;
 
   // @override
   // void reassemble() async {
@@ -54,22 +56,43 @@ class _ScanQRFragmentScreenState extends State<ScanQRFragmentScreen> {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            QRView(
-              key: _scanQRController.qrKey,
-              onQRViewCreated: onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: primary,
-                borderRadius: 10,
-                borderLength: 20,
-                borderWidth: 10,
-                cutOutSize: MediaQuery.of(context).size.width * 0.8,
+            if (!isWeb)
+              QRView(
+                key: _scanQRController.qrKey,
+                onQRViewCreated: onQRViewCreated,
+                overlay: QrScannerOverlayShape(
+                  borderColor: primary,
+                  borderRadius: 10,
+                  borderLength: 20,
+                  borderWidth: 10,
+                  cutOutSize: MediaQuery.of(context).size.width * 0.8,
+                ),
               ),
-            ),
-            Positioned(bottom: 10, child: buildResult()),
+            if (!isWeb)
+              Positioned(bottom: 10, child: buildResult())
+            else
+              displayNotAvailable(),
           ],
         ),
       );
     });
+  }
+
+  Container displayNotAvailable() {
+    return Container(
+      child: SingleChildScrollView(
+          child: Container(
+              padding: const EdgeInsets.all(20),
+              // height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Text(
+                    "Scan QR Module is only available inside the App",
+                    style: TextStylePreset.bigTitle,
+                  ),
+                ],
+              ))),
+    );
   }
 
   void onQRViewCreated(QRViewController controller) {

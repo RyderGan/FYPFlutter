@@ -204,7 +204,7 @@ class workoutController extends GetxController {
     }
   }
 
-  void getPathCheckpoints(int pathID) async {
+  Future<void> getPathCheckpoints(int pathID) async {
     try {
       var res = await http.post(
         Uri.parse(Api.getPathDetails),
@@ -386,6 +386,7 @@ class workoutController extends GetxController {
   }
 
   void clearWorkout() {
+    nextCheckpointName = "Finding Next Checkpoint";
     workOutInProgress = false;
     currentPaths.clear();
     currentCheckpoints.clear();

@@ -3,6 +3,7 @@ import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
 import 'package:fitnessapp/theme/colors.dart';
 import 'package:fitnessapp/theme/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class EditRewardInfoPage extends StatefulWidget {
@@ -199,6 +200,9 @@ class _EditRewardInfoPageState extends State<EditRewardInfoPage> {
                 decoration: const InputDecoration(
                     hintText: "Points", border: InputBorder.none),
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                ],
                 controller: _editRewardInfoController.pointController,
                 validator: (value) {
                   if (value!.isEmpty) {

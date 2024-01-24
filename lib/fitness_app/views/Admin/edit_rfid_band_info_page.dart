@@ -249,6 +249,9 @@ class _EditRfidBandInfoPageState extends State<EditRfidBandInfoPage> {
                 });
               },
               validator: (userTypeValue) {
+                if (userTypeValue == "Select user ID") {
+                  return "Please select a user ID";
+                }
                 return null;
               },
             ),

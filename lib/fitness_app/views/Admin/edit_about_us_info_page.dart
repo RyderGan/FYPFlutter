@@ -188,7 +188,7 @@ class _EditAboutUsInfoPageState extends State<EditAboutUsInfoPage> {
                 controller: _editAboutUsInfoController.whoController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter who we are details";
+                    return "Please enter faculty name";
                   }
                   return null;
                 },
@@ -228,7 +228,7 @@ class _EditAboutUsInfoPageState extends State<EditAboutUsInfoPage> {
                 controller: _editAboutUsInfoController.whoDetailsController,
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Please enter who we are details";
+                    return "Please enter faculty details";
                   }
                   return null;
                 },
