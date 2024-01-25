@@ -211,6 +211,8 @@ class Api {
   static const stopRFIDWorkout = "$hostConnect/user/stopWorkout.php";
   //get current workout
   static const getRFIDWorkout = "$hostConnect/user/getWorkout.php";
+  //get one workout set
+  static const getOneWorkoutSet = "$hostConnect/user/getOneWorkoutSet.php";
   //get checkpoint info
   static const getCheckpointInfo = "$hostConnect/user/getCheckpointInfo.php";
   //change user info

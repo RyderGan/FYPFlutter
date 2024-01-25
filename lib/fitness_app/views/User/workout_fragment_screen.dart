@@ -177,6 +177,10 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
                     SizedBox(
                       height: 10,
                     ),
+                    detailsButton(_workoutController.allSets[index].set_id),
+                    SizedBox(
+                      height: 10,
+                    ),
                     (_workoutController.workOutInProgress == false)
                         ? startButton(
                             _workoutController.allSets[index].set_id,
@@ -211,7 +215,7 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
         _workoutController.currentSet = setID;
         for (int i = 0; i < paths.length; i++) {
           await _workoutController.getPathCheckpoints(paths.elementAt(i));
-          // await Future.delayed(const Duration(milliseconds: 1000));
+          await Future.delayed(const Duration(milliseconds: 1500));
         }
         for (int i = 0; i < _workoutController.currentCheckpoints.length; i++) {
           for (int j = 0;
@@ -238,6 +242,19 @@ class _WorkoutFragmentScreenState extends State<WorkoutFragmentScreen> {
               _currentUser.user.id);
           //While true, continuously check db for status
         }
+      },
+    );
+  }
+
+  MaterialButton detailsButton(int setID) {
+    return MaterialButton(
+      minWidth: double.infinity,
+      height: 50,
+      color: secondary,
+      child: new Text('See Details',
+          style: new TextStyle(fontSize: 20, color: Colors.white)),
+      onPressed: () async {
+        _workoutController.getSetDetails(setID);
       },
     );
   }

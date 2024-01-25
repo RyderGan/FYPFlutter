@@ -12,6 +12,7 @@ import 'package:fitnessapp/fitness_app/views/User/qr_code_result_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/register_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/reset_password_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/send_feedback_page.dart';
+import 'package:fitnessapp/fitness_app/views/User/set_details_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/staff_ranking_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/step_count_page.dart';
 import 'package:fitnessapp/fitness_app/views/User/student_ranking_page.dart';
@@ -109,6 +110,7 @@ class Routes {
   static String qr_code_result_page = '/qrResult_page';
   static String workout = '/workout';
   static String notifications = '/notifications';
+  static String set_details_page = '/set_details';
 }
 
 /// Add this list variable into your GetMaterialApp as the value of getPages parameter.
@@ -321,5 +323,9 @@ final getPages = [
   GetPage(
     name: Routes.notifications,
     page: () => const NotificationsFragmentScreen(),
+  ),
+  GetPage(
+    name: Routes.set_details_page,
+    page: () => const SetDetailsPage(),
   ),
 ];
