@@ -17,12 +17,12 @@ void setup()
 }
 void loop() 
 {
-  // Look for new cards
+  // Look for new rfid tag
   if ( ! mfrc522.PICC_IsNewCardPresent()) 
   {
     return;
   }
-  // Select one of the cards
+  // Select one of the rfid tag
   if ( ! mfrc522.PICC_ReadCardSerial()) 
   {
     return;
@@ -31,6 +31,7 @@ void loop()
   // Serial.print("UID tag :");
   String content= "";
   byte letter;
+  //Loop to print UID 
   for (byte i = 0; i < mfrc522.uid.size; i++) 
   {
      Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
@@ -40,17 +41,4 @@ void loop()
   }
   Serial.println();
   delay(2000);
-  // Serial.print("Message : ");
-  // content.toUpperCase();
-  // if (content.substring(1) == "A9 73 40 59") //Change this UID
-  // {
-  //   Serial.println("Upload user data to Database");
-  //   Serial.println();
-  //   delay(3000);
-  // }
- 
-  // else   {
-  //   Serial.println("User is not registered!");
-  //   delay(3000);
-  // }
 }
