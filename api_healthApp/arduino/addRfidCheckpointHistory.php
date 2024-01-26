@@ -12,7 +12,7 @@ if (isset($_POST['rfidUID'])) {
 if (isset($_POST['checkpointID'])) {
     $checkpointID= $_POST['checkpointID']; 
 } else {    
-    $checkpointID= "1";
+    $checkpointID= "";
 }
 
 process($connectNow, $rfidUID, $checkpointID);
