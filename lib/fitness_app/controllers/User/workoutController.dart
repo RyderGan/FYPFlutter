@@ -39,6 +39,7 @@ class workoutController extends GetxController {
   String workOutInProgressType = "";
   List<List<int>> displaySetDetails = <List<int>>[].obs;
   List<int> displayPathIDs = [];
+  List<CheckpointModel> allCheckpointDetails = [];
 
   @override
   void onInit() {
@@ -47,6 +48,7 @@ class workoutController extends GetxController {
     }
     onlyOne.value = 1;
     getAllWorkoutSets();
+    getAllCheckpoints();
   }
 
   @override
@@ -426,6 +428,29 @@ class workoutController extends GetxController {
             }
           }
           Get.toNamed(Routes.set_details_page);
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+      Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  void getAllCheckpoints() async {
+    try {
+      var res = await http.get(
+        Uri.parse(Api.getAllCheckpoints),
+      );
+
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.body);
+        if (resBody['success']) {
+          List<CheckpointModel> checkpoints =
+              await resBody["allCheckpointsData"]
+                  .map<CheckpointModel>(
+                      (json) => CheckpointModel.fromJson(json))
+                  .toList();
+          allCheckpointDetails.addAll(checkpoints);
         }
       }
     } catch (e) {

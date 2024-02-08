@@ -1,4 +1,5 @@
 import 'package:fitnessapp/fitness_app/controllers/User/workoutController.dart';
+import 'package:fitnessapp/fitness_app/models/Admin/checkpointModel.dart';
 import 'package:fitnessapp/fitness_app/models/User/workoutModel.dart';
 import 'package:fitnessapp/fitness_app/preferences/current_user.dart';
 import 'package:fitnessapp/fitness_app/views/responsive_padding.dart';
@@ -94,9 +95,18 @@ class _SetDetailsPageState extends State<SetDetailsPage> {
 
   Widget getTextWidgets(List<int> checkpoints) {
     List<Widget> list = <Widget>[];
+    List<CheckpointModel> allCheckpoints =
+        _workoutController.allCheckpointDetails;
     for (var i = 0; i < checkpoints.length; i++) {
+      String checkpointLocation = "";
+      for (var j = 0; j < allCheckpoints.length; j++) {
+        if (allCheckpoints[j].id == checkpoints[i]) {
+          checkpointLocation = allCheckpoints[j].location;
+          break;
+        }
+      }
       list.add(new Text(
-        "Checkpoint " + checkpoints[i].toString(),
+        "Checkpoint " + checkpoints[i].toString() + " - " + checkpointLocation,
         style: TextStylePreset.normalWhiteText,
       ));
     }
